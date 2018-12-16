@@ -71,7 +71,7 @@ make
 
 or, if you're using Vagrant:
 
-```
+```bash
 git clone https://github.com/woodruffw/krf && cd krf
 vagrant up && vagrant ssh
 # inside the VM
@@ -89,7 +89,7 @@ it, run `make rmmod` (or `rmmod krfx` directly).
 Once KRF is loaded, you can instruct it to fault a program by running that program with
 `krfexec`:
 
-```
+```bash
 # no faults, even with KRF loaded
 ls
 
@@ -162,7 +162,7 @@ want this.
 If you choose to enable UID based targeting, `krfexec` will **not** work. Instead, you must
 use `sudo` or another user-switcher to run your programs under the targeted user:
 
-```
+```bash
 sudo -u bob ls
 ```
 
