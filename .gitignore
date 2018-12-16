@@ -1,0 +1,4 @@
+*.o
+*.ko
+*.o.ur-safe
+.vagrant/
