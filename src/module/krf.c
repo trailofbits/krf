@@ -2,10 +2,7 @@
 #include <linux/kernel.h>
 #include <linux/kallsyms.h>
 #include <linux/unistd.h>
-#include <linux/random.h>
-#include <linux/mutex.h>
 #include <linux/proc_fs.h>
-#include <linux/uaccess.h>
 
 #include "config.h"
 #include "krf.h"
