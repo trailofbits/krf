@@ -1,6 +1,7 @@
 #pragma once
 
 #include <linux/syscalls.h>
+#include <linux/preempt.h>
 
 /* I might just be dumb, but I can't find __NR_syscalls on x64.
  * This just cheeses it (and is probably still overkill, since
@@ -10,9 +11,16 @@
 
 #define KRF_CR0_WRITE_UNLOCK(x)                                                                    \
   do {                                                                                             \
-    write_cr0(read_cr0() & (~0x10000));                                                            \
+    unsigned long __cr0;                                                                           \
+    preempt_disable();                                                                             \
+    __cr0 = read_cr0() & (~X86_CR0_WP);                                                            \
+    BUG_ON(unlikely((__cr0 & X86_CR0_WP)));                                                        \
+    write_cr0(__cr0);                                                                              \
     x;                                                                                             \
-    write_cr0(read_cr0() | 0x10000);                                                               \
+    __cr0 = read_cr0() | X86_CR0_WP;                                                               \
+    BUG_ON(unlikely(!(__cr0 & X86_CR0_WP)));                                                       \
+    write_cr0(__cr0);                                                                              \
+    preempt_enable();                                                                              \
   } while (0)
 
 #define KRF_SYSCALL_INSERT(sys)                                                                    \
