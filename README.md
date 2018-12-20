@@ -146,26 +146,6 @@ faultable syscalls will be faulted.
 echo "100000" | sudo tee /proc/krf/probability
 ```
 
-### `/proc/krf/targeted_uid`
-
-This file allows a user to read and modify the UID targeted by KRF.
-
-```bash
-id -u bob | sudo tee /proc/krf/targeted_uid
-```
-
-**NOTE**: By default, KRF does **not** use UID targeting. Modifying this file will have no effect
-on KRF's operation unless you define `_KRF_TARGET_UID=1` during the module build. This is almost
-always inferior to the `personality(2)` technique that KRF uses by default, so you probably don't
-want this.
-
-If you choose to enable UID based targeting, `krfexec` will **not** work. Instead, you must
-use `sudo` or another user-switcher to run your programs under the targeted user:
-
-```bash
-sudo -u bob ls
-```
-
 ## TODO
 
 * Replace the current macro hell in the syscall wrapper layer with code generation.
