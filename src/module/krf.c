@@ -81,6 +81,24 @@ int init_module(void) {
    */
   KRF_SYSCALL_INSERT(fork);
 
+  // KRF_SYSCALL_INSERT(getcwd);
+  // KRF_SYSCALL_INSERT(chdir);
+  // KRF_SYSCALL_INSERT(fchdir);
+  // KRF_SYSCALL_INSERT(rename);
+  // KRF_SYSCALL_INSERT(mkdir);
+  // KRF_SYSCALL_INSERT(rmdir);
+  // KRF_SYSCALL_INSERT(creat);
+  // KRF_SYSCALL_INSERT(link);
+  // KRF_SYSCALL_INSERT(unlink);
+  // KRF_SYSCALL_INSERT(symlink);
+  // KRF_SYSCALL_INSERT(readlink);
+  // KRF_SYSCALL_INSERT(chmod);
+  // KRF_SYSCALL_INSERT(fchmod);
+  // KRF_SYSCALL_INSERT(chown);
+  // KRF_SYSCALL_INSERT(fchown);
+  // KRF_SYSCALL_INSERT(lchown);
+  // KRF_SYSCALL_INSERT(umask);
+
   KRF_SYSCALL_INSERT(openat);
 
   printk(KERN_INFO "krf " KRF_VERSION " loaded\n");
