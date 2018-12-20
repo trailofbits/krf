@@ -20,8 +20,6 @@ static ssize_t personality_file_read(struct file *, char __user *, size_t, loff_
 static ssize_t personality_file_write(struct file *, const char __user *, size_t, loff_t *);
 static ssize_t probability_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t probability_file_write(struct file *, const char __user *, size_t, loff_t *);
-static ssize_t targeted_uid_file_read(struct file *, char __user *, size_t, loff_t *);
-static ssize_t targeted_uid_file_write(struct file *, const char __user *, size_t, loff_t *);
 
 static struct proc_dir_entry *krf_dir;
 
@@ -41,12 +39,6 @@ static const struct file_operations probability_file_ops = {
     .owner = THIS_MODULE,
     .read = probability_file_read,
     .write = probability_file_write,
-};
-
-static const struct file_operations targeted_uid_file_ops = {
-    .owner = THIS_MODULE,
-    .read = targeted_uid_file_read,
-    .write = targeted_uid_file_write,
 };
 
 int init_module(void) {
@@ -121,8 +113,7 @@ static int krf_init(void) {
 
   if (proc_create(KRF_RNG_STATE_FILENAME, 644, krf_dir, &rng_state_file_ops) == NULL ||
       proc_create(KRF_PERSONALITY_FILENAME, 644, krf_dir, &personality_file_ops) == NULL ||
-      proc_create(KRF_PROBABILITY_FILENAME, 644, krf_dir, &probability_file_ops) == NULL ||
-      proc_create(KRF_TARGETED_UID_FILENAME, 644, krf_dir, &targeted_uid_file_ops) == NULL) {
+      proc_create(KRF_PROBABILITY_FILENAME, 644, krf_dir, &probability_file_ops) == NULL) {
     printk(KERN_ERR "krf couldn't create /proc entries\n");
     return -3;
   }
@@ -259,48 +250,6 @@ static ssize_t probability_file_write(struct file *f, const char __user *ubuf, s
   }
 
   if (kstrtouint(buf, 0, &krf_probability) < 0) {
-    return -EINVAL;
-  }
-
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t targeted_uid_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  sprintf(buf, "%u\n", krf_targeted_uid);
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  if (*off > 0 || size < buflen) {
-    return 0;
-  }
-
-  if (copy_to_user(ubuf, buf, buflen)) {
-    return -EFAULT;
-  }
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t targeted_uid_file_write(struct file *f, const char __user *ubuf, size_t size,
-                                       loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  if (size > KRF_PROCFS_MAX_SIZE) {
-    size = KRF_PROCFS_MAX_SIZE;
-  }
-
-  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
-    return -EFAULT;
-  }
-
-  if (kstrtouint(buf, 0, &krf_targeted_uid) < 0) {
     return -EINVAL;
   }
 

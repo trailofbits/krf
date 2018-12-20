@@ -6,9 +6,6 @@ KRF_SYSCALL_SRCS_FAKE := $(notdir $(wildcard $M/syscalls/*.c))
 KRF_SYSCALL_OBJS_FAKE := $(KRF_SYSCALL_SRCS_FAKE:.c=.o)
 KRF_SYSCALL_OBJS = $(foreach obj,$(KRF_SYSCALL_OBJS_FAKE),syscalls/$(obj))
 
-# Uncomment this to use UID-based targeting instead of personality(2).
-# ccflags-y := -D_KRF_TARGET_UID=1
-
 obj-m += $(MOD).o
 $(MOD)-objs := krf.o config.o syscalls.o $(KRF_SYSCALL_OBJS)
 

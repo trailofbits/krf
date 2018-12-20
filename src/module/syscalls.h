@@ -32,11 +32,7 @@
 
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
 
-#ifdef _KRF_TARGET_UID
-#define KRF_TARGETED() (current_uid().val == krf_targeted_uid)
-#else
 #define KRF_TARGETED() (current->personality == krf_personality)
-#endif
 
 extern unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS];
 extern unsigned long **sys_call_table;
