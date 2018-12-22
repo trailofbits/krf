@@ -75,3 +75,13 @@ long KRF_DEFINE(openat)(int dfd, const char __user *filename, int flags, umode_t
     return real_openat(dfd, filename, flags, mode);
   }
 }
+
+long KRF_DEFINE(chdir)(const char __user *filename) {
+  typeof(sys_chdir) *real_chdir = (void *)krf_sys_call_table[__NR_chdir];
+
+  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
+    return KRF_SYS_INTERNAL(chdir)(filename);
+  } else {
+    return real_chdir(filename);
+  }
+}
