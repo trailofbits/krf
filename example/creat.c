@@ -10,9 +10,6 @@ int main(int argc, char const *argv[]) {
       printf("iteration %u...\n", i);
     }
 
-    /* As noted in krf.c, we can't use the glibc wrapper here --
-       it maps to openat(2) instead.
-     */
     if ((fd = creat(file, 0700)) < 0) {
       perror("fault!");
       exit(errno);
