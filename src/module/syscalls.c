@@ -95,3 +95,13 @@ long KRF_DEFINE(fchdir)(unsigned int fd) {
     return real_fchdir(fd);
   }
 }
+
+long KRF_DEFINE(mkdir)(const char __user *pathname, umode_t mode) {
+  typeof(sys_mkdir) *real_mkdir = (void *)krf_sys_call_table[__NR_mkdir];
+
+  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
+    return KRF_SYS_INTERNAL(mkdir)(pathname, mode);
+  } else {
+    return real_mkdir(pathname, mode);
+  }
+}
