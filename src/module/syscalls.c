@@ -85,3 +85,13 @@ long KRF_DEFINE(chdir)(const char __user *filename) {
     return real_chdir(filename);
   }
 }
+
+long KRF_DEFINE(fchdir)(unsigned int fd) {
+  typeof(sys_fchdir) *real_fchdir = (void *)krf_sys_call_table[__NR_fchdir];
+
+  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
+    return KRF_SYS_INTERNAL(fchdir)(fd);
+  } else {
+    return real_fchdir(fd);
+  }
+}

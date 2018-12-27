@@ -83,7 +83,7 @@ int init_module(void) {
 
   // KRF_SYSCALL_INSERT(getcwd);
   KRF_SYSCALL_INSERT(chdir);
-  // KRF_SYSCALL_INSERT(fchdir);
+  KRF_SYSCALL_INSERT(fchdir);
   // KRF_SYSCALL_INSERT(rename);
   // KRF_SYSCALL_INSERT(mkdir);
   // KRF_SYSCALL_INSERT(rmdir);
