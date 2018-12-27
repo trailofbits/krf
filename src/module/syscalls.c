@@ -105,3 +105,13 @@ long KRF_DEFINE(mkdir)(const char __user *pathname, umode_t mode) {
     return real_mkdir(pathname, mode);
   }
 }
+
+long KRF_DEFINE(rmdir)(const char __user *pathname) {
+  typeof(sys_rmdir) *real_rmdir = (void *)krf_sys_call_table[__NR_rmdir];
+
+  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
+    return KRF_SYS_INTERNAL(rmdir)(pathname);
+  } else {
+    return real_rmdir(pathname);
+  }
+}
