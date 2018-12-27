@@ -66,7 +66,7 @@ sudo apt install libelf-dev linux-headers-$(uname -r)
 
 ```bash
 git clone https://github.com/woodruffw/krf && cd krf
-make
+make -j$(nproc)
 ```
 
 or, if you're using Vagrant:
@@ -76,7 +76,7 @@ git clone https://github.com/woodruffw/krf && cd krf
 vagrant up && vagrant ssh
 # inside the VM
 cd /vagrant
-make
+make -j$(nproc)
 ```
 
 ## Usage
