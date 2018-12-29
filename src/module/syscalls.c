@@ -125,3 +125,13 @@ long KRF_DEFINE(creat)(const char __user *pathname, umode_t mode) {
     return real_creat(pathname, mode);
   }
 }
+
+long KRF_DEFINE(link)(const char __user *oldname, const char __user *newname) {
+  typeof(sys_link) *real_link = (void *)krf_sys_call_table[__NR_link];
+
+  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
+    return KRF_SYS_INTERNAL(link)(oldname, newname);
+  } else {
+    return real_link(oldname, newname);
+  }
+}
