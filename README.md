@@ -59,7 +59,7 @@ Apart from a C toolchain (GCC will probably work best), KRF's only dependencies 
 For systems with `apt`:
 
 ```bash
-sudo apt install libelf-dev linux-headers-$(uname -r)
+sudo apt install libelf-dev ruby linux-headers-$(uname -r)
 ```
 
 ### Building
