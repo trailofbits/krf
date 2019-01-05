@@ -1,0 +1,33 @@
+unlink:
+  proto: const char __user *pathname
+  parms: pathname
+  errors:
+    - EACCES
+    - EBUSY
+    - EFAULT
+    # - EIO
+    - EISDIR
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
+    - EPERM
+    - EROFS
+symlink:
+  proto: const char __user * oldname, const char __user * newname
+  parms: oldname, newname
+  errors:
+    - EACCES
+    - EDQUOT
+    - EEXIST
+    - EFAULT
+    - EIO
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOSPC
+    - ENOTDIR
+    - EPERM
+    - EROFS

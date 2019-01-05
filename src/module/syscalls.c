@@ -135,3 +135,7 @@ long KRF_DEFINE(link)(const char __user *oldname, const char __user *newname) {
     return real_link(oldname, newname);
   }
 }
+
+#ifdef KRF_CODEGEN
+#include "syscalls.gen.x"
+#endif

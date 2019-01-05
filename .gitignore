@@ -2,3 +2,6 @@
 *.ko
 *.o.ur-safe
 .vagrant/
+*.gen.x
+*.gen.h
+*.gen.c

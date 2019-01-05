@@ -3,7 +3,7 @@
 PROVISION = <<~SCRIPT
   sudo apt update
   sudo apt upgrade -y
-  sudo apt install -y libelf-dev build-essential linux-headers-$(uname -r)
+  sudo apt install -y libelf-dev build-essential ruby linux-headers-$(uname -r)
   sudo useradd -m krf
 SCRIPT
 

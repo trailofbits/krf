@@ -46,3 +46,7 @@ KRF_DEFINE_INTERNAL_PROTO(mkdir);
 KRF_DEFINE_INTERNAL_PROTO(rmdir);
 KRF_DEFINE_INTERNAL_PROTO(creat);
 KRF_DEFINE_INTERNAL_PROTO(link);
+
+#ifdef KRF_CODEGEN
+#include "internal.gen.h"
+#endif

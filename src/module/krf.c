@@ -89,8 +89,6 @@ int init_module(void) {
   KRF_SYSCALL_INSERT(rmdir);
   KRF_SYSCALL_INSERT(creat);
   KRF_SYSCALL_INSERT(link);
-  // KRF_SYSCALL_INSERT(unlink);
-  // KRF_SYSCALL_INSERT(symlink);
   // KRF_SYSCALL_INSERT(readlink);
   // KRF_SYSCALL_INSERT(chmod);
   // KRF_SYSCALL_INSERT(fchmod);
@@ -100,6 +98,10 @@ int init_module(void) {
   // KRF_SYSCALL_INSERT(umask);
 
   KRF_SYSCALL_INSERT(openat);
+
+#ifdef KRF_CODEGEN
+#include "krf.gen.x"
+#endif
 
   printk(KERN_INFO "krf " KRF_VERSION " loaded\n");
 
