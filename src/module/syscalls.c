@@ -5,26 +5,6 @@
 unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS] = {};
 unsigned long **sys_call_table = NULL;
 
-long KRF_DEFINE(chdir)(const char __user *filename) {
-  typeof(sys_chdir) *real_chdir = (void *)krf_sys_call_table[__NR_chdir];
-
-  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
-    return KRF_SYS_INTERNAL(chdir)(filename);
-  } else {
-    return real_chdir(filename);
-  }
-}
-
-long KRF_DEFINE(fchdir)(unsigned int fd) {
-  typeof(sys_fchdir) *real_fchdir = (void *)krf_sys_call_table[__NR_fchdir];
-
-  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
-    return KRF_SYS_INTERNAL(fchdir)(fd);
-  } else {
-    return real_fchdir(fd);
-  }
-}
-
 long KRF_DEFINE(mkdir)(const char __user *pathname, umode_t mode) {
   typeof(sys_mkdir) *real_mkdir = (void *)krf_sys_call_table[__NR_mkdir];
 

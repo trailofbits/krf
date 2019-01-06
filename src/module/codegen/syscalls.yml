@@ -177,3 +177,32 @@ openat:
     - ETXTBSY
     # - EWOULDBLOCK
     - EBADF
+getcwd:
+  proto: char __user *buf, unsigned long size
+  parms: buf, size
+  errors:
+    - EACCES
+    - EFAULT
+    - EINVAL
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ERANGE
+chdir:
+  proto: const char __user *filename
+  parms: filename
+  errors:
+    - EACCES
+    - EFAULT
+    - EIO
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
+fchdir:
+  proto: unsigned int fd
+  parms: fd
+  errors:
+    - EACCES
+    - EBADF
