@@ -1,0 +1,4 @@
+proto: unsigned long addr, size_t len
+parms: addr, len
+errors:
+  - EINVAL

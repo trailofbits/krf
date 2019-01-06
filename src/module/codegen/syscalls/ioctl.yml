@@ -1,0 +1,7 @@
+proto: unsigned int fd, unsigned int cmd, unsigned long arg
+parms: fd, cmd, arg
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+  - ENOTTY
