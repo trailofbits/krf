@@ -33,7 +33,6 @@ static __inline unsigned int krf_mulberry32(void) {
   return z ^ z >> 14;
 }
 
-KRF_DEFINE_INTERNAL_PROTO(openat);
 KRF_DEFINE_INTERNAL_PROTO(chdir);
 KRF_DEFINE_INTERNAL_PROTO(fchdir);
 KRF_DEFINE_INTERNAL_PROTO(mkdir);

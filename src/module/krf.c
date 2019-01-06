@@ -49,10 +49,6 @@ int init_module(void) {
     return ret;
   }
 
-  /* Like open(3), fork(3) calls clone(2) instead of fork(2).
-   */
-  KRF_SYSCALL_INSERT(fork);
-
   // KRF_SYSCALL_INSERT(getcwd);
   KRF_SYSCALL_INSERT(chdir);
   KRF_SYSCALL_INSERT(fchdir);
@@ -68,8 +64,6 @@ int init_module(void) {
   // KRF_SYSCALL_INSERT(fchown);
   // KRF_SYSCALL_INSERT(lchown);
   // KRF_SYSCALL_INSERT(umask);
-
-  KRF_SYSCALL_INSERT(openat);
 
 #ifdef KRF_CODEGEN
 #include "krf.gen.x"

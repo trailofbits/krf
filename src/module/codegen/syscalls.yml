@@ -149,3 +149,31 @@ fork:
     - ENOMEM
     - ENOSYS
     - ERESTARTNOINTR
+openat:
+  proto: int dfd, const char __user *filename, int flags, umode_t mode
+  parms: dfd, filename, flags, mode
+  errors:
+    - EACCES
+    - EDQUOT
+    # - EEXIST
+    - EFAULT
+    - EFBIG
+    - EINTR
+    - EINVAL
+    # - EISDIR
+    - ELOOP
+    - EMFILE
+    - ENAMETOOLONG
+    - ENFILE
+    # - ENODEV
+    # - ENOENT
+    - ENOMEM
+    - ENOSPC
+    - ENOTDIR
+    # - ENXIO
+    - EOVERFLOW
+    - EPERM
+    - EROFS
+    - ETXTBSY
+    # - EWOULDBLOCK
+    - EBADF

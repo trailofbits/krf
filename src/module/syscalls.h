@@ -37,7 +37,6 @@
 extern unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS];
 extern unsigned long **sys_call_table;
 
-KRF_DEFINE_PROTO(openat);
 KRF_DEFINE_PROTO(chdir);
 KRF_DEFINE_PROTO(fchdir);
 KRF_DEFINE_PROTO(mkdir);

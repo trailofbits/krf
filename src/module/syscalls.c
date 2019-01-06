@@ -5,16 +5,6 @@
 unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS] = {};
 unsigned long **sys_call_table = NULL;
 
-long KRF_DEFINE(openat)(int dfd, const char __user *filename, int flags, umode_t mode) {
-  typeof(sys_openat) *real_openat = (void *)krf_sys_call_table[__NR_openat];
-
-  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
-    return KRF_SYS_INTERNAL(openat)(dfd, filename, flags, mode);
-  } else {
-    return real_openat(dfd, filename, flags, mode);
-  }
-}
-
 long KRF_DEFINE(chdir)(const char __user *filename) {
   typeof(sys_chdir) *real_chdir = (void *)krf_sys_call_table[__NR_chdir];
 
