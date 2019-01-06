@@ -62,6 +62,26 @@ close:
     - ENOSPC
     - EDQUOT
     # - EISDIR
+stat:
+  proto: const char __user *filename, struct __old_kernel_stat __user *statbuf
+  parms: filename, statbuf
+  errors:
+    - EACCES
+    - EFAULT
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
+    - EOVERFLOW
+fstat:
+  proto: unsigned int fd, struct __old_kernel_stat __user *statbuf
+  parms: fd, statbuf
+  errors:
+    - EBADF
+    - EFAULT
+    - ENOMEM
+    - EOVERFLOW
 unlink:
   proto: const char __user *pathname
   parms: pathname
