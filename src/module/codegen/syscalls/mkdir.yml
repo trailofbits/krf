@@ -1,0 +1,17 @@
+proto: const char __user *pathname, umode_t mode
+parms: pathname, mode
+errors:
+  - EACCES
+  - EFAULT
+  - EDQUOT
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EBADF
+  - EEXIST
+  - EMLINK
+  - ENOSPC
+  - EPERM
+  - EROFS

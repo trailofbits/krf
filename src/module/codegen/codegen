@@ -3,11 +3,16 @@
 
 # codegen for KRF
 # Like all code generators, this file is ugly.
+# https://filippo.io/linux-syscall-table/
 
 require "yaml"
 
-SYSCALL_SPECS = File.join __dir__, "syscalls.yml"
-SYSCALLS = YAML.safe_load File.read(SYSCALL_SPECS)
+SYSCALL_SPECS = Dir[File.join(__dir__, "syscalls", "*.yml")]
+
+SYSCALLS = SYSCALL_SPECS.map do |path|
+  spec = YAML.safe_load File.read(path)
+  [File.basename(path, ".yml"), spec]
+end.to_h
 
 SOURCE_DIR = File.expand_path "..", __dir__
 

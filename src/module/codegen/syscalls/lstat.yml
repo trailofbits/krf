@@ -1,0 +1,11 @@
+proto: const char __user *filename, struct __old_kernel_stat __user *statbuf
+parms: filename, statbuf
+errors:
+  - EACCES
+  - EFAULT
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EOVERFLOW

@@ -1,0 +1,11 @@
+proto: unsigned int fd
+parms: fd
+errors:
+  # - EAGAIN
+  # - EWOULDBLOCK
+  - EBADF
+  - EINTR
+  - EIO
+  - ENOSPC
+  - EDQUOT
+  # - EISDIR

@@ -1,0 +1,15 @@
+proto: const char __user *pathname
+parms: pathname
+errors:
+  - EACCES
+  - EBUSY
+  - EFAULT
+  # - EIO
+  - EISDIR
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EPERM
+  - EROFS

@@ -1,0 +1,11 @@
+proto: unsigned int fd, char __user *buf, size_t count
+parms: fd, buf, count
+errors:
+  # - EAGAIN
+  # - EWOULDBLOCK
+  - EBADF
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EIO
+  - EISDIR
