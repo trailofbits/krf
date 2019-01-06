@@ -54,9 +54,6 @@ int init_module(void) {
    * it's just from https://filippo.io/linux-syscall-table/
    */
 
-  // KRF_SYSCALL_INSERT(stat);
-  // KRF_SYSCALL_INSERT(fstat);
-  // KRF_SYSCALL_INSERT(lstat);
   // KRF_SYSCALL_INSERT(poll);
   // KRF_SYSCALL_INSERT(lseek);
   // KRF_SYSCALL_INSERT(mmap);

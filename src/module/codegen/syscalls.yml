@@ -1,3 +1,5 @@
+# TODO(ww): Break this file into codegen/syscalls/<syscall>.yml files?
+
 read:
   proto: unsigned int fd, char __user *buf, size_t count
   parms: fd, buf, count
@@ -81,6 +83,18 @@ fstat:
     - EBADF
     - EFAULT
     - ENOMEM
+    - EOVERFLOW
+lstat:
+  proto: const char __user *filename, struct __old_kernel_stat __user *statbuf
+  parms: filename, statbuf
+  errors:
+    - EACCES
+    - EFAULT
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
     - EOVERFLOW
 unlink:
   proto: const char __user *pathname
