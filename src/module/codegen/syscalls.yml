@@ -99,7 +99,7 @@ unlink:
     - EPERM
     - EROFS
 symlink:
-  proto: const char __user * oldname, const char __user * newname
+  proto: const char __user *oldname, const char __user *newname
   parms: oldname, newname
   errors:
     - EACCES
