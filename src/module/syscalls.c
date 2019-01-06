@@ -5,27 +5,6 @@
 unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS] = {};
 unsigned long **sys_call_table = NULL;
 
-long KRF_DEFINE(clone)(unsigned long clone_flags, unsigned long newsp, int __user *parent_tidptr,
-                       int __user *child_tidptr, unsigned long tls) {
-  typeof(sys_clone) *real_clone = (void *)krf_sys_call_table[__NR_clone];
-
-  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
-    return KRF_SYS_INTERNAL(clone)(clone_flags, newsp, parent_tidptr, child_tidptr, tls);
-  } else {
-    return real_clone(clone_flags, newsp, parent_tidptr, child_tidptr, tls);
-  }
-}
-
-long KRF_DEFINE(fork)(void) {
-  typeof(sys_fork) *real_fork = (void *)krf_sys_call_table[__NR_fork];
-
-  if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
-    return KRF_SYS_INTERNAL(fork)();
-  } else {
-    return real_fork();
-  }
-}
-
 long KRF_DEFINE(openat)(int dfd, const char __user *filename, int flags, umode_t mode) {
   typeof(sys_openat) *real_openat = (void *)krf_sys_call_table[__NR_openat];
 

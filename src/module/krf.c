@@ -49,24 +49,6 @@ int init_module(void) {
     return ret;
   }
 
-  /* TODO(ww): Implement these.
-   * This order isn't necessarily correct for all systems (not that it matters),
-   * it's just from https://filippo.io/linux-syscall-table/
-   */
-
-  // KRF_SYSCALL_INSERT(poll);
-  // KRF_SYSCALL_INSERT(lseek);
-  // KRF_SYSCALL_INSERT(mmap);
-  // KRF_SYSCALL_INSERT(mprotect);
-  // KRF_SYSCALL_INSERT(munmap);
-  // KRF_SYSCALL_INSERT(brk);
-
-  /* It's probably possible to fault sigaction/sigprocmask/sigreturn,
-   * but it'll probably mess up any instrumentation (and break the system in subtle ways).
-   * So not for now.
-   */
-
-  KRF_SYSCALL_INSERT(clone);
   /* Like open(3), fork(3) calls clone(2) instead of fork(2).
    */
   KRF_SYSCALL_INSERT(fork);

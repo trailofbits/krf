@@ -1,5 +1,7 @@
 # TODO(ww): Break this file into codegen/syscalls/<syscall>.yml files?
 
+# Reference: https://filippo.io/linux-syscall-table/
+
 read:
   proto: unsigned int fd, char __user *buf, size_t count
   parms: fd, buf, count
@@ -129,3 +131,21 @@ symlink:
     - ENOTDIR
     - EPERM
     - EROFS
+clone:
+  proto: unsigned long clone_flags, unsigned long newsp, int __user *parent_tidptr, int __user *child_tidptr, unsigned long tls
+  parms: clone_flags, newsp, parent_tidptr, child_tidptr, tls
+  errors:
+    - EAGAIN
+    - EINVAL
+    - ENOMEM
+    - ENOSPC
+    - EUSERS
+    - EPERM
+    - ERESTARTNOINTR
+fork:
+  proto: void
+  errors:
+    - EAGAIN
+    - ENOMEM
+    - ENOSYS
+    - ERESTARTNOINTR
