@@ -49,19 +49,6 @@ int init_module(void) {
     return ret;
   }
 
-  // KRF_SYSCALL_INSERT(rename);
-  KRF_SYSCALL_INSERT(mkdir);
-  KRF_SYSCALL_INSERT(rmdir);
-  KRF_SYSCALL_INSERT(creat);
-  KRF_SYSCALL_INSERT(link);
-  // KRF_SYSCALL_INSERT(readlink);
-  // KRF_SYSCALL_INSERT(chmod);
-  // KRF_SYSCALL_INSERT(fchmod);
-  // KRF_SYSCALL_INSERT(chown);
-  // KRF_SYSCALL_INSERT(fchown);
-  // KRF_SYSCALL_INSERT(lchown);
-  // KRF_SYSCALL_INSERT(umask);
-
 #ifdef KRF_CODEGEN
 #include "krf.gen.x"
 #endif

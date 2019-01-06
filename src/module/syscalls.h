@@ -37,11 +37,6 @@
 extern unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS];
 extern unsigned long **sys_call_table;
 
-KRF_DEFINE_PROTO(mkdir);
-KRF_DEFINE_PROTO(rmdir);
-KRF_DEFINE_PROTO(creat);
-KRF_DEFINE_PROTO(link);
-
 #ifdef KRF_CODEGEN
 #include "syscalls.gen.h"
 #endif

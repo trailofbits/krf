@@ -206,3 +206,84 @@ fchdir:
   errors:
     - EACCES
     - EBADF
+mkdir:
+  proto: const char __user *pathname, umode_t mode
+  parms: pathname, mode
+  errors:
+    - EACCES
+    - EFAULT
+    - EDQUOT
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
+    - EBADF
+    - EEXIST
+    - EMLINK
+    - ENOSPC
+    - EPERM
+    - EROFS
+rmdir:
+  proto: const char __user *pathname
+  parms: pathname
+  errors:
+    - EACCES
+    - EFAULT
+    - EBUSY
+    - ELOOP
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOTDIR
+    - EINVAL
+    - ENOTEMPTY
+    - EPERM
+    - EROFS
+creat:
+  proto: const char __user *pathname, umode_t mode
+  parms: pathname, mode
+  errors:
+    - EACCES
+    - EDQUOT
+    # - EEXIST
+    - EFAULT
+    - EFBIG
+    - EINTR
+    - EINVAL
+    # - EISDIR
+    - ELOOP
+    - EMFILE
+    - ENAMETOOLONG
+    - ENFILE
+    # - ENODEV
+    # - ENOENT
+    - ENOMEM
+    - ENOSPC
+    - ENOTDIR
+    # - ENXIO
+    - EOVERFLOW
+    - EPERM
+    - EROFS
+    - ETXTBSY
+    # - EWOULDBLOCK
+    - EBADF
+link:
+  proto: const char __user *oldname, const char __user *newname
+  parms: oldname, newname
+  errors:
+    - EACCES
+    - EDQUOT
+    - EFAULT
+    - EEXIST
+    - EIO
+    - ELOOP
+    - EMLINK
+    - ENAMETOOLONG
+    - ENOENT
+    - ENOMEM
+    - ENOSPC
+    - ENOTDIR
+    - EPERM
+    - EROFS
+    - EXDEV
