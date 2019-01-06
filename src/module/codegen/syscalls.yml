@@ -1,3 +1,67 @@
+read:
+  proto: unsigned int fd, char __user *buf, size_t count
+  parms: fd, buf, count
+  errors:
+    # - EAGAIN
+    # - EWOULDBLOCK
+    - EBADF
+    - EFAULT
+    - EINTR
+    - EINVAL
+    - EIO
+    - EISDIR
+write:
+  proto: unsigned int fd, const char __user *buf, size_t count
+  parms: fd, buf, count
+  errors:
+    - EBADF
+    - EDQUOT
+    - EFAULT
+    - EFBIG
+    - EINTR
+    - EINVAL
+    - ENOSPC
+    - EPERM
+open:
+  proto: const char __user *filename, int flags, umode_t mode
+  parms: filename, flags, mode
+  errors:
+    - EACCES
+    - EDQUOT
+    # - EEXIST
+    - EFAULT
+    - EFBIG
+    - EINTR
+    - EINVAL
+    # - EISDIR
+    - ELOOP
+    - EMFILE
+    - ENAMETOOLONG
+    - ENFILE
+    # - ENODEV
+    # - ENOENT
+    - ENOMEM
+    - ENOSPC
+    - ENOTDIR
+    # - ENXIO
+    - EOVERFLOW
+    - EPERM
+    - EROFS
+    - ETXTBSY
+    # - EWOULDBLOCK
+    - EBADF
+close:
+  proto: unsigned int fd
+  parms: fd
+  errors:
+    # - EAGAIN
+    # - EWOULDBLOCK
+    - EBADF
+    - EINTR
+    - EIO
+    - ENOSPC
+    - EDQUOT
+    # - EISDIR
 unlink:
   proto: const char __user *pathname
   parms: pathname

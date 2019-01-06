@@ -49,13 +49,6 @@ int init_module(void) {
     return ret;
   }
 
-  KRF_SYSCALL_INSERT(read);
-  KRF_SYSCALL_INSERT(write);
-  /* Minor point of interest: glibc's open(3) wrapper calls openat(2), not open(2).
-   */
-  KRF_SYSCALL_INSERT(open);
-  KRF_SYSCALL_INSERT(close);
-
   /* TODO(ww): Implement these.
    * This order isn't necessarily correct for all systems (not that it matters),
    * it's just from https://filippo.io/linux-syscall-table/

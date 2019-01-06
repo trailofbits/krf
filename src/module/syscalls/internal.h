@@ -33,10 +33,6 @@ static __inline unsigned int krf_mulberry32(void) {
   return z ^ z >> 14;
 }
 
-KRF_DEFINE_INTERNAL_PROTO(read);
-KRF_DEFINE_INTERNAL_PROTO(write);
-KRF_DEFINE_INTERNAL_PROTO(open);
-KRF_DEFINE_INTERNAL_PROTO(close);
 KRF_DEFINE_INTERNAL_PROTO(clone);
 KRF_DEFINE_INTERNAL_PROTO(fork);
 KRF_DEFINE_INTERNAL_PROTO(openat);
