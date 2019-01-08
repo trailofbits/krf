@@ -23,11 +23,6 @@
     preempt_enable();                                                                              \
   } while (0)
 
-#define KRF_SYSCALL_INSERT(sys)                                                                    \
-  do {                                                                                             \
-    KRF_CR0_WRITE_UNLOCK({ sys_call_table[__NR_##sys] = (void *)&krf_sys_##sys; });                \
-  } while (0)
-
 #define KRF_DEFINE_PROTO(sys) asmlinkage typeof(sys_##sys) krf_sys_##sys
 
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys

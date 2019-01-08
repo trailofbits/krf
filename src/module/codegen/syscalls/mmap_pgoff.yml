@@ -1,0 +1,16 @@
+# slight annoyance: the actual syscall is sys_mmap_pgoff,
+# but the __NR constant is __NR_mmap
+nr: mmap
+proto: unsigned long addr, unsigned long len, unsigned long prot, unsigned long flags, unsigned long fd, unsigned long off
+parms: addr, len, prot, flags, fd, off
+errors:
+  - EACCES
+  - EAGAIN
+  - EBADF
+  - EINVAL
+  - ENFILE
+  - ENODEV
+  - ENOMEM
+  - EOVERFLOW
+  - EPERM
+  - ETXTBSY

@@ -45,17 +45,22 @@ SYSCALLS.each do |call, spec|
   # 3. syscalls.gen.x, to set up the initial wrapper
   # 4. syscalls/internal.gen.h, to prototype the internal wrapper
   # 5. syscalls/<syscall>.gen.c, to set up the actual faulty calls
-  hai call
+
+  nr = spec["nr"] || call
+
+  hai "#{call} (nr: __NR_#{nr})"
 
   hai "\t=> #{gen_files[:krf_x].path}"
   gen_files[:krf_x].puts <<~KRF_X
-    KRF_SYSCALL_INSERT(#{call});
+    KRF_CR0_WRITE_UNLOCK({
+      sys_call_table[__NR_#{nr}] = (void *)&krf_sys_#{call};
+    });
   KRF_X
 
   hai "\t=> #{gen_files[:syscalls_x].path}"
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
     long KRF_DEFINE(#{call})(#{spec["proto"]}) {
-      typeof(sys_#{call}) *real_#{call} = (void *)krf_sys_call_table[__NR_#{call}];
+      typeof(sys_#{call}) *real_#{call} = (void *)krf_sys_call_table[__NR_#{nr}];
 
       if (KRF_TARGETED() && (KRF_LCG_NEXT() % krf_probability) == 0) {
         return KRF_SYS_INTERNAL(#{call})(#{spec["parms"]});
