@@ -29,8 +29,8 @@ destabilize its host in weird and difficult to reproduce ways.
 
 ## How does it work?
 
-When loaded, KRF rewrites the Linux system call table: faultable syscalls are replaced with
-thin wrappers.
+KRF rewrites the Linux system call table: when configured via `krfctl`, KRF replaces faultable
+syscalls with thin wrappers.
 
 Each wrapper then performs a check to see whether the call should be faulted (currently
 `personality(2)` + RNG). If the process **shouldn't** be faulted, the original syscall is
@@ -54,7 +54,7 @@ This includes the default kernel on Ubuntu 18.04 and probably many other recent 
 **NOTE**: Ignore this if you're using Vagrant.
 
 Apart from a C toolchain (GCC will probably work best), KRF's only dependencies should be
-`libelf` and the kernel headers.
+`libelf`, the kernel headers, and Ruby (for code generation).
 
 For systems with `apt`:
 
@@ -81,23 +81,37 @@ make -j$(nproc)
 
 ## Usage
 
-KRF has two main components: a kernel module (`krfx`) and a userspace utility (`krfexec`).
+KRF has three components:
+
+* A kernel module (`krfx`)
+* An execution utility (`krfexec`)
+* A control utility (`krfctl`)
 
 To load the kernel module, run `make insmod` (or run `insmod krfx.ko` directly). To unload
 it, run `make rmmod` (or `rmmod krfx` directly).
 
-Once KRF is loaded, you can instruct it to fault a program by running that program with
-`krfexec`:
+KRF begins in a neutral state: no syscalls will be intercepted or faulted until the user
+specifies some behavior via `krfctl`:
 
 ```bash
-# no faults, even with KRF loaded
+# no induced faults, even with KRF loaded
 ls
+
+# tell krf to fault read(2) and write(2) calls
+# note that krfctl requires root privileges
+sudo ./src/krfctl/krfctl 'read,write'
 
 # may fault!
 ./src/krfexec/krfexec ls
 
 # krfexec will pass options correctly as well
 ./src/krfexec/krfexec echo -n 'no newline'
+
+# clear the fault specification
+sudo ./src/krfctl/krfctl -c
+
+# no induced faults, since no syscalls are being faulted
+./src/krfexec/krfexec firefox
 ```
 
 ## Configuration
@@ -146,11 +160,28 @@ faultable syscalls will be faulted.
 echo "100000" | sudo tee /proc/krf/probability
 ```
 
+### `/proc/krf/control`
+
+This file controls the syscalls that KRF faults.
+
+**NOTE**: Most users should use `krfctl` instead of interacting with this file directly &mdash;
+the former will perform syscall name-to-number translation automatically and will provide clearer
+error messages when things go wrong.
+
+```bash
+# replace the syscall in slot 0 (usually SYS_read) with its faulty wrapper
+echo "0" | sudo tee /proc/krc/control
+```
+
+Passing any number greater than `KRF_NR_SYSCALLS` will cause KRF to flush the entire syscall table,
+returning it to the neutral state. Since `KRF_NR_SYSCALLS` isn't necessarily predictable for
+arbitrary versions of the Linux kernel, choosing a large number (like 65535) is fine.
+
+Passing a valid syscall number that lacks a fault injection wrapper will cause the `write(2)`
+to the file to fail with `EOPNOTSUPP`.
+
 ## TODO
 
-* Replace the current macro hell in the syscall wrapper layer with code generation.
-* Add a `/proc/krf/filter` or similar file to allows users to disable specific faults.
-  * For example, `echo "fork" | sudo tee /proc/krf/filter` would prevent KRF from faulting `fork`s.
 * Allow users to specify a particular class of faults, e.g. memory pressure (`ENOMEM`).
   * This should be do-able by adding some more bits to the `personality(2)` value.
 
