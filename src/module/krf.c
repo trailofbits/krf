@@ -56,12 +56,6 @@ int init_module(void) {
     return ret;
   }
 
-/* TODO(ww): Instead of inserting our wrappers on load,
- * do nothing until we receive a number from the user via
- * control.
- * We'll need an additional sys_call_table that contains
- * the faulty functions.
- */
 #ifdef KRF_CODEGEN
 #include "krf.gen.x"
 #endif
