@@ -52,9 +52,7 @@ SYSCALLS.each do |call, spec|
 
   hai "\t=> #{gen_files[:krf_x].path}"
   gen_files[:krf_x].puts <<~KRF_X
-    KRF_CR0_WRITE_UNLOCK({
-      sys_call_table[__NR_#{nr}] = (void *)&krf_sys_#{call};
-    });
+    krf_faultable_table[__NR_#{nr}] = (void *)&krf_sys_#{call};
   KRF_X
 
   hai "\t=> #{gen_files[:syscalls_x].path}"

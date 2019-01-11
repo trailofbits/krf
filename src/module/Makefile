@@ -23,7 +23,7 @@ clean:
 	rm -f *.ur-safe # some garbage not cleaned by the kernel's clean target
 	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c # codegen files
 
-insmod: all
+insmod: krfx.ko
 	sudo insmod $(MOD).ko
 
 rmmod:

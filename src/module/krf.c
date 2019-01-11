@@ -13,6 +13,7 @@ MODULE_AUTHOR(KRF_AUTHOR);
 MODULE_DESCRIPTION(KRF_DESCRIPTION);
 
 static int krf_init(void);
+static void krf_flush_table(void);
 static void krf_teardown(void);
 static ssize_t rng_state_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t rng_state_file_write(struct file *, const char __user *, size_t, loff_t *);
@@ -20,6 +21,7 @@ static ssize_t personality_file_read(struct file *, char __user *, size_t, loff_
 static ssize_t personality_file_write(struct file *, const char __user *, size_t, loff_t *);
 static ssize_t probability_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t probability_file_write(struct file *, const char __user *, size_t, loff_t *);
+static ssize_t control_file_write(struct file *, const char __user *, size_t, loff_t *);
 
 static struct proc_dir_entry *krf_dir;
 
@@ -41,6 +43,11 @@ static const struct file_operations probability_file_ops = {
     .write = probability_file_write,
 };
 
+static const struct file_operations control_file_ops = {
+    .owner = THIS_MODULE,
+    .write = control_file_write,
+};
+
 int init_module(void) {
   int ret;
 
@@ -49,6 +56,12 @@ int init_module(void) {
     return ret;
   }
 
+/* TODO(ww): Instead of inserting our wrappers on load,
+ * do nothing until we receive a number from the user via
+ * control.
+ * We'll need an additional sys_call_table that contains
+ * the faulty functions.
+ */
 #ifdef KRF_CODEGEN
 #include "krf.gen.x"
 #endif
@@ -83,7 +96,8 @@ static int krf_init(void) {
 
   if (proc_create(KRF_RNG_STATE_FILENAME, 644, krf_dir, &rng_state_file_ops) == NULL ||
       proc_create(KRF_PERSONALITY_FILENAME, 644, krf_dir, &personality_file_ops) == NULL ||
-      proc_create(KRF_PROBABILITY_FILENAME, 644, krf_dir, &probability_file_ops) == NULL) {
+      proc_create(KRF_PROBABILITY_FILENAME, 644, krf_dir, &probability_file_ops) == NULL ||
+      proc_create(KRF_CONTROL_FILENAME, 644, krf_dir, &control_file_ops) == NULL) {
     printk(KERN_ERR "krf couldn't create /proc entries\n");
     return -3;
   }
@@ -91,7 +105,7 @@ static int krf_init(void) {
   return 0;
 }
 
-static void krf_teardown(void) {
+static void krf_flush_table(void) {
   int nr;
 
   for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
@@ -99,7 +113,10 @@ static void krf_teardown(void) {
       KRF_CR0_WRITE_UNLOCK({ sys_call_table[nr] = krf_sys_call_table[nr]; });
     }
   }
+}
 
+static void krf_teardown(void) {
+  krf_flush_table();
   remove_proc_subtree(KRF_PROC_DIR, NULL);
 }
 
@@ -221,6 +238,43 @@ static ssize_t probability_file_write(struct file *f, const char __user *ubuf, s
 
   if (kstrtouint(buf, 0, &krf_probability) < 0) {
     return -EINVAL;
+  }
+
+  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
+
+  *off = buflen;
+  return buflen;
+}
+
+static ssize_t control_file_write(struct file *f, const char __user *ubuf, size_t size,
+                                  loff_t *off) {
+  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
+  size_t buflen = 0;
+  unsigned int sys_num = KRF_NR_SYSCALLS;
+
+  if (size > KRF_PROCFS_MAX_SIZE) {
+    size = KRF_PROCFS_MAX_SIZE;
+  }
+
+  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
+    return -EFAULT;
+  }
+
+  if (kstrtouint(buf, 0, &sys_num) < 0) {
+    return -EINVAL;
+  }
+
+  if (sys_num >= KRF_NR_SYSCALLS) {
+    printk(KERN_INFO "krf: flushing all faulty syscalls\n");
+    krf_flush_table();
+  } else if (krf_faultable_table[sys_num] != NULL) {
+    KRF_CR0_WRITE_UNLOCK({ sys_call_table[sys_num] = krf_faultable_table[sys_num]; });
+  } else {
+    /* The user fed us a valid syscall number, but not one
+     * that we support faulting.
+     */
+    printk(KERN_INFO "krf: user requested faulting of unsupported slot %u\n", sys_num);
+    return -EOPNOTSUPP;
   }
 
   buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);

@@ -29,7 +29,16 @@
 
 #define KRF_TARGETED() (current->personality == krf_personality)
 
+/* A table of pointers to faulty syscalls.
+ */
+extern unsigned long *krf_faultable_table[KRF_NR_SYSCALLS];
+
+/* A backup of the real syscall table, prior to modification.
+ */
 extern unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS];
+
+/* The real syscall table, which may or may not be modified at any point.
+ */
 extern unsigned long **sys_call_table;
 
 #ifdef KRF_CODEGEN
