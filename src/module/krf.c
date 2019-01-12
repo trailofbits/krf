@@ -142,7 +142,7 @@ static ssize_t rng_state_file_write(struct file *f, const char __user *ubuf, siz
     size = KRF_PROCFS_MAX_SIZE;
   }
 
-  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
+  if (copy_from_user(buf, ubuf, size)) {
     return -EFAULT;
   }
 
@@ -184,7 +184,7 @@ static ssize_t personality_file_write(struct file *f, const char __user *ubuf, s
     size = KRF_PROCFS_MAX_SIZE;
   }
 
-  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
+  if (copy_from_user(buf, ubuf, size)) {
     return -EFAULT;
   }
 
@@ -226,7 +226,7 @@ static ssize_t probability_file_write(struct file *f, const char __user *ubuf, s
     size = KRF_PROCFS_MAX_SIZE;
   }
 
-  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
+  if (copy_from_user(buf, ubuf, size)) {
     return -EFAULT;
   }
 
@@ -250,7 +250,7 @@ static ssize_t control_file_write(struct file *f, const char __user *ubuf, size_
     size = KRF_PROCFS_MAX_SIZE;
   }
 
-  if (*off > 0 || copy_from_user(buf, ubuf, size)) {
+  if (copy_from_user(buf, ubuf, size)) {
     return -EFAULT;
   }
 
