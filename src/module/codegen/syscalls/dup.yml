@@ -1,0 +1,8 @@
+proto: unsigned int fildes
+parms: fildes
+errors:
+  - EBADF
+  - EBUSY
+  - EINTR
+  - EINVAL
+  - EMFILE

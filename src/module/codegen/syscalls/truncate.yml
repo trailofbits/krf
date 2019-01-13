@@ -1,0 +1,16 @@
+proto: const char __user *path, long length
+parms: path, length
+errors:
+  - EACCES
+  - EFBIG
+  - EINTR
+  - EINVAL
+  - EIO
+  - EISDIR
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - EPERM
+  - EROFS
+  - ETXTBSY
+  - EFAULT

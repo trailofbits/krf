@@ -1,0 +1,7 @@
+proto: int n, fd_set __user *inp, fd_set __user *outp, fd_set __user *exp, struct timeval __user *tvp
+parms: n, inp, outp, exp, tvp
+errors:
+  - EBADF
+  - EINTR
+  - EINVAL
+  - ENOMEM

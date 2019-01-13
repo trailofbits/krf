@@ -1,0 +1,16 @@
+proto: unsigned int fd, unsigned long length
+parms: fd, length
+errors:
+  - EACCES
+  - EFBIG
+  - EINTR
+  - EINVAL
+  - EIO
+  - EISDIR
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - EPERM
+  - EROFS
+  - ETXTBSY
+  - EBADF

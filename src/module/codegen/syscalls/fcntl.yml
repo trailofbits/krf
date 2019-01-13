@@ -1,0 +1,15 @@
+proto: unsigned int fd, unsigned int cmd, unsigned long arg
+parms: fd, cmd, arg
+errors:
+  - EACCES
+  - EAGAIN
+  - EBADF
+  - EBUSY
+  - EDEADLK
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EMFILE
+  - ENOLCK
+  - ENOTDIR
+  - EPERM

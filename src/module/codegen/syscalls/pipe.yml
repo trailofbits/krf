@@ -1,0 +1,6 @@
+proto: int __user *fildes
+parms: fildes
+errors:
+  - EFAULT
+  - EMFILE
+  - ENFILE

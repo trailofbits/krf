@@ -1,0 +1,8 @@
+proto: unsigned int oldfd, unsigned int newfd
+parms: oldfd, newfd
+errors:
+  - EBADF
+  - EBUSY
+  - EINTR
+  - EINVAL
+  - EMFILE
