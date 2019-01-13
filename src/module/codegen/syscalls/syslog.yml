@@ -1,0 +1,7 @@
+proto: int type, char __user *buf, int len
+parms: type, buf, len
+errors:
+  - EINVAL
+  - ENOSYS
+  - EPERM
+  - ERESTARTSYS

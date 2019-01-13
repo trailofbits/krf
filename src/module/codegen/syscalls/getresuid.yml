@@ -1,0 +1,4 @@
+proto: uid_t __user *ruidp, uid_t __user *euidp, uid_t __user *suidp
+parms: ruidp, euidp, suidp
+errors:
+  - EFAULT

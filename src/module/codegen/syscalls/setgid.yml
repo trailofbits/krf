@@ -1,0 +1,5 @@
+proto: gid_t gid
+parms: gid
+errors:
+  - EINVAL
+  - EPERM

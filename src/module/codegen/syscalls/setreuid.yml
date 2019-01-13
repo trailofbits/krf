@@ -1,0 +1,6 @@
+proto: uid_t ruid, uid_t euid
+parms: ruid, euid
+errors:
+  - EAGAIN
+  - EINVAL
+  - EPERM

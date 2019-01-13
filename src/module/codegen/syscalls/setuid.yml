@@ -1,0 +1,6 @@
+proto: uid_t uid
+parms: uid
+errors:
+  - EAGAIN
+  - EINVAL
+  - EPERM

@@ -1,0 +1,7 @@
+proto: char __user *filename, struct utimbuf __user *times
+parms: filename, times
+errors:
+  - EACCES
+  - ENOENT
+  - EPERM
+  - EROFS

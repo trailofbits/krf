@@ -1,0 +1,6 @@
+proto: gid_t rgid, gid_t egid
+parms: rgid, egid
+errors:
+  - EAGAIN
+  - EINVAL
+  - EPERM

@@ -1,0 +1,5 @@
+proto: pid_t pid
+parms: pid
+errors:
+  - EPERM
+  - ESRCH

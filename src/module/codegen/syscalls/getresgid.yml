@@ -1,0 +1,4 @@
+proto: gid_t __user *rgidp, gid_t __user *egidp, gid_t __user *sgidp
+parms: rgidp, egidp, sgidp
+errors:
+  - EFAULT
