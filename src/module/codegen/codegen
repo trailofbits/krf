@@ -50,12 +50,10 @@ SYSCALLS.each do |call, spec|
 
   hai "#{call} (nr: __NR_#{nr})"
 
-  hai "\t=> #{gen_files[:krf_x].path}"
   gen_files[:krf_x].puts <<~KRF_X
     krf_faultable_table[__NR_#{nr}] = (void *)&krf_sys_#{call};
   KRF_X
 
-  hai "\t=> #{gen_files[:syscalls_x].path}"
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
     long KRF_DEFINE(#{call})(#{spec["proto"]}) {
       typeof(sys_#{call}) *real_#{call} = (void *)krf_sys_call_table[__NR_#{nr}];
@@ -68,18 +66,15 @@ SYSCALLS.each do |call, spec|
     }
   SYSCALLS_X
 
-  hai "\t=> #{gen_files[:syscalls_h].path}"
   gen_files[:syscalls_h].puts <<~SYSCALLS_H
     KRF_DEFINE_PROTO(#{call});
   SYSCALLS_H
 
-  hai "\t=> #{gen_files[:internal_h].path}"
   gen_files[:internal_h].puts <<~INTERNAL_H
     KRF_DEFINE_INTERNAL_PROTO(#{call});
   INTERNAL_H
 
   syscall_c = File.join(SOURCE_DIR, "syscalls", "#{call}.gen.c")
-  hai "\t=> #{syscall_c}"
   File.open(syscall_c, "w") do |file|
     file.puts HEADER
     file.puts <<~SETUP
