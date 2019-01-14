@@ -1,3 +1,5 @@
+export CFLAGS := -std=gnu99 -Wall -Werror -pedantic
+
 ALL_SRCS := $(shell find . -type f \( -name '*.c' -o -name '*.h' \) )
 
 all: module krfexec krfctl example
