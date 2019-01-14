@@ -5,7 +5,6 @@
 #include <linux/proc_fs.h>
 
 #include "config.h"
-#include "krf.h"
 #include "syscalls.h"
 
 #define KRF_VERSION "0.0.1"
