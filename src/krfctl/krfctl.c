@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <err.h>
+#include <string.h>
 
 #include "krfctl.h"
 
@@ -30,36 +31,69 @@ static const char *lookup_syscall_number(const char *sys_name) {
   return NULL;
 }
 
-static void fault_syscall_spec(const char *s) {
-  int fd;
-  const char *sys_name = NULL, *sys_num = NULL;
+static const char **lookup_syscall_profile(const char *profile) {
+  for (fault_profile_t *elem = fault_profile_table; elem->profile != NULL; elem++) {
+    if (!strcmp(profile, elem->profile)) {
+      return elem->syscalls;
+    }
+  }
 
+  return NULL;
+}
+
+static void fault_syscall(const char *sys_name) {
+  int fd;
+  const char *sys_num;
+
+  /* TODO(ww): Opening the control file once per syscall is
+   * pretty nasty, but I don't like passing a fd around.
+   * Maybe a static variable that we test-and-set?
+   */
   if ((fd = open(CONTROL_FILE, O_WRONLY)) < 0) {
     err(errno, "open " CONTROL_FILE);
   }
+
+  if (!(sys_num = lookup_syscall_number(sys_name))) {
+    errx(1, "couldn't find syscall: %s", sys_name);
+  }
+
+  if (write(fd, sys_num, strlen(sys_num)) < 0) {
+    /* friendly error message on unsupported syscall */
+    if (errno == EOPNOTSUPP) {
+      errx(errno, "faulting for %s unimplemented", sys_name);
+    } else {
+      err(errno, "write " CONTROL_FILE);
+    }
+  }
+
+  close(fd);
+}
+
+static void fault_syscall_spec(const char *s) {
+  const char *sys_name = NULL;
 
   char *spec = strdup(s);
 
   sys_name = strtok(spec, ", ");
   while (sys_name) {
-    if (!(sys_num = lookup_syscall_number(sys_name))) {
-      errx(1, "couldn't find syscall: %s", sys_name);
-    }
-
-    if (write(fd, sys_num, strlen(sys_num)) < 0) {
-      /* friendly error message on unsupported syscall */
-      if (errno == EOPNOTSUPP) {
-        errx(errno, "faulting for %s unimplemented", sys_name);
-      } else {
-        err(errno, "write " CONTROL_FILE);
-      }
-    }
-
+    fault_syscall(sys_name);
     sys_name = strtok(NULL, ", ");
   }
 
   free(spec);
-  close(fd);
+}
+
+static void fault_syscall_profile(const char *profile) {
+  const char **syscalls = lookup_syscall_profile(profile);
+
+  if (syscalls == NULL) {
+    errx(1, "couldn't find fault profile: %s", profile);
+  }
+
+  int i;
+  for (i = 0; syscalls[i]; i++) {
+    fault_syscall(syscalls[i]);
+  }
 }
 
 static void clear_faulty_calls(void) {
@@ -107,10 +141,14 @@ static void set_prob_state(const char *state) {
 int main(int argc, char *argv[]) {
 
   int c;
-  while ((c = getopt(argc, argv, "F:cr:p:")) != -1) {
+  while ((c = getopt(argc, argv, "F:P:cr:p:")) != -1) {
     switch (c) {
     case 'F': {
       fault_syscall_spec(optarg);
+      break;
+    }
+    case 'P': {
+      fault_syscall_profile(optarg);
       break;
     }
     case 'c': {
@@ -130,6 +168,7 @@ int main(int argc, char *argv[]) {
              "options:\n"
              " -h                          display this help message\n"
              " -F <syscall> [syscall...]   fault the given syscalls\n"
+             " -P <profile>                fault the given syscall profile\n"
              " -c                          clear the syscall table of faulty calls\n"
              " -r <state>                  set the RNG state\n"
              " -p <prob>                   set the fault probability\n");

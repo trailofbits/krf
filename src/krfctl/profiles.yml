@@ -1,0 +1,32 @@
+io:
+  - open
+  - openat
+  - close
+  - read
+  - write
+proc:
+  - fork
+  - clone
+  - kill
+fs:
+  - chdir
+  - creat
+  - fchdir
+  - flock
+  - fstat
+  - fsync
+  - ftruncate
+  - getcwd
+  - link
+  - lstat
+  - mkdir
+  - rmdir
+  - stat
+  - symlink
+  - truncate
+  - unlink
+  - open
+  - openat
+  - close
+  - read
+  - write

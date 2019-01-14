@@ -6,11 +6,16 @@ all: gentable $(PROG)
 gentable:
 	ruby gentable
 
-table.gen.c: gentable
+.PHONY: genprofiles
+genprofiles:
+	ruby genprofiles
 
-$(PROG): $(PROG).o table.gen.o
+table.gen.c: gentable
+profiles.gen.c: genprofiles
+
+$(PROG): $(PROG).o table.gen.o profiles.gen.o
 
 .PHONY: clean
 clean:
 	rm -f $(PROG) *.o
-	rm -f *.gen.c # gentable files
+	rm -f *.gen.c # gentable/genprofiles files
