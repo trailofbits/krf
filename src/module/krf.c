@@ -8,9 +8,11 @@
 #include "krf.h"
 #include "syscalls.h"
 
+#define KRF_VERSION "0.0.1"
+
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR(KRF_AUTHOR);
-MODULE_DESCRIPTION(KRF_DESCRIPTION);
+MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
+MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
 static int krf_init(void);
 static void krf_flush_table(void);
