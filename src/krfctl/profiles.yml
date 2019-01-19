@@ -30,3 +30,8 @@ fs:
   - close
   - read
   - write
+memory:
+  - brk
+  - mmap
+  - munmap
+  - mprotect
