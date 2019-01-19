@@ -1,0 +1,6 @@
+proto: unsigned long start, size_t len, unsigned long prot
+parms: start, len, prot
+errors:
+  - EACCES
+  - EINVAL
+  - ENOMEM
