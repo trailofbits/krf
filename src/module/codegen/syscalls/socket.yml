@@ -1,0 +1,11 @@
+proto: int family, int type, int protocol
+parms: family, type, protocol
+errors:
+  - EACCES
+  - EAFNOSUPPORT
+  - EINVAL
+  - EMFILE
+  - ENFILE
+  - ENOBUFS
+  - ENOMEM
+  - EPROTONOSUPPORT

@@ -1,0 +1,20 @@
+proto: int fd, struct sockaddr __user *uservaddr, int addrlen
+parms: fd, uservaddr, addrlen
+errors:
+  - EACCES
+  - EPERM
+  - EADDRINUSE
+  - EADDRNOTAVAIL
+  - EAFNOSUPPORT
+  - EAGAIN
+  - EALREADY
+  - EBADF
+  - ECONNREFUSED
+  - EFAULT
+  - EINPROGRESS
+  - EINTR
+  - EISCONN
+  - ENETUNREACH
+  - ENOTSOCK
+  - EPROTOTYPE
+  - ETIMEDOUT

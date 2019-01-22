@@ -1,0 +1,21 @@
+proto: int fd, struct user_msghdr __user *msg, unsigned int flags
+parms: fd, msg, flags
+errors:
+  - EACCES
+  - EAGAIN
+  - EWOULDBLOCK
+  - EALREADY
+  - EBADF
+  - ECONNRESET
+  - EDESTADDRREQ
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EISCONN
+  - EMSGSIZE
+  - ENOBUFS
+  - ENOMEM
+  - ENOTCONN
+  - ENOTSOCK
+  - EOPNOTSUPP
+  - EPIPE

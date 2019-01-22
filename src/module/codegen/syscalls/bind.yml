@@ -1,0 +1,16 @@
+proto: int fd, struct sockaddr __user *umyaddr, int addrlen
+parms: fd, umyaddr, addrlen
+errors:
+  - EACCES
+  - EADDRINUSE
+  - EBADF
+  - EINVAL
+  - ENOTSOCK
+  - EADDRNOTAVAIL
+  - EFAULT
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EROFS

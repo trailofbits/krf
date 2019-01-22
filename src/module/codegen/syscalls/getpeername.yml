@@ -1,0 +1,9 @@
+proto: int fd, struct sockaddr __user *usockaddr, int __user *usockaddr_len
+parms: fd, usockaddr, usockaddr_len
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+  - ENOBUFS
+  - ENOTCONN
+  - ENOTSOCK

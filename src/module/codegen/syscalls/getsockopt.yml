@@ -1,0 +1,8 @@
+proto: int fd, int level, int optname, char __user *optval, int __user *optlen
+parms: fd, level, optname, optval, optlen
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+  - ENOPROTOOPT
+  - ENOTSOCK

@@ -1,0 +1,21 @@
+proto: int fd, void __user *buff, size_t len, unsigned int flags, struct sockaddr __user *addr, int addr_len
+parms: fd, buff, len, flags, addr, addr_len
+errors:
+  - EACCES
+  - EAGAIN
+  - EWOULDBLOCK
+  - EALREADY
+  - EBADF
+  - ECONNRESET
+  - EDESTADDRREQ
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EISCONN
+  - EMSGSIZE
+  - ENOBUFS
+  - ENOMEM
+  - ENOTCONN
+  - ENOTSOCK
+  - EOPNOTSUPP
+  - EPIPE

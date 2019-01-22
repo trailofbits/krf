@@ -1,0 +1,18 @@
+proto: int fd, struct sockaddr __user *upeer_sockaddr, int __user *upeer_addrlen
+parms: fd, upeer_sockaddr, upeer_addrlen
+errors:
+  - EAGAIN
+  - EWOULDBLOCK
+  - EBADF
+  - ECONNABORTED
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EMFILE
+  - ENFILE
+  - ENOBUFS
+  - ENOMEM
+  - ENOTSOCK
+  - EOPNOTSUPP
+  - EPROTO
+  - EPERM

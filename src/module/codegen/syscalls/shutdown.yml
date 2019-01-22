@@ -1,0 +1,7 @@
+proto: int fd, int how
+parms: fd, how
+errors:
+  - EBADF
+  - EINVAL
+  - ENOTCONN
+  - ENOTSOCK

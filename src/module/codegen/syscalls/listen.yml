@@ -1,0 +1,7 @@
+proto: int fd, int backlog
+parms: fd, backlog
+errors:
+  - EADDRINUSE
+  - EBADF
+  - ENOTSOCK
+  - EOPNOTSUPP
