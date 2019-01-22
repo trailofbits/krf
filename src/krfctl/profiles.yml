@@ -35,3 +35,20 @@ memory:
   - mmap
   - munmap
   - mprotect
+net:
+  # - sendfile
+  - socket
+  - connect
+  - accept
+  - sendto
+  - recvfrom
+  - sendmsg
+  - recvmsg
+  - shutdown
+  - bind
+  - listen
+  - getsockname
+  - getpeername
+  - socketpair
+  - getsockopt
+  - setsockopt
