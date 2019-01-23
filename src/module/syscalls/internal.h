@@ -4,7 +4,7 @@
 
 #include "../config.h"
 
-#define KRF_LCG_NEXT() (krf_rng_state = krf_mulberry32())
+#define KRF_RNG_NEXT() (krf_rng_state = krf_mulberry32())
 
 #define KRF_SYS_INTERNAL(sys) krf_sys_internal_##sys
 #define KRF_DEFINE_INTERNAL_PROTO(sys) typeof(sys_##sys) KRF_SYS_INTERNAL(sys)
