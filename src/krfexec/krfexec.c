@@ -14,6 +14,11 @@ int main(int argc, char *argv[]) {
   char pers_str[33] = {0};
   unsigned int pers;
 
+  if (argc < 2 || !strcmp(argv[1], "-h")) {
+    printf("usage: krfexec <command or file> [args]\n");
+    return 1;
+  }
+
   if ((fd = open(PERSONALITY_FILE, O_RDONLY)) < 0) {
     perror("open " PERSONALITY_FILE);
     return errno;
@@ -32,11 +37,6 @@ int main(int argc, char *argv[]) {
   if (personality(pers) < 0) {
     perror("personality");
     return errno;
-  }
-
-  if (argc < 2 || !strcmp(argv[1], "-h")) {
-    printf("usage: krfexec <command or file> [args]\n");
-    return 1;
   }
 
   if (execvp(argv[1], argv + 1) < 0) {
