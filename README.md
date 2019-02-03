@@ -116,8 +116,7 @@ sudo ./src/krfctl/krfctl -c
 
 ## Configuration
 
-Most users will not need to configure KRF at all. For those who do, `/proc/krf/rng_state` and
-`/proc/krf/probability` will probably be the most useful files.
+**NOTE**: Most users should use `krfctl` instead of manipulating these files by hand.
 
 ### `/proc/krf/rng_state`
 
