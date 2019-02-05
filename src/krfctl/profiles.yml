@@ -8,6 +8,8 @@ proc:
   - fork
   - clone
   - kill
+  - wait4
+  - waitid
 fs:
   - chdir
   - creat
