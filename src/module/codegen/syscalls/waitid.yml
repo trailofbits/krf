@@ -1,0 +1,6 @@
+proto: int which, pid_t upid, struct siginfo __user *infop, int options, struct rusage __user *ru
+parms: which, upid, infop, options, ru
+errors:
+  - ECHILD
+  - EINTR
+  - EINVAL

@@ -1,0 +1,6 @@
+proto: pid_t upid, int __user *stat_addr, int options, struct rusage __user *ru
+parms: upid, stat_addr, options, ru
+errors:
+  - ECHILD
+  - EINTR
+  - EINVAL
