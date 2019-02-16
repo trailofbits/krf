@@ -37,6 +37,10 @@ memory:
   - mmap
   - munmap
   - mprotect
+  - madvise
+  - mincore
+  - mremap
+  - msync
 net:
   # - sendfile
   - socket
@@ -54,3 +58,15 @@ net:
   - socketpair
   - getsockopt
   - setsockopt
+ipc:
+  - msgget
+  - msgsend
+  - msgrcv
+  - msgctl
+  - semget
+  - semop
+  - semctl
+  - shmget
+  - shmat
+  - shmdt
+  - shmctl
