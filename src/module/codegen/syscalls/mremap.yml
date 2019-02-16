@@ -1,0 +1,7 @@
+proto: unsigned long addr, unsigned long old_len, unsigned long new_len, unsigned long flags, unsigned long new_addr
+parms: addr, old_len, new_len, flags, new_addr
+errors:
+  - EAGAIN
+  - EFAULT
+  - EINVAL
+  - ENOMEM

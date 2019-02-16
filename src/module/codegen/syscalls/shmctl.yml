@@ -1,0 +1,10 @@
+proto: int shmid, int cmd, struct shmid_ds __user *buf
+parms: shmid, cmd, buf
+errors:
+  - EACCES
+  - EFAULT
+  - EIDRM
+  - EINVAL
+  - ENOMEM
+  - EOVERFLOW
+  - EPERM

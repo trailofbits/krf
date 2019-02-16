@@ -1,0 +1,10 @@
+proto: unsigned long start, size_t len_in, int behavior
+parms: start, len_in, behavior
+errors:
+  - EACCES
+  - EAGAIN
+  - EBADF
+  - EINVAL
+  - EIO
+  - ENOMEM
+  - EPERM

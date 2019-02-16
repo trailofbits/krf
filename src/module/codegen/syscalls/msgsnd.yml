@@ -1,0 +1,10 @@
+proto: int msqid, struct msgbuf __user *msgp, size_t msgsz, int msgflg
+parms: msqid, msgp, msgsz, msgflg
+errors:
+  - EACCES
+  - EAGAIN
+  - EFAULT
+  - EIDRM
+  - EINTR
+  - EINVAL
+  - ENOMEM

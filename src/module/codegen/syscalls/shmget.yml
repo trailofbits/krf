@@ -1,0 +1,11 @@
+proto: key_t key, size_t size, int shmflg
+parms: key, size, shmflg
+errors:
+  - EACCES
+  - EEXIST
+  - EINVAL
+  - ENFILE
+  - ENOENT
+  - ENOMEM
+  - ENOSPC
+  - EPERM

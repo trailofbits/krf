@@ -1,0 +1,8 @@
+proto: key_t key, int msgflg
+parms: key, msgflg
+errors:
+  - EACCES
+  - EEXIST
+  - ENOENT
+  - ENOMEM
+  - ENOSPC

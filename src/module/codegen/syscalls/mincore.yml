@@ -1,0 +1,7 @@
+proto: unsigned long start, size_t len, unsigned char __user *vec
+parms: start, len, vec
+errors:
+  - EAGAIN
+  - EFAULT
+  - EINVAL
+  - ENOMEM

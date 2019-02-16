@@ -1,0 +1,9 @@
+proto: key_t key, int nsems, int semflg
+parms: key, nsems, semflg
+errors:
+  - EACCES
+  - EEXIST
+  - EINVAL
+  - ENOENT
+  - ENOMEM
+  - ENOSPC

@@ -1,0 +1,11 @@
+proto: int msqid, struct msgbuf __user *msgp, size_t msgsz, long msgtyp, int msgflg
+parms: msqid, msgp, msgsz, msgtyp, msgflg
+errors:
+  - E2BIG
+  - EACCES
+  - EFAULT
+  - EIDRM
+  - EINTR
+  - EINVAL
+  - ENOMSG
+  - ENOSYS

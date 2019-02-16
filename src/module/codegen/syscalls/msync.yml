@@ -1,0 +1,6 @@
+proto: unsigned long start, size_t len, int flags
+parms: start, len, flags
+errors:
+  - EBUSY
+  - EINVAL
+  - ENOMEM

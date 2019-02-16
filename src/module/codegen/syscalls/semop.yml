@@ -1,0 +1,13 @@
+proto: int semid, struct sembuf __user *tsops, unsigned nsops
+parms: semid, tsops, nsops
+errors:
+  - E2BIG
+  - EACCES
+  - EAGAIN
+  - EFAULT
+  - EFBIG
+  - EIDRM
+  - EINTR
+  - EINVAL
+  - ENOMEM
+  - ERANGE

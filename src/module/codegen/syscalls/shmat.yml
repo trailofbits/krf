@@ -1,0 +1,7 @@
+proto: int shmid, char __user *shmaddr, int shmflg
+parms: shmid, shmaddr, shmflg
+errors:
+  - EACCES
+  - EIDRM
+  - EINVAL
+  - ENOMEM

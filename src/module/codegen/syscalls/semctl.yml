@@ -1,0 +1,9 @@
+proto: int semid, int semnum, int cmd, unsigned long arg
+parms: semid, semnum, cmd, arg
+errors:
+  - EACCES
+  - EFAULT
+  - EIDRM
+  - EINVAL
+  - EPERM
+  - ERANGE
