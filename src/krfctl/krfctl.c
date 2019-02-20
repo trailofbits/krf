@@ -14,6 +14,7 @@
 #define CONTROL_FILE "/proc/krf/control"
 #define RNG_STATE_FILE "/proc/krf/rng_state"
 #define PROBABILITY_FILE "/proc/krf/probability"
+#define LOG_FAULTS_FILE "/proc/krf/log_faults"
 
 /* control will interpret any number larger than its syscall table
  * as a command to clear all current masks.
@@ -138,10 +139,38 @@ static void set_prob_state(const char *state) {
   close(fd);
 }
 
+static void toggle_fault_logging(void) {
+  int fd;
+  char buf[32] = {0};
+  unsigned int state;
+
+  if ((fd = open(LOG_FAULTS_FILE, O_RDWR)) < 0) {
+    err(errno, "open " LOG_FAULTS_FILE);
+  }
+
+  if (read(fd, buf, sizeof(buf) - 1) < 0) {
+    err(errno, "read " LOG_FAULTS_FILE);
+  }
+
+  if (sscanf(buf, "%u", &state) != 1) {
+    errx(1, "weird logging state: %s", buf);
+  }
+
+  state = !state;
+  memset(buf, 0, sizeof(buf));
+  snprintf(buf, sizeof(buf), "%u", state);
+
+  if (write(fd, buf, strlen(buf)) < 0) {
+    err(errno, "write " LOG_FAULTS_FILE);
+  }
+
+  close(fd);
+}
+
 int main(int argc, char *argv[]) {
 
   int c;
-  while ((c = getopt(argc, argv, "F:P:cr:p:")) != -1) {
+  while ((c = getopt(argc, argv, "F:P:cr:p:L")) != -1) {
     switch (c) {
     case 'F': {
       fault_syscall_spec(optarg);
@@ -163,6 +192,10 @@ int main(int argc, char *argv[]) {
       set_prob_state(optarg);
       break;
     }
+    case 'L': {
+      toggle_fault_logging();
+      break;
+    }
     default: {
       printf("usage: krfctl <options>\n"
              "options:\n"
@@ -171,7 +204,8 @@ int main(int argc, char *argv[]) {
              " -P <profile>                fault the given syscall profile\n"
              " -c                          clear the syscall table of faulty calls\n"
              " -r <state>                  set the RNG state\n"
-             " -p <prob>                   set the fault probability\n");
+             " -p <prob>                   set the fault probability\n"
+             " -L                          toggle faulty call logging\n");
       return 1;
     }
     }
