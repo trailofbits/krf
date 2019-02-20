@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/fcntl.h>
+#include <err.h>
 
 #define PERSONALITY_FILE "/proc/krf/personality"
 
@@ -20,28 +21,23 @@ int main(int argc, char *argv[]) {
   }
 
   if ((fd = open(PERSONALITY_FILE, O_RDONLY)) < 0) {
-    perror("open " PERSONALITY_FILE);
-    return errno;
+    err(errno, "open " PERSONALITY_FILE);
   }
 
   if (read(fd, pers_str, sizeof(pers_str) - 1) < 0) {
-    perror("read " PERSONALITY_FILE);
-    return errno;
+    err(errno, "read " PERSONALITY_FILE);
   }
 
   if (sscanf(pers_str, "%u", &pers) != 1) {
-    fprintf(stderr, "oddity: personality isn't numeric?\n");
-    return 1;
+    errx(1, "oddity: personality isn't numeric?");
   }
 
-  if (personality(pers) < 0) {
-    perror("personality");
-    return errno;
+  if (personality(pers | ADDR_NO_RANDOMIZE) < 0) {
+    err(errno, "personality");
   }
 
   if (execvp(argv[1], argv + 1) < 0) {
-    perror("exec");
-    return errno;
+    err(errno, "exec");
   }
 
   return 0; /* noreturn */
