@@ -169,7 +169,7 @@ error messages when things go wrong.
 
 ```bash
 # replace the syscall in slot 0 (usually SYS_read) with its faulty wrapper
-echo "0" | sudo tee /proc/krc/control
+echo "0" | sudo tee /proc/krf/control
 ```
 
 Passing any number greater than `KRF_NR_SYSCALLS` will cause KRF to flush the entire syscall table,
@@ -178,6 +178,22 @@ arbitrary versions of the Linux kernel, choosing a large number (like 65535) is 
 
 Passing a valid syscall number that lacks a fault injection wrapper will cause the `write(2)`
 to the file to fail with `EOPNOTSUPP`.
+
+### `/proc/krf/log_faults`
+
+This file controls whether or not KRF emits kernel logs on faulty syscalls. By default, no
+logging messages are emitted.
+
+**NOTE** Most users should use `krfctl` instead of interacting with this file directly.
+
+```bash
+# enable fault logging
+echo "1" | sudo tee /proc/krf/log_faults
+# disable fault logging
+echo "0" | sudo tee /proc/krf/log_faults
+# read the logging state
+cat /proc/krf/log_faults
+```
 
 ## TODO
 
