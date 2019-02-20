@@ -91,6 +91,10 @@ SYSCALLS.each do |call, spec|
 
       file.puts <<~FAULT
         DEFINE_FAULT(#{fault}) {
+          if (krf_log_faults) {
+            printk("faulting #{call} with #{fault}\\n");
+          }
+
           return -#{fault};
         }
       FAULT

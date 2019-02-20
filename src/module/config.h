@@ -5,6 +5,7 @@
 #define KRF_PERSONALITY_FILENAME "personality"
 #define KRF_PROBABILITY_FILENAME "probability"
 #define KRF_CONTROL_FILENAME "control"
+#define KRF_LOG_FAULTS_FILENAME "log_faults"
 
 /* All of our options are unsigned ints,
  * so 32 bytes should be more than enough for their string reps
@@ -15,3 +16,4 @@
 extern unsigned int krf_rng_state;
 extern unsigned int krf_personality;
 extern unsigned int krf_probability;
+extern unsigned int krf_log_faults;
