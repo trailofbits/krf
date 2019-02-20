@@ -184,7 +184,7 @@ to the file to fail with `EOPNOTSUPP`.
 This file controls whether or not KRF emits kernel logs on faulty syscalls. By default, no
 logging messages are emitted.
 
-**NOTE** Most users should use `krfctl` instead of interacting with this file directly.
+**NOTE**: Most users should use `krfctl` instead of interacting with this file directly.
 
 ```bash
 # enable fault logging
