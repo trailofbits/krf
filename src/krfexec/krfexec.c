@@ -40,5 +40,9 @@ int main(int argc, char *argv[]) {
     err(errno, "exec");
   }
 
+  /* TODO(ww): Maybe disable the VDSO?
+   * Here's how we could do it on a per-process basis: https://stackoverflow.com/a/52402306
+   */
+
   return 0; /* noreturn */
 }
