@@ -3,7 +3,6 @@
 
 # genprofiles: generate a lookup table of profiles names -> syscall lists
 
-require "open3"
 require "yaml"
 
 PROFILE_SPEC = File.expand_path "profiles.yml", __dir__
