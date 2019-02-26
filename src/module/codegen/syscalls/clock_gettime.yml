@@ -1,0 +1,8 @@
+# See gettimeofday.yml; you probably need to disable the VDSO for this.
+proto: const clockid_t which_clock, struct timespec __user *tp
+parms: which_clock, tp
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

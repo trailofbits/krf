@@ -1,0 +1,8 @@
+proto: struct timeval __user *tv, struct timezone __user *tz
+parms: tv, tz
+errors:
+  - EFAULT
+  - EINVAL
+  - EPERM
+profiles:
+  - time

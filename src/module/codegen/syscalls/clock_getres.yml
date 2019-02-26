@@ -1,0 +1,7 @@
+proto: const clockid_t which_clock, struct timespec __user *tp
+parms: which_clock, tp
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

@@ -1,0 +1,9 @@
+proto: unsigned long start, size_t len
+parms: start, len
+errors:
+  - ENOMEM
+  - EPERM
+  - EAGAIN
+  - EINVAL
+profiles:
+  - ipc

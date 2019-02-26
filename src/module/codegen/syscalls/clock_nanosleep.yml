@@ -1,0 +1,8 @@
+proto: const clockid_t which_clock, int flags, const struct timespec __user *rqtp, struct timespec __user *rmtp
+parms: which_clock, flags, rqtp, rmtp
+errors:
+  - EFAULT
+  - EINTR
+  - EINVAL
+profiles:
+  - time

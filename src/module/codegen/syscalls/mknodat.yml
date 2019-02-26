@@ -1,0 +1,19 @@
+proto: int dfd, const char __user *filename, umode_t mode, unsigned dev
+parms: dfd, filename, mode, dev
+errors:
+  - EACCES
+  - EDQUOT
+  - EEXIST
+  - EFAULT
+  - EINVAL
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOSPC
+  - ENOTDIR
+  - EPERM
+  - EROFS
+  - EBADF
+profiles:
+  - fs

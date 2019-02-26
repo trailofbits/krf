@@ -1,0 +1,8 @@
+proto: const char __user *library
+parms: library
+errors:
+  - EACCES
+  - ENFILE
+  - ENOEXEC
+profiles:
+  - proc

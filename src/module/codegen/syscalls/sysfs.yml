@@ -1,0 +1,7 @@
+proto: int option, unsigned long arg1, unsigned long arg2
+parms: option, arg1, arg2
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - fs

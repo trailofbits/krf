@@ -1,0 +1,6 @@
+proto: int fd
+parms: fd
+errors:
+  - EBADF
+profiles:
+  - fs

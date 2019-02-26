@@ -1,0 +1,7 @@
+proto: int which, int who
+parms: which, who
+errors:
+  - EINVAL
+  - ESRCH
+profiles:
+  - proc

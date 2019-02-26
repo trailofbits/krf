@@ -1,0 +1,8 @@
+proto: unsigned dev, struct ustat __user *buf
+parms: dev, buf
+errors:
+  - EFAULT
+  - EINVAL
+  - ENOSYS
+profiles:
+  - fs

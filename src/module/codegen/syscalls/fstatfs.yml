@@ -1,0 +1,12 @@
+proto: unsigned int fd, struct statfs __user *buf
+parms: fd, buf
+errors:
+  - EBADF
+  - EFAULT
+  - EINTR
+  - EIO
+  - ENOMEM
+  - ENOSYS
+  - EOVERFLOW
+profiles:
+  - fs

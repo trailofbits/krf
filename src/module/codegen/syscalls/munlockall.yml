@@ -1,0 +1,6 @@
+proto: void
+errors:
+  - ENOMEM
+  - EPERM
+profiles:
+  - ipc

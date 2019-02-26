@@ -1,0 +1,16 @@
+proto: const char __user *pathname, struct statfs __user *buf
+parms: pathname, buf
+errors:
+  - EACCES
+  - EFAULT
+  - EINTR
+  - EIO
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOSYS
+  - ENOTDIR
+  - EOVERFLOW
+profiles:
+  - fs

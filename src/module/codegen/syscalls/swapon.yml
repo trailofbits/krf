@@ -1,0 +1,11 @@
+proto: const char __user *specialfile, int swap_flags
+parms: specialfile, swap_flags
+errors:
+  - EBUSY
+  - EINVAL
+  - ENFILE
+  - ENOENT
+  - ENOMEM
+  - EPERM
+profiles:
+  - fs

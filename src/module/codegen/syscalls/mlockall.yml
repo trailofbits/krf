@@ -1,0 +1,8 @@
+proto: int flags
+parms: flags
+errors:
+  - ENOMEM
+  - EPERM
+  - EINVAL
+profiles:
+  - ipc

@@ -1,0 +1,19 @@
+proto: char __user *dev_name, char __user *dir_name, char __user *type, unsigned long flags, void __user *data
+parms: dev_name, dir_name, type, flags, data
+errors:
+  - EACCES
+  - EBUSY
+  - EFAULT
+  - EINVAL
+  - ELOOP
+  - EMFILE
+  - ENAMETOOLONG
+  - ENODEV
+  - ENOENT
+  - ENOMEM
+  - ENOTBLK
+  - ENOTDIR
+  - ENXIO
+  - EPERM
+profiles:
+  - fs

@@ -1,0 +1,7 @@
+# See gettimeofday.yml; you probably need to disable the VDSO for this.
+proto: time_t __user *tloc
+parms: tloc
+errors:
+  - EFAULT
+profiles:
+  - time

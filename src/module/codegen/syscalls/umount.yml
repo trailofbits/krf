@@ -1,0 +1,14 @@
+nr: umount2
+proto: char __user *name, int flags
+parms: name, flags
+errors:
+  - EAGAIN
+  - EBUSY
+  - EFAULT
+  - EINVAL
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - EPERM
+profiles:
+  - fs

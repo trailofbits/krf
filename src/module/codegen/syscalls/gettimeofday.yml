@@ -1,0 +1,8 @@
+# NOTE(ww): Make sure to disable the VDSO if you want to fault gettimeofday!
+proto: struct timeval __user *tv, struct timezone __user *tz
+parms: tv, tz
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

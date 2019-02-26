@@ -1,0 +1,10 @@
+proto: const char __user *specialfile
+parms: specialfile
+errors:
+  - EINVAL
+  - ENFILE
+  - ENOENT
+  - ENOMEM
+  - EPERM
+profiles:
+  - fs
