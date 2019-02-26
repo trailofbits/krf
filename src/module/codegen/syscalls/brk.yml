@@ -2,3 +2,5 @@ proto: unsigned long addr
 parms: addr
 errors:
   - ENOMEM
+profiles:
+  - memory

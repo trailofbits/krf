@@ -4,3 +4,5 @@ errors:
   - EFAULT
   - EMFILE
   - ENFILE
+profiles:
+  - io

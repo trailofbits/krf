@@ -14,3 +14,5 @@ errors:
   - ENOMEM
   - ENOTDIR
   - EROFS
+profiles:
+  - net

@@ -5,3 +5,5 @@ errors:
   - EINVAL
   - ENOTCONN
   - ENOTSOCK
+profiles:
+  - net

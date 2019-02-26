@@ -5,3 +5,5 @@ errors:
   - EFAULT
   - ENOMEM
   - EOVERFLOW
+profiles:
+  - fs

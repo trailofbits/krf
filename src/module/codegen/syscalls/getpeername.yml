@@ -7,3 +7,5 @@ errors:
   - ENOBUFS
   - ENOTCONN
   - ENOTSOCK
+profiles:
+  - net

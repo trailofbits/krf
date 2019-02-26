@@ -25,3 +25,6 @@ errors:
   - ETXTBSY
   # - EWOULDBLOCK
   - EBADF
+profiles:
+  - fs
+  - io

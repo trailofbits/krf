@@ -6,3 +6,5 @@ errors:
   - ENOENT
   - ENOMEM
   - ENOSPC
+profiles:
+  - ipc

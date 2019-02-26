@@ -16,3 +16,5 @@ errors:
   - EOPNOTSUPP
   - EPROTO
   - EPERM
+profiles:
+  - net

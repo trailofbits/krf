@@ -5,3 +5,5 @@ errors:
   - EINTR
   - EINVAL
   - ENOMEM
+profiles:
+  - io

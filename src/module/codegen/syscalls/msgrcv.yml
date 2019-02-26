@@ -9,3 +9,5 @@ errors:
   - EINVAL
   - ENOMSG
   - ENOSYS
+profiles:
+  - ipc

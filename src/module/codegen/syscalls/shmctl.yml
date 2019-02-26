@@ -8,3 +8,5 @@ errors:
   - ENOMEM
   - EOVERFLOW
   - EPERM
+profiles:
+  - ipc

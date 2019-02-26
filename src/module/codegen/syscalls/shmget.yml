@@ -9,3 +9,5 @@ errors:
   - ENOMEM
   - ENOSPC
   - EPERM
+profiles:
+  - ipc

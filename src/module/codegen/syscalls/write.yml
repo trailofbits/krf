@@ -9,3 +9,6 @@ errors:
   - EINVAL
   - ENOSPC
   - EPERM
+profiles:
+  - fs
+  - io

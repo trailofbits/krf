@@ -4,3 +4,5 @@ errors:
   - EACCES
   - EINVAL
   - ENOMEM
+profiles:
+  - memory

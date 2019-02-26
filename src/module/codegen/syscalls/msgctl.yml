@@ -6,3 +6,5 @@ errors:
   - EIDRM
   - EINVAL
   - EPERM
+profiles:
+  - ipc

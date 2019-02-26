@@ -9,3 +9,5 @@ errors:
   - ENOBUFS
   - ENOMEM
   - EPROTONOSUPPORT
+profiles:
+  - net

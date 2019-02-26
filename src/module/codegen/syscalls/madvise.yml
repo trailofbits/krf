@@ -8,3 +8,5 @@ errors:
   - EIO
   - ENOMEM
   - EPERM
+profiles:
+  - memory

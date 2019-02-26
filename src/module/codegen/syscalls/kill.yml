@@ -4,3 +4,5 @@ errors:
   - EINVAL
   - EPERM
   - ESRCH
+profiles:
+  - proc

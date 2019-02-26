@@ -13,3 +13,5 @@ errors:
   - ENOTDIR
   - EPERM
   - EROFS
+profiles:
+  - fs

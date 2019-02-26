@@ -15,3 +15,5 @@ errors:
   - ENOSPC
   - EPERM
   - EROFS
+profiles:
+  - fs

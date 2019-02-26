@@ -8,3 +8,5 @@ errors:
   - EINTR
   - EINVAL
   - ENOMEM
+profiles:
+  - ipc

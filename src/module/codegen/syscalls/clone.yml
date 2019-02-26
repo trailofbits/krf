@@ -8,3 +8,5 @@ errors:
   - EUSERS
   - EPERM
   - ERESTARTNOINTR
+profiles:
+  - proc

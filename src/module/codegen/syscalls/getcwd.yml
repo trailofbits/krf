@@ -8,3 +8,5 @@ errors:
   - ENOENT
   - ENOMEM
   - ERANGE
+profiles:
+  - fs

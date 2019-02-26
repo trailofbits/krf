@@ -5,3 +5,5 @@ errors:
   - EBADF
   - ENOTSOCK
   - EOPNOTSUPP
+profiles:
+  - net

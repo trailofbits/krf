@@ -9,3 +9,5 @@ errors:
   - ENOENT
   - ENOMEM
   - ENOTDIR
+profiles:
+  - fs

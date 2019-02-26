@@ -5,3 +5,5 @@ errors:
   - EFAULT
   - EINVAL
   - ENOMEM
+profiles:
+  - memory

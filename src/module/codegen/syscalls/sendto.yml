@@ -19,3 +19,5 @@ errors:
   - ENOTSOCK
   - EOPNOTSUPP
   - EPIPE
+profiles:
+  - net

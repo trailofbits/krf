@@ -8,3 +8,6 @@ errors:
   - EINVAL
   - ENOSPC
   - EDQUOT
+profiles:
+  - fs
+  - io

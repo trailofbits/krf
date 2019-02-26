@@ -2,3 +2,5 @@ proto: char __user *shmaddr
 parms: shmaddr
 errors:
   - EINVAL
+profiles:
+  - ipc

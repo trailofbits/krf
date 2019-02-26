@@ -9,3 +9,6 @@ errors:
   - ENOSPC
   - EDQUOT
   # - EISDIR
+profiles:
+  - fs
+  - io

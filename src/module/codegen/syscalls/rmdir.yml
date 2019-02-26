@@ -13,3 +13,5 @@ errors:
   - ENOTEMPTY
   - EPERM
   - EROFS
+profiles:
+  - fs

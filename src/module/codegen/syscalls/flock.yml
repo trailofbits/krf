@@ -6,3 +6,5 @@ errors:
   - EINVAL
   - ENOLCK
   - EWOULDBLOCK
+profiles:
+  - fs

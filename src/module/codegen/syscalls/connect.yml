@@ -18,3 +18,5 @@ errors:
   - ENOTSOCK
   - EPROTOTYPE
   - ETIMEDOUT
+profiles:
+  - net

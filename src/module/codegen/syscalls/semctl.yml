@@ -7,3 +7,5 @@ errors:
   - EINVAL
   - EPERM
   - ERANGE
+profiles:
+  - ipc

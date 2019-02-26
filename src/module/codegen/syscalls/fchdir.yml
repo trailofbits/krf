@@ -3,3 +3,5 @@ parms: fd
 errors:
   - EACCES
   - EBADF
+profiles:
+  - fs

@@ -5,10 +5,23 @@
 
 require "yaml"
 
-PROFILE_SPEC = File.expand_path "profiles.yml", __dir__
-OUTPUT_NAME = File.expand_path "profiles.gen.c", __dir__
+SYSCALL_SPECS_DIR = File.expand_path "../module/codegen/syscalls", __dir__
+SYSCALL_SPECS = Dir[File.join(SYSCALL_SPECS_DIR, "*.yml")]
 
-PROFILES = YAML.safe_load File.read(PROFILE_SPEC)
+SYSCALLS = SYSCALL_SPECS.map do |path|
+  spec = YAML.safe_load File.read(path)
+  [File.basename(path, ".yml"), spec]
+end.to_h
+
+PROFILES = Hash.new { |h, k| h[k] = [] }
+
+SYSCALLS.each do |call, spec|
+  spec["profiles"]&.each do |profile|
+    PROFILES[profile] << call
+  end
+end
+
+OUTPUT_NAME = File.expand_path "profiles.gen.c", __dir__
 
 def hai(msg)
   STDERR.puts "[genprofiles] #{msg}"

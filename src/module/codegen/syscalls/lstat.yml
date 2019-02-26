@@ -9,3 +9,5 @@ errors:
   - ENOMEM
   - ENOTDIR
   - EOVERFLOW
+profiles:
+  - fs

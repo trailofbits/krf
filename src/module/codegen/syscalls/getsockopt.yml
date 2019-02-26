@@ -6,3 +6,5 @@ errors:
   - EINVAL
   - ENOPROTOOPT
   - ENOTSOCK
+profiles:
+  - net

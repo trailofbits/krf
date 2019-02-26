@@ -14,3 +14,6 @@ errors:
   - EROFS
   - ETXTBSY
   - EFAULT
+profiles:
+  - fs
+  - io

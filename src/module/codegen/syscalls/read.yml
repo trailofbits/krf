@@ -9,3 +9,6 @@ errors:
   - EINVAL
   - EIO
   - EISDIR
+profiles:
+  - fs
+  - io

@@ -16,3 +16,5 @@ errors:
   - EPERM
   - EROFS
   - EXDEV
+profiles:
+  - fs

@@ -4,3 +4,5 @@ errors:
   - ECHILD
   - EINTR
   - EINVAL
+profiles:
+  - proc

@@ -5,3 +5,5 @@ errors:
   - EIDRM
   - EINVAL
   - ENOMEM
+profiles:
+  - ipc
