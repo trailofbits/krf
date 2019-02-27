@@ -2,12 +2,13 @@
 
 #include <linux/syscalls.h>
 #include <linux/preempt.h>
+#include <asm/asm-offsets.h> /* for NR_syscalls */
 
-/* I might just be dumb, but I can't find __NR_syscalls on x64.
- * This just cheeses it (and is probably still overkill, since
- * we probably won't ever want to fault any of the higher syscalls).
- */
-#define KRF_NR_SYSCALLS (__NR_statx + 1)
+#if !defined(NR_syscalls) || NR_syscalls <= 0
+#error "undefined or bizarrely defined NR_syscalls"
+#endif
+
+#define KRF_NR_SYSCALLS (NR_syscalls)
 
 #define KRF_CR0_WRITE_UNLOCK(x)                                                                    \
   do {                                                                                             \
