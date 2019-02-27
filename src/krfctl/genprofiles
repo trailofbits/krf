@@ -16,8 +16,11 @@ end.to_h
 PROFILES = Hash.new { |h, k| h[k] = [] }
 
 SYSCALLS.each do |call, spec|
+  # __NR_<name> constant always takes precedence, since
+  # we extract our lookup table from those constants in gentable.
+  sys_name = spec["nr"] || call
   spec["profiles"]&.each do |profile|
-    PROFILES[profile] << call
+    PROFILES[profile] << sys_name
   end
 end
 
