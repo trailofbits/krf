@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (execvp(argv[1], argv + 1) < 0) {
-    err(errno, "exec");
+    err(errno, "exec %s", argv[1]);
   }
 
   /* TODO(ww): Maybe disable the VDSO?
