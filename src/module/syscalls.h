@@ -27,7 +27,7 @@
 
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
 
-#define KRF_TARGETED() (current->personality == krf_personality)
+#define KRF_TARGETED() ((current->personality & krf_personality) != 0)
 
 /* A table of pointers to faulty syscalls.
  */
