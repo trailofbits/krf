@@ -8,7 +8,7 @@ require "open3"
 SYSCALL_H_CANDIDATES = %w[
   /usr/include/sys/syscall.h
   /usr/include/x86_64-linux-gnu/sys/syscall.h
-]
+].freeze
 
 SYSCALL_H = SYSCALL_H_CANDIDATES.find { |f| File.exist? f }
 
