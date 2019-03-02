@@ -1,0 +1,9 @@
+proto: mqd_t mqdes, const struct sigevent __user *u_notification
+parms: mqdes, u_notification
+errors:
+  - EBADF
+  - EBUSY
+  - EINVAL
+  - ENOMEM
+profiles:
+  - ipc

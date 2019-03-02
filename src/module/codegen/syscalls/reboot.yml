@@ -1,0 +1,8 @@
+proto: int magic1, int magic2, unsigned int cmd, void __user *arg
+parms: magic1, magic2, cmd, arg
+errors:
+  - EFAULT
+  - EINVAL
+  - EPERM
+profiles:
+  - sys

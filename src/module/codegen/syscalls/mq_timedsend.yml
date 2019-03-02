@@ -1,0 +1,11 @@
+proto: mqd_t mqdes, const char __user *u_msg_ptr, size_t msg_len, unsigned int msg_prio, const struct timespec __user *u_abs_timeout
+parms: mqdes, u_msg_ptr, msg_len, msg_prio, u_abs_timeout
+errors:
+  - EAGAIN
+  - EBADF
+  - EINTR
+  - EINVAL
+  - EMSGSIZE
+  - ETIMEDOUT
+profiles:
+  - ipc

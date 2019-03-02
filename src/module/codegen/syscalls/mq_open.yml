@@ -1,0 +1,14 @@
+proto: const char __user *u_name, int oflag, umode_t mode, struct mq_attr __user *u_attr
+parms: u_name, oflag, mode, u_attr
+errors:
+  - EACCES
+  - EEXIST
+  - EINVAL
+  - EMFILE
+  - ENAMETOOLONG
+  - ENFILE
+  - ENOENT
+  - ENOMEM
+  - ENOSPC
+profiles:
+  - ipc

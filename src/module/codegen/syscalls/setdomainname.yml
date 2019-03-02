@@ -1,0 +1,10 @@
+proto: char __user *name, int len
+parms: name, len
+errors:
+  - EFAULT
+  - EINVAL
+  - EPERM
+profiles:
+  - sys
+  # TODO(ww): Does it make sense to add this to the net profile?
+  # - net

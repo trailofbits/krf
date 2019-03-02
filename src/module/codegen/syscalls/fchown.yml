@@ -1,0 +1,10 @@
+proto: unsigned int fd, uid_t user, gid_t group
+parms: fd, user, group
+errors:
+  - EBADF
+  - EIO
+  - ENOENT
+  - EPERM
+  - EROFS
+profiles:
+  - fs

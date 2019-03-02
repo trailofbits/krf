@@ -1,0 +1,14 @@
+proto: const char __user *filename, uid_t user, gid_t group
+parms: filename, user, group
+errors:
+  - EACCES
+  - EFAULT
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EPERM
+  - EROFS
+profiles:
+  - fs

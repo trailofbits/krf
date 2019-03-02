@@ -1,0 +1,7 @@
+proto: pid_t tgid, pid_t pid, int sig
+parms: tgid, pid, sig
+errors:
+  - EINVAL
+  - EPERM
+  - ESRCH
+  - EAGAIN

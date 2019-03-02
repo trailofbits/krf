@@ -1,0 +1,7 @@
+proto: mqd_t mqdes, const struct mq_attr __user *u_mqstat, struct mq_attr __user *u_omqstat
+parms: mqdes, u_mqstat, u_omqstat
+errors:
+  - EBADF
+  - EINVAL
+profiles:
+  - ipc

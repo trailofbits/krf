@@ -1,0 +1,9 @@
+proto: pid_t pid, int sig
+parms: pid, sig
+errors:
+  - EINVAL
+  - EPERM
+  - ESRCH
+  - EAGAIN
+profiles:
+  - proc

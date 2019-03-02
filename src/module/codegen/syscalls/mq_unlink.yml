@@ -1,0 +1,8 @@
+proto: const char __user *u_name
+parms: u_name
+errors:
+  - EACCES
+  - ENAMETOOLONG
+  - ENOENT
+profiles:
+  - ipc
