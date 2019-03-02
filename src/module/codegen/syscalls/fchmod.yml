@@ -1,0 +1,9 @@
+proto: unsigned int fd, umode_t mode
+parms: fd, mode
+errors:
+  - EBADF
+  - EIO
+  - EPERM
+  - EROFS
+profiles:
+  - fs
