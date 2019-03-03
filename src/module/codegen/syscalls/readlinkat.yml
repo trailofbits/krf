@@ -1,0 +1,15 @@
+proto: int dfd, const char __user *path, char __user *buf, int bufsiz
+parms: dfd, path, buf, bufsiz
+errors:
+  - EACCES
+  - EFAULT
+  - EINVAL
+  - EIO
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EBADF
+profiles:
+  - fs
