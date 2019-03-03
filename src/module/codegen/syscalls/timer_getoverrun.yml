@@ -1,0 +1,6 @@
+proto: timer_t timer_id
+parms: timer_id
+errors:
+  - EINVAL
+profiles:
+  - time

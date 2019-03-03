@@ -1,0 +1,8 @@
+proto: int ufd, struct itimerspec __user *otmr
+parms: ufd, otmr
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

@@ -1,0 +1,16 @@
+proto: const char __user *filename, int mode
+parms: filename, mode
+errors:
+  - EACCES
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOTDIR
+  - EROFS
+  - EFAULT
+  - EINVAL
+  - EIO
+  - ENOMEM
+  - ETXTBSY
+profiles:
+  - fs

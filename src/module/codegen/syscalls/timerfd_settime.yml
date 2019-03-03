@@ -1,0 +1,8 @@
+proto: int ufd, int flags, const struct itimerspec __user *utmr, struct itimerspec __user *otmr
+parms: ufd, flags, utmr, otmr
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

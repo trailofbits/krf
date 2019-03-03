@@ -1,0 +1,12 @@
+proto: int clockid, int flags
+parms: clockid, flags
+errors:
+  - EINVAL
+  - EMFILE
+  - ENFILE
+  - ENODEV
+  - ENOMEM
+profiles:
+  # TODO(ww): Does fs make sense here? The timerfd API uses the process fd table.
+  # - fs
+  - time

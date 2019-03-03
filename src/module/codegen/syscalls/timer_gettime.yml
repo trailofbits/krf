@@ -1,0 +1,7 @@
+proto: timer_t timer_id, struct itimerspec __user *setting
+parms: timer_id, setting
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

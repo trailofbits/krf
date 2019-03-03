@@ -1,0 +1,11 @@
+proto: int dfd, const char __user *filename, struct stat __user *statbuf, int flag
+parms: dfd, filename, statbuf, flag
+errors:
+  - EBADF
+  - EFAULT
+  - ENOMEM
+  - EOVERFLOW
+  - EINVAL
+  - ENOTDIR
+profiles:
+  - fs

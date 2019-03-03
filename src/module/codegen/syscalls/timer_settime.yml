@@ -1,0 +1,7 @@
+proto: timer_t timer_id, int flags, const struct itimerspec __user *new_setting, struct itimerspec __user *old_setting
+parms: timer_id, flags, new_setting, old_setting
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

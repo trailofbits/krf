@@ -1,0 +1,8 @@
+proto: const clockid_t which_clock, struct sigevent __user *timer_event_spec, timer_t __user *created_timer_id
+parms: which_clock, timer_event_spec, created_timer_id
+errors:
+  - EAGAIN
+  - EINVAL
+  - ENOMEM
+profiles:
+  - time
