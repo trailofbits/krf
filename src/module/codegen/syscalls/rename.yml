@@ -1,0 +1,23 @@
+proto: const char __user *oldname, const char __user *newname
+parms: oldname, newname
+errors:
+  - EACCES
+  - EBUSY
+  - EDQUOT
+  - EFAULT
+  - EINVAL
+  - EISDIR
+  - ELOOP
+  - EMLINK
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOSPC
+  - ENOTDIR
+  - ENOTEMPTY
+  - EEXIST
+  - EPERM
+  - EROFS
+  - EXDEV
+profiles:
+  - fs

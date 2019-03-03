@@ -1,0 +1,24 @@
+proto: int olddfd, const char __user *oldname, int newdfd, const char __user *newname, unsigned int flags
+parms: olddfd, oldname, newdfd, newname, flags
+errors:
+  - EACCES
+  - EBUSY
+  - EDQUOT
+  - EFAULT
+  - EINVAL
+  - EISDIR
+  - ELOOP
+  - EMLINK
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOSPC
+  - ENOTDIR
+  - ENOTEMPTY
+  - EEXIST
+  - EPERM
+  - EROFS
+  - EXDEV
+  - EBADF
+profiles:
+  - fs
