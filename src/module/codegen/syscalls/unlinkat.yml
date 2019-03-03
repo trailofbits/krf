@@ -1,0 +1,19 @@
+proto: int dfd, const char __user *pathname, int flag
+parms: dfd, pathname, flag
+errors:
+  - EACCES
+  - EBUSY
+  - EFAULT
+  - EIO
+  - EISDIR
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOMEM
+  - ENOTDIR
+  - EPERM
+  - EROFS
+  - EBADF
+  - EINVAL
+profiles:
+  - fs
