@@ -4,6 +4,8 @@ PROVISION = <<~SCRIPT
   sudo apt update
   sudo apt upgrade -y
   sudo apt install -y libelf-dev build-essential ruby linux-headers-$(uname -r)
+  sudo apt autoremove apport apport-systems
+  echo "/tmp/core_%e.krf.%p" | sudo tee /proc/sys/kernel/core_pattern
 SCRIPT
 
 Vagrant.configure("2") do |config|
