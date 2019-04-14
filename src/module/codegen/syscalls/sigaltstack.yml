@@ -1,0 +1,9 @@
+proto: const stack_t __user *uss, stack_t __user *uoss
+parms: uss, uoss
+errors:
+  - EFAULT
+  - EINVAL
+  - ENOMEM
+  - EPERM
+profiles:
+  - proc

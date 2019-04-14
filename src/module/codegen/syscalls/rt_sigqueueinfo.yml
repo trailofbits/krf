@@ -1,0 +1,9 @@
+proto: pid_t pid, int sig, siginfo_t __user *uinfo
+parms: pid, sig, uinfo
+errors:
+  - EAGAIN
+  - EINVAL
+  - EPERM
+  - ESRCH
+profiles:
+  - proc

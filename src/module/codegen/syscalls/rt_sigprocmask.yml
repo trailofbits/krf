@@ -1,0 +1,7 @@
+proto: int how, sigset_t __user *nset, sigset_t __user *oset, size_t sigsetsize
+parms: how, nset, oset, sigsetsize
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - proc

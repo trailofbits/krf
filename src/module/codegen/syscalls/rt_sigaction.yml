@@ -1,0 +1,7 @@
+proto: int sig, const struct sigaction __user *act, struct sigaction __user *oact, size_t sigsetsize
+parms: sig, act, oact, sigsetsize
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - proc

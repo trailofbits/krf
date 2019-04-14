@@ -1,0 +1,8 @@
+proto: const sigset_t __user *uthese, siginfo_t __user *uinfo, const struct timespec __user *uts, size_t sigsetsize
+parms: uthese, uinfo, uts, sigsetsize
+errors:
+  - EAGAIN
+  - EINTR
+  - EINVAL
+profiles:
+  - proc

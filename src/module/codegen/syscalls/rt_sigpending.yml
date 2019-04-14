@@ -1,0 +1,6 @@
+proto: sigset_t __user *uset, size_t sigsetsize
+parms: uset, sigsetsize
+errors:
+  - EFAULT
+profiles:
+  - proc

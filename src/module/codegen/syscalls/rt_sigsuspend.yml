@@ -1,0 +1,7 @@
+proto: sigset_t __user *unewset, size_t sigsetsize
+parms: unewset, sigsetsize
+errors:
+  - EFAULT
+  - EINTR
+profiles:
+  - proc
