@@ -3,7 +3,7 @@
 int main(int argc, char const *argv[]) {
   unsigned int i;
   int fd;
-  char buf = 0xFF;
+  char buf = 0x41;
 
   fd = open("/dev/null", O_WRONLY);
 

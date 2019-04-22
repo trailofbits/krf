@@ -2,7 +2,6 @@
 
 int main(int argc, char const *argv[]) {
   unsigned int i;
-  int fd;
   const char *filename = "/tmp/krf_link1";
   const char *linkname = "/tmp/krf_link2";
 
