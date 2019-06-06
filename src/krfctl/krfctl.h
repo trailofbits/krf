@@ -12,7 +12,7 @@ typedef struct fault_profile_t {
    * structures, so just give ourselves enough room for
    * sensibly sized profiles.
    */
-  const char *syscalls[128];
+  const char *syscalls[256];
 } fault_profile_t;
 
 extern syscall_lookup_t syscall_lookup_table[];
