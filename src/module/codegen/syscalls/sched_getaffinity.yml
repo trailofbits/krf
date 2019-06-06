@@ -1,0 +1,10 @@
+proto: pid_t pid, unsigned int len, unsigned long __user *user_mask_ptr
+parms: pid, len, user_mask_ptr
+errors:
+  - EFAULT
+  - EINVAL
+  - ESRCH
+  - EPERM
+profiles:
+  - proc
+  - sched
