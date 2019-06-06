@@ -1,6 +1,8 @@
 KRF
 ===
 
+[![Build Status](https://travis-ci.com/trailofbits/krf.svg?branch=master)](https://travis-ci.com/trailofbits/krf)
+
 KRF is a **K**ernelspace **R**andomized **F**aulter for the Linux kernel.
 
 ## What?
