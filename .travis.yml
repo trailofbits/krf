@@ -4,7 +4,7 @@ compiler:
   - clang
   - gcc
 before_install:
-  - sudo apt-get install -y cppcheck clang-format
+  - sudo apt-get install -y cppcheck clang-format linux-headers-$(uname -r)
 script:
   - make fmt && git diff --exit-code
   - cppcheck --error-exitcode=1 src/
