@@ -1,0 +1,11 @@
+dist: xenial
+language: c
+compiler:
+  - clang
+  - gcc
+before_install:
+  - sudo apt-get install -y cppcheck clang-format
+script:
+  - make fmt && git diff --exit-code
+  - cppcheck --error-exitcode=1 src/
+  - make
