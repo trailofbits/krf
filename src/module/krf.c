@@ -359,8 +359,7 @@ static ssize_t log_faults_file_write(struct file *f, const char __user *ubuf, si
   return buflen;
 }
 
-static ssize_t pid_target_file_read(struct file *f, char __user *ubuf, size_t size,
-				  loff_t *off) {
+static ssize_t pid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 
@@ -384,7 +383,7 @@ static ssize_t pid_target_file_read(struct file *f, char __user *ubuf, size_t si
 }
 
 static ssize_t pid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-				     loff_t *off) {
+                                     loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 
@@ -412,8 +411,7 @@ static ssize_t pid_target_file_write(struct file *f, const char __user *ubuf, si
   return buflen;
 }
 
-static ssize_t uid_target_file_read(struct file *f, char __user *ubuf, size_t size,
-				  loff_t *off) {
+static ssize_t uid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 
@@ -437,7 +435,7 @@ static ssize_t uid_target_file_read(struct file *f, char __user *ubuf, size_t si
 }
 
 static ssize_t uid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-				     loff_t *off) {
+                                     loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 
@@ -464,8 +462,7 @@ static ssize_t uid_target_file_write(struct file *f, const char __user *ubuf, si
   return buflen;
 }
 
-static ssize_t gid_target_file_read(struct file *f, char __user *ubuf, size_t size,
-				  loff_t *off) {
+static ssize_t gid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 
@@ -489,7 +486,7 @@ static ssize_t gid_target_file_read(struct file *f, char __user *ubuf, size_t si
 }
 
 static ssize_t gid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-				     loff_t *off) {
+                                     loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
 

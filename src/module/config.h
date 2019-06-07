@@ -24,13 +24,12 @@ extern unsigned int krf_pid_target;
 extern unsigned int krf_uid_target;
 extern unsigned int krf_gid_target;
 
-
 // The targeting options are stored in this variable
 extern unsigned char krf_targeting_options;
 
-#define PID_MASK (1<<1)
-#define UID_MASK (1<<2)
-#define GID_MASK (1<<3)
+#define PID_MASK (1 << 1)
+#define UID_MASK (1 << 2)
+#define GID_MASK (1 << 3)
 
 #define KRF_PID_TARGETING() ((krf_targeting_options) & (PID_MASK))
 #define KRF_UID_TARGETING() ((krf_targeting_options) & (UID_MASK))
