@@ -5,23 +5,24 @@ MOD := krfx
 KRF_SYSCALL_SRCS_FAKE := $(notdir $(wildcard $M/syscalls/*.c))
 KRF_SYSCALL_OBJS_FAKE := $(KRF_SYSCALL_SRCS_FAKE:.c=.o)
 KRF_SYSCALL_OBJS = $(foreach obj,$(KRF_SYSCALL_OBJS_FAKE),syscalls/$(obj))
-
+KRF_SYSCALL_YMLS := $(wildcard codegen/syscalls/*.yml)
 ccflags-y := -DKRF_CODEGEN=1
 
 obj-m += $(MOD).o
 $(MOD)-objs := krf.o config.o syscalls.o $(KRF_SYSCALL_OBJS)
 
-all: codegen
-	make -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
+all: ruby_codegen
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 
-.PHONY: codegen
-codegen:
+# .PHONY: codegen # Cannot be phony because phony are always run
+ruby_codegen: $(KRF_SYSCALL_YMLS) codegen/codegen
 	ruby codegen/codegen
+	@touch ruby_codegen # Stops it from always being run
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean
 	rm -f *.ur-safe # some garbage not cleaned by the kernel's clean target
-	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c # codegen files
+	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c ruby_codegen # codegen files
 
 insmod: krfx.ko
 	sudo insmod $(MOD).ko

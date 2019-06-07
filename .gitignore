@@ -6,3 +6,5 @@
 *.gen.h
 *.gen.c
 *.cmd
+*~
+ruby_codegen
