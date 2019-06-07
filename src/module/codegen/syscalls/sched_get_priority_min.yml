@@ -1,0 +1,7 @@
+proto: int policy
+parms: policy
+errors:
+  - EINVAL
+profiles:
+  - proc
+  - sched

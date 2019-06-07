@@ -1,0 +1,11 @@
+proto: pid_t pid, struct sched_attr __user *attr, unsigned int flags
+parms: pid, attr, flags
+errors:
+  - EINVAL
+  - ESRCH
+  - E2BIG
+  - EBUSY
+  - EPERM
+profiles:
+  - proc
+  - sched

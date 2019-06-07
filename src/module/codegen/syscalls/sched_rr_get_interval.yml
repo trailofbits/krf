@@ -1,0 +1,10 @@
+proto: pid_t pid, struct timespec __user *interval
+parms: pid, interval
+errors:
+  - EFAULT
+  - EINVAL
+  - ENOSYS
+  - ESRCH
+profiles:
+  - proc
+  - sched

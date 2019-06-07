@@ -1,0 +1,9 @@
+proto: pid_t pid
+parms: pid
+errors:
+  - EINVAL
+  - EPERM
+  - ESRCH
+profiles:
+  - proc
+  - sched

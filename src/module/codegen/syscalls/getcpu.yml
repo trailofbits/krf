@@ -1,0 +1,6 @@
+proto: unsigned __user *cpu, unsigned __user *node, struct getcpu_cache __user *cache
+parms: cpu, node, cache
+errors:
+  - EFAULT
+profiles:
+  - proc
