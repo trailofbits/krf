@@ -29,7 +29,8 @@
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
 
 #define KRF_TARGETED() (((current->personality & krf_personality) != 0) && \
-			((KRF_PID_TARGETING()) ? (current->pid == krf_pid_target) : (1)) )
+			((KRF_PID_TARGETING()) ? (current->pid == krf_pid_target) : (1)) && \
+			((KRF_UID_TARGETING()) ? (current->cred->uid.val == krf_uid_target) : (1)) )
 
 /* A table of pointers to faulty syscalls.
  */
