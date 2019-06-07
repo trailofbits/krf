@@ -22,6 +22,7 @@ SYSCALLS.each do |call, spec|
   spec["profiles"]&.each do |profile|
     PROFILES[profile] << sys_name
   end
+  PROFILES["all"] << sys_name
 end
 
 OUTPUT_NAME = File.expand_path "profiles.gen.c", __dir__
