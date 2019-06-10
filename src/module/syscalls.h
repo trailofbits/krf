@@ -29,10 +29,44 @@
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
 
 #define KRF_TARGETED()                                                                             \
-  (((current->personality & krf_personality) != 0) &&                                              \
-   ((KRF_PID_TARGETING()) ? (current->pid == krf_pid_target) : (1)) &&                             \
-   ((KRF_UID_TARGETING()) ? (current->cred->uid.val == krf_uid_target) : (1)) &&                   \
-   ((KRF_GID_TARGETING()) ? (current->cred->gid.val == krf_gid_target) : (1)))
+  ({                                                                                               \
+    int targeted = 1;                                                                              \
+    size_t i = 0;                                                                                  \
+    for (; i < KRF_T_NUM_MODES; i++) {                                                             \
+      if (targeted == 0)                                                                           \
+        break;                                                                                     \
+                                                                                                   \
+      if (krf_target_options.mode_mask & (1 << i)) {                                               \
+        switch (i) {                                                                               \
+        case KRF_T_MODE_PERSONALITY:                                                               \
+          if ((current->personality & krf_target_options.target_data[i]) != 0)                     \
+            targeted++;                                                                            \
+          else                                                                                     \
+            targeted = 0;                                                                          \
+          break;                                                                                   \
+        case KRF_T_MODE_PID:                                                                       \
+          if (current->pid == krf_target_options.target_data[i])                                   \
+            targeted++;                                                                            \
+          else                                                                                     \
+            targeted = 0;                                                                          \
+          break;                                                                                   \
+        case KRF_T_MODE_UID:                                                                       \
+          if (current->cred->uid.val == krf_target_options.target_data[i])                         \
+            targeted++;                                                                            \
+          else                                                                                     \
+            targeted = 0;                                                                          \
+          break;                                                                                   \
+        case KRF_T_MODE_GID:                                                                       \
+          if (current->cred->gid.val == krf_target_options.target_data[i])                         \
+            targeted++;                                                                            \
+          else                                                                                     \
+            targeted = 0;                                                                          \
+          break;                                                                                   \
+        }                                                                                          \
+      }                                                                                            \
+    }                                                                                              \
+    (targeted & (~1));                                                                             \
+  })
 
 /* A table of pointers to faulty syscalls.
  */

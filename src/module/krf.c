@@ -26,12 +26,8 @@ static ssize_t probability_file_write(struct file *, const char __user *, size_t
 static ssize_t control_file_write(struct file *, const char __user *, size_t, loff_t *);
 static ssize_t log_faults_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t log_faults_file_write(struct file *, const char __user *, size_t, loff_t *);
-static ssize_t pid_target_file_read(struct file *, char __user *, size_t, loff_t *);
-static ssize_t pid_target_file_write(struct file *, const char __user *, size_t, loff_t *);
-static ssize_t uid_target_file_read(struct file *, char __user *, size_t, loff_t *);
-static ssize_t uid_target_file_write(struct file *, const char __user *, size_t, loff_t *);
-static ssize_t gid_target_file_read(struct file *, char __user *, size_t, loff_t *);
-static ssize_t gid_target_file_write(struct file *, const char __user *, size_t, loff_t *);
+static ssize_t targeting_file_read(struct file *, char __user *, size_t, loff_t *);
+static ssize_t targeting_file_write(struct file *, const char __user *, size_t, loff_t *);
 
 static struct proc_dir_entry *krf_dir;
 
@@ -64,22 +60,10 @@ static const struct file_operations log_faults_file_ops = {
     .write = log_faults_file_write,
 };
 
-static const struct file_operations pid_target_file_ops = {
+static const struct file_operations targeting_file_ops = {
     .owner = THIS_MODULE,
-    .read = pid_target_file_read,
-    .write = pid_target_file_write,
-};
-
-static const struct file_operations uid_target_file_ops = {
-    .owner = THIS_MODULE,
-    .read = uid_target_file_read,
-    .write = uid_target_file_write,
-};
-
-static const struct file_operations gid_target_file_ops = {
-    .owner = THIS_MODULE,
-    .read = gid_target_file_read,
-    .write = gid_target_file_write,
+    .read = targeting_file_read,
+    .write = targeting_file_write,
 };
 
 int init_module(void) {
@@ -127,9 +111,7 @@ static int krf_init(void) {
       proc_create(KRF_PROBABILITY_FILENAME, 644, krf_dir, &probability_file_ops) == NULL ||
       proc_create(KRF_CONTROL_FILENAME, 644, krf_dir, &control_file_ops) == NULL ||
       proc_create(KRF_LOG_FAULTS_FILENAME, 644, krf_dir, &log_faults_file_ops) == NULL ||
-      proc_create(KRF_PID_TARGET_FILENAME, 644, krf_dir, &pid_target_file_ops) == NULL ||
-      proc_create(KRF_UID_TARGET_FILENAME, 644, krf_dir, &uid_target_file_ops) == NULL ||
-      proc_create(KRF_GID_TARGET_FILENAME, 644, krf_dir, &gid_target_file_ops) == NULL) {
+      proc_create(KRF_TARGETING_FILENAME, 644, krf_dir, &targeting_file_ops) == NULL) {
     printk(KERN_ERR "krf couldn't create /proc entries\n");
     return -3;
   }
@@ -359,14 +341,16 @@ static ssize_t log_faults_file_write(struct file *f, const char __user *ubuf, si
   return buflen;
 }
 
-static ssize_t pid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
+static ssize_t targeting_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
-
-  if (KRF_PID_TARGETING()) {
-    sprintf(buf, "%u\n", krf_pid_target);
-  } else {
-    sprintf(buf, "PID targeting disabled\n");
+  size_t offset = 0;
+  size_t current_mode;
+  for (current_mode = 0; current_mode < KRF_T_NUM_MODES; current_mode++) {
+    if ((krf_target_options.mode_mask & (1 << current_mode)) && (offset < KRF_PROCFS_MAX_SIZE)) {
+      offset += sprintf(buf + offset, "%lu %u\n", current_mode,
+                        krf_target_options.target_data[current_mode]);
+    }
   }
   buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
 
@@ -382,10 +366,12 @@ static ssize_t pid_target_file_read(struct file *f, char __user *ubuf, size_t si
   return buflen;
 }
 
-static ssize_t pid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-                                     loff_t *off) {
+static ssize_t targeting_file_write(struct file *f, const char __user *ubuf, size_t size,
+                                    loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
+  krf_target_mode_t mode;
+  unsigned int data;
 
   if (size > KRF_PROCFS_MAX_SIZE) {
     size = KRF_PROCFS_MAX_SIZE;
@@ -395,116 +381,18 @@ static ssize_t pid_target_file_write(struct file *f, const char __user *ubuf, si
     return -EFAULT;
   }
 
-  if (kstrtouint(buf, 0, &krf_pid_target) < 0) {
+  if (sscanf(buf, "%u %u", &mode, &data) != 2) {
     return -EINVAL;
   }
 
-  if (krf_pid_target == 0) {
-    KRF_DISABLE_PID();
+  if ((mode == 0) && (data == 0)) { // If both arguments are zero, remove all targeting
+    krf_target_options.mode_mask = 0;
   } else {
-    KRF_ENABLE_PID();
-  }
-
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t uid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  if (KRF_UID_TARGETING()) {
-    sprintf(buf, "%u\n", krf_uid_target);
-  } else {
-    sprintf(buf, "UID targeting disabled\n");
-  }
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  if (*off > 0 || size < buflen) {
-    return 0;
-  }
-
-  if (copy_to_user(ubuf, buf, buflen)) {
-    return -EFAULT;
-  }
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t uid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-                                     loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  if (size > KRF_PROCFS_MAX_SIZE) {
-    size = KRF_PROCFS_MAX_SIZE;
-  }
-
-  if (copy_from_user(buf, ubuf, size)) {
-    return -EFAULT;
-  }
-
-  if (strncmp(buf, "none", 4) == 0) {
-    KRF_DISABLE_UID();
-  } else {
-    if (kstrtouint(buf, 0, &krf_uid_target) < 0) {
+    if (mode >= KRF_T_NUM_MODES) {
       return -EINVAL;
     }
-    KRF_ENABLE_UID();
-  }
-
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t gid_target_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  if (KRF_GID_TARGETING()) {
-    sprintf(buf, "%u\n", krf_gid_target);
-  } else {
-    sprintf(buf, "GID targeting disabled\n");
-  }
-  buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
-
-  if (*off > 0 || size < buflen) {
-    return 0;
-  }
-
-  if (copy_to_user(ubuf, buf, buflen)) {
-    return -EFAULT;
-  }
-
-  *off = buflen;
-  return buflen;
-}
-
-static ssize_t gid_target_file_write(struct file *f, const char __user *ubuf, size_t size,
-                                     loff_t *off) {
-  char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
-  size_t buflen = 0;
-
-  if (size > KRF_PROCFS_MAX_SIZE) {
-    size = KRF_PROCFS_MAX_SIZE;
-  }
-
-  if (copy_from_user(buf, ubuf, size)) {
-    return -EFAULT;
-  }
-
-  if (strncmp(buf, "none", 4) == 0) {
-    KRF_DISABLE_GID();
-  } else {
-    if (kstrtouint(buf, 0, &krf_gid_target) < 0) {
-      return -EINVAL;
-    }
-    KRF_ENABLE_GID();
+    krf_target_options.mode_mask |= (1 << mode);
+    krf_target_options.target_data[mode] = data;
   }
 
   buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
