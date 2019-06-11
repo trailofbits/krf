@@ -1,0 +1,20 @@
+
+# -*- mode: ruby; -*-
+
+# Force Virtualbox for those people who have installed vagrant-lxc (e.g.)
+#ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+Vagrant.configure("2") do |config|
+  config.vm.guest = :freebsd
+  config.vm.network "private_network", ip: "10.0.1.10"
+
+  # Use NFS as a shared folder
+#  config.vm.synced_folder ".", "/vagrant", type: "nfs", id: "vagrant-root"
+ config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true 
+  # Set to a shell that actually exists
+  config.ssh.shell = 'sh'
+
+  config.vm.box = "freebsd/FreeBSD-12.0-CURRENT"
+
+ 
+end
