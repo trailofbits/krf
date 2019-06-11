@@ -32,6 +32,8 @@ typedef enum {
   KRF_T_NUM_MODES
 } krf_target_mode_t;
 
+_Static_assert(((KRF_T_NUM_MODES) <= (KRF_T_MODE_MAX)), "Too many modes");
+
 typedef struct {
   unsigned int mode_mask;
   unsigned int target_data[KRF_T_MODE_MAX];

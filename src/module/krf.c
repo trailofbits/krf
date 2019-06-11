@@ -345,10 +345,10 @@ static ssize_t targeting_file_read(struct file *f, char __user *ubuf, size_t siz
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
   size_t offset = 0;
-  size_t current_mode;
+  unsigned int current_mode;
   for (current_mode = 0; current_mode < KRF_T_NUM_MODES; current_mode++) {
     if ((krf_target_options.mode_mask & (1 << current_mode)) && (offset < KRF_PROCFS_MAX_SIZE)) {
-      offset += sprintf(buf + offset, "%lu %u\n", current_mode,
+      offset += sprintf(buf + offset, "%u %u\n", current_mode,
                         krf_target_options.target_data[current_mode]);
     }
   }
@@ -387,6 +387,7 @@ static ssize_t targeting_file_write(struct file *f, const char __user *ubuf, siz
 
   if ((mode == 0) && (data == 0)) { // If both arguments are zero, remove all targeting
     krf_target_options.mode_mask = 0;
+    printk(KERN_INFO "krf: flushing all targeting options\n");
   } else {
     if (mode >= KRF_T_NUM_MODES) {
       return -EINVAL;
