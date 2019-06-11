@@ -12,7 +12,7 @@
  * so 32 bytes should be more than enough for their string reps
  * plus a trailing newline.
  */
-#define KRF_PROCFS_MAX_SIZE 32
+#define KRF_PROCFS_MAX_SIZE 255
 
 extern unsigned int krf_rng_state;
 extern unsigned int krf_personality;
