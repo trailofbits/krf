@@ -3,7 +3,6 @@
 #include <linux/syscalls.h>
 #include <linux/preempt.h>
 #include <asm/asm-offsets.h> /* for NR_syscalls */
-#include "../config.h"
 
 #if !defined(NR_syscalls) || NR_syscalls <= 0
 #error "undefined or bizarrely defined NR_syscalls"

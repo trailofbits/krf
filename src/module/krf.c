@@ -2,14 +2,16 @@
 #include "krf.h"
 #ifdef LINUX
 #include "linux/linux.h"
-#include "linux/syscalls.h"
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/kallsyms.h>
 #include <linux/unistd.h>
 #include <linux/proc_fs.h>
 #include <linux/string.h>
+#endif
 
+#ifdef FREEBSD
+#include "freebsd/freebsd.h"
 #endif
 
 void krf_flush_table(void) {

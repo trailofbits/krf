@@ -1,6 +1,8 @@
 #pragma once
 
+#ifdef LINUX
 #include <linux/syscalls.h>
+#endif
 
 #include "../../config.h"
 #include "../../targeting.h"

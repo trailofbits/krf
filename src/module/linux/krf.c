@@ -7,7 +7,6 @@
 
 #include "../config.h"
 #include "../krf.h"
-#include "linux.h"
 #include "syscalls.h"
 
 #define KRF_VERSION "0.0.1"

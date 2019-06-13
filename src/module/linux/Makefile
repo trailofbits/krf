@@ -16,11 +16,11 @@ all: codegen
 
 .PHONY: codegen
 codegen:
-	ruby codegen/codegen
+	ruby ../codegen/codegen linux
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean
-	rm -f *.ur-safe # some garbage not cleaned by the kernel's clean target
+	rm -f ../*.o *.ur-safe ../*.ur-safe # some garbage not cleaned by the kernel's clean target
 	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c # codegen files
 
 insmod: krfx.ko
