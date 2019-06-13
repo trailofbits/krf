@@ -3,6 +3,7 @@
 #include <linux/syscalls.h>
 #include <linux/preempt.h>
 #include <asm/asm-offsets.h> /* for NR_syscalls */
+#include "../config.h"
 
 #if !defined(NR_syscalls) || NR_syscalls <= 0
 #error "undefined or bizarrely defined NR_syscalls"
@@ -27,45 +28,6 @@
 #define KRF_DEFINE_PROTO(sys) asmlinkage typeof(sys_##sys) krf_sys_##sys
 
 #define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
-
-static __always_inline int krf_targeted(void) {
-  int targeted = 1;
-  size_t i = 0;
-  for (; i < KRF_T_NUM_MODES; i++) {
-    if (targeted == 0)
-      break;
-
-    if (krf_target_options.mode_mask & (1 << i)) {
-      switch (i) {
-      case KRF_T_MODE_PERSONALITY:
-        if ((current->personality & krf_target_options.target_data[i]) != 0)
-          targeted++;
-        else
-          targeted = 0;
-        break;
-      case KRF_T_MODE_PID:
-        if (current->pid == krf_target_options.target_data[i])
-          targeted++;
-        else
-          targeted = 0;
-        break;
-      case KRF_T_MODE_UID:
-        if (current->cred->uid.val == krf_target_options.target_data[i])
-          targeted++;
-        else
-          targeted = 0;
-        break;
-      case KRF_T_MODE_GID:
-        if (current->cred->gid.val == krf_target_options.target_data[i])
-          targeted++;
-        else
-          targeted = 0;
-        break;
-      }
-    }
-  }
-  return (targeted & (~1));
-}
 
 /* A table of pointers to faulty syscalls.
  */

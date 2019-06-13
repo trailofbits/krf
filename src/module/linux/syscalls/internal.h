@@ -2,7 +2,8 @@
 
 #include <linux/syscalls.h>
 
-#include "../config.h"
+#include "../../config.h"
+#include "../../targeting.h"
 
 #define KRF_RNG_NEXT() (krf_rng_state = krf_mulberry32())
 

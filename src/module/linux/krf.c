@@ -5,7 +5,9 @@
 #include <linux/proc_fs.h>
 #include <linux/string.h>
 
-#include "config.h"
+#include "../config.h"
+#include "../krf.h"
+#include "linux.h"
 #include "syscalls.h"
 
 #define KRF_VERSION "0.0.1"
@@ -15,7 +17,7 @@ MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
 MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
 static int krf_init(void);
-static void krf_flush_table(void);
+// static void krf_flush_table(void);
 static void krf_teardown(void);
 static ssize_t rng_state_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t rng_state_file_write(struct file *, const char __user *, size_t, loff_t *);
@@ -119,7 +121,7 @@ static int krf_init(void) {
   return 0;
 }
 
-static void krf_flush_table(void) {
+/*static void krf_flush_table(void) {
   int nr;
 
   for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
@@ -128,6 +130,7 @@ static void krf_flush_table(void) {
     }
   }
 }
+*/
 
 static void krf_teardown(void) {
   krf_flush_table();
@@ -278,16 +281,7 @@ static ssize_t control_file_write(struct file *f, const char __user *ubuf, size_
     return -EINVAL;
   }
 
-  if (sys_num >= KRF_NR_SYSCALLS) {
-    printk(KERN_INFO "krf: flushing all faulty syscalls\n");
-    krf_flush_table();
-  } else if (krf_faultable_table[sys_num] != NULL) {
-    KRF_CR0_WRITE_UNLOCK({ sys_call_table[sys_num] = krf_faultable_table[sys_num]; });
-  } else {
-    /* The user fed us a valid syscall number, but not one
-     * that we support faulting.
-     */
-    printk(KERN_INFO "krf: user requested faulting of unsupported slot %u\n", sys_num);
+  if (control_file_handler(sys_num) < 0) {
     return -EOPNOTSUPP;
   }
 
@@ -344,14 +338,9 @@ static ssize_t log_faults_file_write(struct file *f, const char __user *ubuf, si
 static ssize_t targeting_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
   char buf[KRF_PROCFS_MAX_SIZE + 1] = {0};
   size_t buflen = 0;
-  size_t offset = 0;
-  unsigned int current_mode;
-  for (current_mode = 0; current_mode < KRF_T_NUM_MODES; current_mode++) {
-    if ((krf_target_options.mode_mask & (1 << current_mode)) && (offset < KRF_PROCFS_MAX_SIZE)) {
-      offset += sprintf(buf + offset, "%u %u\n", current_mode,
-                        krf_target_options.target_data[current_mode]);
-    }
-  }
+
+  targeting_file_read_handler(buf);
+
   buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);
 
   if (*off > 0 || size < buflen) {
@@ -385,15 +374,8 @@ static ssize_t targeting_file_write(struct file *f, const char __user *ubuf, siz
     return -EINVAL;
   }
 
-  if ((mode == 0) && (data == 0)) { // If both arguments are zero, remove all targeting
-    krf_target_options.mode_mask = 0;
-    printk(KERN_INFO "krf: flushing all targeting options\n");
-  } else {
-    if (mode >= KRF_T_NUM_MODES) {
-      return -EINVAL;
-    }
-    krf_target_options.mode_mask |= (1 << mode);
-    krf_target_options.target_data[mode] = data;
+  if (targeting_file_write_handler(mode, data) < 0) {
+    return -EINVAL;
   }
 
   buflen = strnlen(buf, KRF_PROCFS_MAX_SIZE);

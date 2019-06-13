@@ -26,11 +26,11 @@ krfctl:
 
 .PHONY: insmod
 insmod:
-	$(MAKE) -C src/module insmod
+	$(MAKE) -C src/module/linux insmod
 
 .PHONY: rmmod
 rmmod:
-	$(MAKE) -C src/module rmmod
+	$(MAKE) -C src/module/linux rmmod
 
 .PHONY: example
 example:
@@ -38,7 +38,12 @@ example:
 
 .PHONY: clean
 clean:
-	$(MAKE) -C src/module clean
+ifeq ($(PLATFORM),Linux)
+	$(MAKE) -C src/module/linux clean
+endif
+ifeq ($(PLATFORM),FreeBSD)
+	$(MAKE) -C src/module/freebsd clean
+endif
 	$(MAKE) -C src/krfexec clean
 	$(MAKE) -C src/krfctl clean
 	$(MAKE) -C example clean
