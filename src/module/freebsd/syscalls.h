@@ -5,7 +5,7 @@
 #endif
 
 #define KRF_NR_SYSCALLS SYS_MAXSYSCALL
-#define KRF_MAX_SYSCALL    SYS_MAXSYSCALL
+#define KRF_MAX_SYSCALL SYS_MAXSYSCALL
 
 struct sysent;
 extern struct sysent sysent[];

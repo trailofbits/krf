@@ -12,7 +12,7 @@
 #include <sys/sysent.h>
 #include <sys/syscall.h>
 #include <sys/proc.h>
-#include <sys/systm.h>  /* uprintf */
+#include <sys/systm.h> /* uprintf */
 #endif
 
 #include "../../config.h"

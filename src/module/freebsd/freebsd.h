@@ -9,6 +9,7 @@
 #define TARGETING_PARMS td
 #define PERSONALITY() (td->td_proc->p_flag2)
 #define PID() (td->td_proc->p_pid)
-#define UID() (td->td_proc->p_ucred->cr_ruid) // Currently using real UID but could use effective UID (cr_uid)
+#define UID()                                                                                      \
+  (td->td_proc->p_ucred->cr_ruid) // Currently using real UID but could use effective UID (cr_uid)
 #define GID() (td->td_proc->p_ucred->cr_rgid)
 #define KRF_EXTRACT_SYSCALL(x) ((x).sy_call)

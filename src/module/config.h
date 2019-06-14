@@ -40,4 +40,3 @@ typedef struct {
 } krf_target_options_t;
 
 extern krf_target_options_t krf_target_options;
-

@@ -6,7 +6,7 @@
 #define LOG(...) printk(KERN_INFO __VA_ARGS__)
 #define SYSCALL_TABLE sys_call_table
 #define TARGETING_PROTO void
-#define TARGETING_PARMS 
+#define TARGETING_PARMS
 #define PERSONALITY() (current->personality)
 #define PID() (current->pid)
 #define UID() (current->cred->uid.val)

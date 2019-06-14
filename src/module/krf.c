@@ -22,7 +22,9 @@ void krf_flush_table(void) {
   int nr;
   for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
     if (KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr])) {
-      SAFE_WRITE({ KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[nr]) = KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr]); });
+      SAFE_WRITE({
+        KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[nr]) = KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr]);
+      });
     }
   }
 }
@@ -32,7 +34,10 @@ int control_file_handler(unsigned int sys_num) {
     LOG("krf: flushing all faulty syscalls \nn");
     krf_flush_table();
   } else if (KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]) != NULL) {
-    SAFE_WRITE({ KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[sys_num]) = KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]); });
+    SAFE_WRITE({
+      KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[sys_num]) =
+          KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]);
+    });
   } else {
     // Valid syscall, but not supported by KRF
     LOG("krf: user requested faulting of unsupported slot %u\n", sys_num);
