@@ -29,7 +29,7 @@ static int control_file_sysctl(SYSCTL_HANDLER_ARGS) {
   } else if (req->newptr) {
     err = control_file_handler(syscall);
     if (err < 0)
-      return err;
+      return -err;
   } else {
     // read request?
   }
@@ -43,13 +43,13 @@ static int targeting_file_sysctl(SYSCTL_HANDLER_ARGS) {
   
   err = sysctl_handle_string(oidp, &krf_targetings, 13, req);
   if (err) {
-    return err;
+    return -err;
   } else if (req->newptr) {
       if (sscanf(krf_targetings, "%u %u", &mode, &data) != 2) {
-	return -EINVAL;
+	return EINVAL;
       }
       if (targeting_file_write_handler(mode, data) < 0) {
-	return -EINVAL;
+	return EINVAL;
       }
   } else {
     // read request?

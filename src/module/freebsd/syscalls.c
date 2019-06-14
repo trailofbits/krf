@@ -10,6 +10,7 @@
 
 #include "syscalls.h"
 #include "syscalls/internal.h"
+#include "../targeting.h"
 #include "freebsd.h"
 
 struct sysent krf_faultable_table[KRF_MAX_SYSCALL] = {};
