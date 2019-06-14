@@ -8,6 +8,9 @@
 require "yaml"
 
 PLATFORM = ARGV.shift || 'linux'
+TYPEOF = (PLATFORM == "freebsd") ? "__typeof" : "typeof"
+SYSCALL_RET_TYPE = (PLATFORM == "freebsd") ? "int" : "long"
+PRINT = (PLATFORM == "freebsd") ? "uprintf" : "printk"
 
 HEADER = <<~HEADER
   /* WARNING!
@@ -47,20 +50,35 @@ SYSCALLS.each do |call, spec|
   # 3. syscalls.gen.x, to set up the initial wrapper
   # 4. syscalls/internal.gen.h, to prototype the internal wrapper
   # 5. syscalls/<syscall>.gen.c, to set up the actual faulty calls
-
+  
   nr = spec["nr"] || call
+  number = "__NR_#{nr}"
+  if PLATFORM == 'freebsd'
+    number = "SYS_#{nr}"
+  end
+  
+  hai "#{call} (nr: #{number})"
+  if PLATFORM == 'freebsd'
+    gen_files[:krf_x].puts <<~KRF_X
+      krf_faultable_table[#{number}].sy_call = (sy_call_t *)&krf_sys_#{call};
+    KRF_X
+  else       
+    gen_files[:krf_x].puts <<~KRF_X
+      krf_faultable_table[#{number}] = (void *)&krf_sys_#{call};
+    KRF_X
+  end
 
-  hai "#{call} (nr: __NR_#{nr})"
-
-  gen_files[:krf_x].puts <<~KRF_X
-    krf_faultable_table[__NR_#{nr}] = (void *)&krf_sys_#{call};
-  KRF_X
-
+  sYSCALL_INSERT = "(void *)krf_sys_call_table[#{number}]"
+  if PLATFORM == "freebsd"
+    #sYSCALL_INSERT = "(sy_call_t *)krf_sys_call_table[#{number}].sy_call"
+    sYSCALL_INSERT = "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call"
+  end
+  
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
-    long KRF_DEFINE(#{call})(#{spec["proto"]}) {
-      typeof(sys_#{call}) *real_#{call} = (void *)krf_sys_call_table[__NR_#{nr}];
+    #{SYSCALL_RET_TYPE} KRF_DEFINE(#{call})(#{spec["proto"]}) {
+      #{TYPEOF}(sys_#{call}) *real_#{call} = #{sYSCALL_INSERT};
 
-      if (krf_targeted() && (KRF_RNG_NEXT() % krf_probability) == 0) {
+      if (krf_targeted(TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
         return KRF_SYS_INTERNAL(#{call})(#{spec["parms"]});
       } else {
         return real_#{call}(#{spec["parms"]});
@@ -94,7 +112,7 @@ SYSCALLS.each do |call, spec|
       file.puts <<~FAULT
         DEFINE_FAULT(#{fault}) {
           if (krf_log_faults) {
-            printk("faulting #{call} with #{fault}\\n");
+            #{PRINT}("faulting #{call} with #{fault}\\n");
           }
 
           return -#{fault};
@@ -102,13 +120,14 @@ SYSCALLS.each do |call, spec|
       FAULT
     end
 
+    
     file.puts <<~TRAILER
-      static typeof(sys_#{call})(*fault_table[]) = {
+      static #{TYPEOF}(sys_#{call})(*fault_table[]) = {
         #{fault_table.join ", "}
       };
 
       // Fault entrypoint.
-      long KRF_DEFINE_INTERNAL(#{call})(KRF_SYS_PARMS) {
+      #{SYSCALL_RET_TYPE} KRF_DEFINE_INTERNAL(#{call})(KRF_SYS_PARMS) {
         return fault_table[KRF_RNG_NEXT() % NFAULTS](KRF_SYS_PARMSX);
       }
     TRAILER

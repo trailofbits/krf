@@ -17,6 +17,4 @@ extern struct sysent krf_sys_call_table[KRF_MAX_SYSCALL];
 #define KRF_DEFINE_PROTO(sys) __typeof(sys_##sys) krf_sys_##sys
 #define KRF_DEFINE(sys) krf_sys_##sys
 
-#ifdef KRF_CODEGEN
 #include "syscalls.gen.h"
-#endif

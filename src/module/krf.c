@@ -10,15 +10,19 @@
 #include <linux/string.h>
 #endif
 
-#ifdef FREEBSD
+#ifdef __FreeBSD__
+#include <sys/types.h>
+#include <sys/syscall.h>
+#include <sys/sysproto.h>
+#include <sys/sysent.h>
 #include "freebsd/freebsd.h"
 #endif
 
 void krf_flush_table(void) {
   int nr;
   for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
-    if (krf_sys_call_table[nr]) {
-      SAFE_WRITE({ SYSCALL_TABLE[nr] = krf_sys_call_table[nr]; });
+    if (KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr])) {
+      SAFE_WRITE({ KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[nr]) = KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr]); });
     }
   }
 }
@@ -27,8 +31,8 @@ int control_file_handler(unsigned int sys_num) {
   if (sys_num >= KRF_NR_SYSCALLS) {
     LOG("krf: flushing all faulty syscalls \nn");
     krf_flush_table();
-  } else if (krf_faultable_table[sys_num] != NULL) {
-    SAFE_WRITE({ SYSCALL_TABLE[sys_num] = krf_faultable_table[sys_num]; });
+  } else if (KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]) != NULL) {
+    SAFE_WRITE({ KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[sys_num]) = KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]); });
   } else {
     // Valid syscall, but not supported by KRF
     LOG("krf: user requested faulting of unsupported slot %u\n", sys_num);

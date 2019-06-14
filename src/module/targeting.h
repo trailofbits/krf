@@ -3,8 +3,11 @@
 #ifdef LINUX
 #include "linux/linux.h"
 #endif
+#ifdef __FreeBSD__
+#include "freebsd/freebsd.h"
+#endif
 
-static __always_inline int krf_targeted(void) {
+static __always_inline int krf_targeted(TARGETING_PROTO) {
   int targeted = 1;
   size_t i = 0;
   for (; i < KRF_T_NUM_MODES; i++) {
