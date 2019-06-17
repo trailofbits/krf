@@ -195,7 +195,7 @@ enum
  TARGET_NUM_MODES
 };
 
-const char *targeting_opts[] =
+char * const targeting_opts[] =
 {
  [TARGET_PERSONALITY] = "personality",
  [TARGET_PID] = "PID",
