@@ -24,7 +24,6 @@
     preempt_enable();                                                                              \
   } while (0)
 
-
 /* A table of pointers to faulty syscalls.
  */
 extern unsigned long *krf_faultable_table[KRF_NR_SYSCALLS];
