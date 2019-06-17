@@ -1,5 +1,8 @@
 PROG := krfctl
 
+# OS detection - manually can be controlled by `make PLATFORM=FreeBSD` or whatever
+PLATFORM := $(shell uname -s)
+
 all: gentable $(PROG)
 
 .PHONY: gentable

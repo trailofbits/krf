@@ -6,3 +6,8 @@
 *.gen.h
 *.gen.c
 *.cmd
+*~
+krfexec
+krfctl
+*.bak
+example/*

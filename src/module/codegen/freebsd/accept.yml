@@ -1,0 +1,16 @@
+proto: struct thread *td, struct accept_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINTR
+  - EMFILE
+  - ENFILE
+  - ENOTSOCK
+  - EINVAL
+  - EFAULT
+  - EWOULDBLOCK
+  - EAGAIN
+  - ECONNABORTED
+profiles:
+  - net
+  
