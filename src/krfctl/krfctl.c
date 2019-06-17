@@ -186,23 +186,13 @@ static void set_targeting(unsigned int mode, const char *data) {
   close(fd);
 }
 
-enum
-{
- TARGET_PERSONALITY = 0,
- TARGET_PID,
- TARGET_UID,
- TARGET_GID,
- TARGET_NUM_MODES
-};
+enum { TARGET_PERSONALITY = 0, TARGET_PID, TARGET_UID, TARGET_GID, TARGET_NUM_MODES };
 
-char * const targeting_opts[] =
-{
- [TARGET_PERSONALITY] = "personality",
- [TARGET_PID] = "PID",
- [TARGET_UID] = "UID",
- [TARGET_GID] = "GID",
- [TARGET_NUM_MODES] = NULL
-};
+char *const targeting_opts[] = {[TARGET_PERSONALITY] = "personality",
+                                [TARGET_PID] = "PID",
+                                [TARGET_UID] = "UID",
+                                [TARGET_GID] = "GID",
+                                [TARGET_NUM_MODES] = NULL};
 
 int main(int argc, char *argv[]) {
   char *subopts, *value;
@@ -237,21 +227,21 @@ int main(int argc, char *argv[]) {
       subopts = optarg;
       int ca;
       while (*subopts != '\0') {
-	ca = getsubopt(&subopts, targeting_opts, &value);
-	if (value == NULL) {
-	  printf("error: there must be a value input for the targeting option\n");
-	  return 2;
-	}
-	if (ca >= TARGET_NUM_MODES) {
-	  printf("error: unknown targeting option %s\n", value);
-	  return 3;
-	}
-	set_targeting(ca, value);
+        ca = getsubopt(&subopts, targeting_opts, &value);
+        if (value == NULL) {
+          printf("error: there must be a value input for the targeting option\n");
+          return 2;
+        }
+        if (ca >= TARGET_NUM_MODES) {
+          printf("error: unknown targeting option %s\n", value);
+          return 3;
+        }
+        set_targeting(ca, value);
       }
       break;
     }
     case 'C': {
-      set_targeting(0,"0");
+      set_targeting(0, "0");
       break;
     }
     default: {
@@ -264,11 +254,10 @@ int main(int argc, char *argv[]) {
              " -r <state>                  set the RNG state\n"
              " -p <prob>                   set the fault probability\n"
              " -L                          toggle faulty call logging\n"
-	     " -T <variable>=<value>       enable targeting option <variable> with value <value>\n"
-	     " -C                          clear the targeting options\n"
-	     "targeting options:\n"
-	     " personality, PID, UID, and GID\n"
-	     );
+             " -T <variable>=<value>       enable targeting option <variable> with value <value>\n"
+             " -C                          clear the targeting options\n"
+             "targeting options:\n"
+             " personality, PID, UID, and GID\n");
       return 1;
     }
     }
