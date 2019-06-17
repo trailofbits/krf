@@ -3,7 +3,9 @@ KRF
 
 [![Build Status](https://travis-ci.com/trailofbits/krf.svg?branch=master)](https://travis-ci.com/trailofbits/krf)
 
-KRF is a **K**ernelspace **R**andomized **F**aulter for the Linux and FreeBSD kernels.
+KRF is a **K**ernelspace **R**andomized **F**aulter.
+
+It currently supports the Linux and FreeBSD kernels.
 
 ## What?
 
@@ -49,8 +51,6 @@ a `read(2)` call might receive one of `EBADF`, `EINTR`, `EIO`, and so on.
 KRF should work on any recent-ish (4.15+) Linux kernel with `CONFIG_KALLSYMS=1`.
 
 This includes the default kernel on Ubuntu 18.04 and probably many other recent distros.
-
-It also works on FreeBSD.
 
 ### Dependencies
 
