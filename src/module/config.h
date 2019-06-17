@@ -2,7 +2,6 @@
 
 #define KRF_PROC_DIR "krf"
 #define KRF_RNG_STATE_FILENAME "rng_state"
-#define KRF_PERSONALITY_FILENAME "personality"
 #define KRF_PROBABILITY_FILENAME "probability"
 #define KRF_CONTROL_FILENAME "control"
 #define KRF_LOG_FAULTS_FILENAME "log_faults"
@@ -15,7 +14,6 @@
 #define KRF_PROCFS_MAX_SIZE 255
 
 extern unsigned int krf_rng_state;
-extern unsigned int krf_personality;
 extern unsigned int krf_probability;
 extern unsigned int krf_log_faults;
 extern unsigned int krf_targeting;
