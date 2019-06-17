@@ -52,10 +52,7 @@ SYSCALLS.each do |call, spec|
   # 5. syscalls/<syscall>.gen.c, to set up the actual faulty calls
   
   nr = spec["nr"] || call
-  number = "__NR_#{nr}"
-  if PLATFORM == 'freebsd'
-    number = "SYS_#{nr}"
-  end
+  number = (PLATFORM == "freebsd") ? "SYS_#{nr}" : "__NR_#{nr}"
   
   hai "#{call} (nr: #{number})"
   if PLATFORM == 'freebsd'
@@ -68,15 +65,11 @@ SYSCALLS.each do |call, spec|
     KRF_X
   end
 
-  sYSCALL_INSERT = "(void *)krf_sys_call_table[#{number}]"
-  if PLATFORM == "freebsd"
-    #sYSCALL_INSERT = "(sy_call_t *)krf_sys_call_table[#{number}].sy_call"
-    sYSCALL_INSERT = "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call"
-  end
+  syscall_insert = (PLATFORM == "freebsd") ? "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call" : "(void *)krf_sys_call_table[#{number}]"
   
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
     #{SYSCALL_RET_TYPE} KRF_DEFINE(#{call})(#{spec["proto"]}) {
-      #{TYPEOF}(sys_#{call}) *real_#{call} = #{sYSCALL_INSERT};
+      #{TYPEOF}(sys_#{call}) *real_#{call} = #{syscall_insert};
 
       if (krf_targeted(KRF_TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
         return KRF_SYS_INTERNAL(#{call})(#{spec["parms"]});
