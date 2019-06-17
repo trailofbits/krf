@@ -15,6 +15,7 @@
 #define RNG_STATE_FILE "/proc/krf/rng_state"
 #define PROBABILITY_FILE "/proc/krf/probability"
 #define LOG_FAULTS_FILE "/proc/krf/log_faults"
+#define TARGETING_FILE "/proc/krf/targeting"
 
 /* control will interpret any number larger than its syscall table
  * as a command to clear all current masks.
@@ -167,10 +168,36 @@ static void toggle_fault_logging(void) {
   close(fd);
 }
 
-int main(int argc, char *argv[]) {
+static void set_targeting(unsigned int mode, const char *data) {
+  int fd;
+  char buf[32] = {0};
+  if ((fd = open(TARGETING_FILE, O_WRONLY)) < 0) {
+    err(errno, "open " TARGETING_FILE);
+  }
 
+  if (snprintf(buf, sizeof(buf), "%u %s", mode, data) < 0) {
+    err(errno, "snprintf");
+  }
+
+  if (write(fd, buf, strlen(buf)) < 0) {
+    err(errno, "write " TARGETING_FILE);
+  }
+
+  close(fd);
+}
+
+enum { TARGET_PERSONALITY = 0, TARGET_PID, TARGET_UID, TARGET_GID, TARGET_NUM_MODES };
+
+char *const targeting_opts[] = {[TARGET_PERSONALITY] = "personality",
+                                [TARGET_PID] = "PID",
+                                [TARGET_UID] = "UID",
+                                [TARGET_GID] = "GID",
+                                [TARGET_NUM_MODES] = NULL};
+
+int main(int argc, char *argv[]) {
+  char *subopts, *value;
   int c;
-  while ((c = getopt(argc, argv, "F:P:cr:p:L")) != -1) {
+  while ((c = getopt(argc, argv, "F:P:cr:p:LT:C")) != -1) {
     switch (c) {
     case 'F': {
       fault_syscall_spec(optarg);
@@ -196,6 +223,27 @@ int main(int argc, char *argv[]) {
       toggle_fault_logging();
       break;
     }
+    case 'T': {
+      subopts = optarg;
+      int ca;
+      while (*subopts != '\0') {
+        ca = getsubopt(&subopts, targeting_opts, &value);
+        if (value == NULL) {
+          printf("error: there must be a value input for the targeting option\n");
+          return 2;
+        }
+        if (ca >= TARGET_NUM_MODES) {
+          printf("error: unknown targeting option %s\n", value);
+          return 3;
+        }
+        set_targeting(ca, value);
+      }
+      break;
+    }
+    case 'C': {
+      set_targeting(0, "0");
+      break;
+    }
     default: {
       printf("usage: krfctl <options>\n"
              "options:\n"
@@ -205,7 +253,11 @@ int main(int argc, char *argv[]) {
              " -c                          clear the syscall table of faulty calls\n"
              " -r <state>                  set the RNG state\n"
              " -p <prob>                   set the fault probability\n"
-             " -L                          toggle faulty call logging\n");
+             " -L                          toggle faulty call logging\n"
+             " -T <variable>=<value>       enable targeting option <variable> with value <value>\n"
+             " -C                          clear the targeting options\n"
+             "targeting options:\n"
+             " personality, PID, UID, and GID\n");
       return 1;
     }
     }
