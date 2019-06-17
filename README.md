@@ -3,7 +3,7 @@ KRF
 
 [![Build Status](https://travis-ci.com/trailofbits/krf.svg?branch=master)](https://travis-ci.com/trailofbits/krf)
 
-KRF is a **K**ernelspace **R**andomized **F**aulter for the Linux kernel.
+KRF is a **K**ernelspace **R**andomized **F**aulter for the Linux and FreeBSD kernels.
 
 ## What?
 
@@ -31,11 +31,10 @@ destabilize its host in weird and difficult to reproduce ways.
 
 ## How does it work?
 
-KRF rewrites the Linux system call table: when configured via `krfctl`, KRF replaces faultable
+KRF rewrites the Linux or FreeBSD system call table: when configured via `krfctl`, KRF replaces faultable
 syscalls with thin wrappers.
 
-Each wrapper then performs a check to see whether the call should be faulted (currently
-`personality(2)` + RNG). If the process **shouldn't** be faulted, the original syscall is
+Each wrapper then performs a check to see whether the call should be faulted using a configurable targeting system capable of targeting a specific `personality(2)`, PID, UID, and/or GID. If the process **shouldn't** be faulted, the original syscall is
 invoked.
 
 Finally, the targeted call is faulted via a random failure function. For example,
@@ -50,6 +49,8 @@ a `read(2)` call might receive one of `EBADF`, `EINTR`, `EIO`, and so on.
 KRF should work on any recent-ish (4.15+) Linux kernel with `CONFIG_KALLSYMS=1`.
 
 This includes the default kernel on Ubuntu 18.04 and probably many other recent distros.
+
+It also works on FreeBSD.
 
 ### Dependencies
 
@@ -81,6 +82,15 @@ cd /vagrant
 make -j$(nproc)
 ```
 
+or, if you're using FreeBSD:
+
+```bash
+git clone https://github.com/woodruffw/krf && cd krf
+cd src/module/freebsd
+ruby ../codegen/codegen freebsd
+make
+```
+
 ## Usage
 
 KRF has three components:
@@ -90,7 +100,7 @@ KRF has three components:
 * A control utility (`krfctl`)
 
 To load the kernel module, run `make insmod` (or run `insmod krfx.ko` directly). To unload
-it, run `make rmmod` (or `rmmod krfx` directly).
+it, run `make rmmod` (or `rmmod krfx` directly). In FreeBSD, use `kldload` and `kldunload`.
 
 KRF begins in a neutral state: no syscalls will be intercepted or faulted until the user
 specifies some behavior via `krfctl`:
@@ -101,7 +111,11 @@ ls
 
 # tell krf to fault read(2) and write(2) calls
 # note that krfctl requires root privileges
-sudo ./src/krfctl/krfctl 'read,write'
+sudo ./src/krfctl/krfctl -F 'read,write'
+
+# tell krf to fault any program with a
+# personality of 28 (the value set by krfexec)
+sudo ./src/krfctl/krfctl -T personality=28
 
 # may fault!
 ./src/krfexec/krfexec ls
@@ -112,6 +126,9 @@ sudo ./src/krfctl/krfctl 'read,write'
 # clear the fault specification
 sudo ./src/krfctl/krfctl -c
 
+# clear the targeting specification
+sudo ./src/krfctl/krfctl -C
+
 # no induced faults, since no syscalls are being faulted
 ./src/krfexec/krfexec firefox
 ```
@@ -119,6 +136,7 @@ sudo ./src/krfctl/krfctl -c
 ## Configuration
 
 **NOTE**: Most users should use `krfctl` instead of manipulating these files by hand.
+In FreeBSD, these same values are accessible through `sysctl krf.whatever` instead of procfs.
 
 ### `/proc/krf/rng_state`
 
@@ -134,20 +152,20 @@ echo "0xFF" | sudo tee /proc/krf/rng_state
 
 The state is a 32-bit unsigned integer; attempting to change it beyond that will fail.
 
-### `/proc/krf/personality`
+### `/proc/krf/targeting`
 
-This file allows a user to read and write the `personality(2)` value used by KRF for syscall
+This file allows a user set the values used by KRF for syscall
 targeting.
 
-**NOTE**: KRF uses a personality not currently used by the Linux kernel by default. If you change
+**NOTE**: KRF uses a default personality not currently used by the Linux kernel by default. If you change
 this, you should be careful to avoid making it something that Linux cares about. `man 2 personality`
 has the details.
 
 ```bash
-echo "28" | sudo tee /proc/krf/personality
+echo "0 28" | sudo tee /proc/krf/targeting
 ```
 
-This value gets read by `krfexec`.
+A personality of 28 is hardcoded into `krfexec`.
 
 ### `/proc/krf/probability`
 
