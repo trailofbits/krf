@@ -5,7 +5,7 @@
 
 require "yaml"
 
-SYSCALL_SPECS_DIR = File.expand_path "../module/linux/codegen/syscalls", __dir__
+SYSCALL_SPECS_DIR = File.expand_path "../module/codegen/linux", __dir__
 SYSCALL_SPECS = Dir[File.join(SYSCALL_SPECS_DIR, "*.yml")]
 
 SYSCALLS = SYSCALL_SPECS.map do |path|
