@@ -24,10 +24,6 @@
     preempt_enable();                                                                              \
   } while (0)
 
-#define KRF_DEFINE_PROTO(sys) asmlinkage typeof(sys_##sys) krf_sys_##sys
-
-#define KRF_DEFINE(sys) asmlinkage krf_sys_##sys
-
 /* A table of pointers to faulty syscalls.
  */
 extern unsigned long *krf_faultable_table[KRF_NR_SYSCALLS];
