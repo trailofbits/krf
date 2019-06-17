@@ -78,7 +78,7 @@ SYSCALLS.each do |call, spec|
     #{SYSCALL_RET_TYPE} KRF_DEFINE(#{call})(#{spec["proto"]}) {
       #{TYPEOF}(sys_#{call}) *real_#{call} = #{sYSCALL_INSERT};
 
-      if (krf_targeted(TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
+      if (krf_targeted(KRF_TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
         return KRF_SYS_INTERNAL(#{call})(#{spec["parms"]});
       } else {
         return real_#{call}(#{spec["parms"]});

@@ -22,8 +22,8 @@ void krf_flush_table(void) {
   int nr;
   for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
     if (KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr])) {
-      SAFE_WRITE({
-        KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[nr]) = KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr]);
+      KRF_SAFE_WRITE({
+        KRF_EXTRACT_SYSCALL(KRF_SYSCALL_TABLE[nr]) = KRF_EXTRACT_SYSCALL(krf_sys_call_table[nr]);
       });
     }
   }
@@ -31,16 +31,16 @@ void krf_flush_table(void) {
 
 int control_file_handler(unsigned int sys_num) {
   if (sys_num >= KRF_NR_SYSCALLS) {
-    LOG("krf: flushing all faulty syscalls \nn");
+    KRF_LOG("krf: flushing all faulty syscalls \nn");
     krf_flush_table();
   } else if (KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]) != NULL) {
-    SAFE_WRITE({
-      KRF_EXTRACT_SYSCALL(SYSCALL_TABLE[sys_num]) =
+    KRF_SAFE_WRITE({
+      KRF_EXTRACT_SYSCALL(KRF_SYSCALL_TABLE[sys_num]) =
           KRF_EXTRACT_SYSCALL(krf_faultable_table[sys_num]);
     });
   } else {
     // Valid syscall, but not supported by KRF
-    LOG("krf: user requested faulting of unsupported slot %u\n", sys_num);
+    KRF_LOG("krf: user requested faulting of unsupported slot %u\n", sys_num);
     return -EOPNOTSUPP;
   }
   return 0;
@@ -60,7 +60,7 @@ void targeting_file_read_handler(char *buf) {
 int targeting_file_write_handler(unsigned int mode, unsigned int data) {
   if ((mode == 0) && (data == 0)) { // If both arguments are zero, remove all targeting
     krf_target_options.mode_mask = 0;
-    LOG("krf: flushing all targeting options\n");
+    KRF_LOG("krf: flushing all targeting options\n");
   } else {
     if (mode >= KRF_T_NUM_MODES) {
       return -EINVAL;

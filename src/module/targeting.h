@@ -7,7 +7,7 @@
 #include "freebsd/freebsd.h"
 #endif
 
-static __always_inline int krf_targeted(TARGETING_PROTO) {
+static __always_inline int krf_targeted(KRF_TARGETING_PROTO) {
   int targeted = 1;
   size_t i = 0;
   for (; i < KRF_T_NUM_MODES; i++) {
@@ -17,25 +17,25 @@ static __always_inline int krf_targeted(TARGETING_PROTO) {
     if (krf_target_options.mode_mask & (1 << i)) {
       switch (i) {
       case KRF_T_MODE_PERSONALITY:
-        if ((PERSONALITY() & krf_target_options.target_data[i]) != 0)
+        if ((KRF_PERSONALITY() & krf_target_options.target_data[i]) != 0)
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_PID:
-        if (PID() == krf_target_options.target_data[i])
+        if (KRF_PID() == krf_target_options.target_data[i])
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_UID:
-        if (UID() == krf_target_options.target_data[i])
+        if (KRF_UID() == krf_target_options.target_data[i])
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_GID:
-        if (GID() == krf_target_options.target_data[i])
+        if (KRF_GID() == krf_target_options.target_data[i])
           targeted++;
         else
           targeted = 0;
