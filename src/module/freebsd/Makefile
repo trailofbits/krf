@@ -1,22 +1,23 @@
-SYSCALL_C_FILES=$(wildcard *.gen.c)
-SRCS=krf.c syscalls.c ../config.c ../krf.c $(SYSCALL_C_FILES)
-KMOD=krf
+.PHONY: all
+all: module
 
-.PHONY: insmod
-insmod:
-	$(MAKE) load
-
-.PHONY: rmmod
-rmmod:
-	$(MAKE) unload
-
-$(SYSCALL_C_FILES): codegen
+.PHONY: module
+module: codegen
+	$(MAKE) -f Makefile.module all
 
 .PHONY: codegen
 codegen:
 	ruby ../codegen/codegen freebsd
 
-.include <bsd.kmod.mk>
+.PHONY: insmod
+insmod:
+	sudo $(MAKE) -f Makefile.module load
 
-.PHONY: module
-module: codegen all
+.PHONY: rmmod
+rmmod:
+	sudo $(MAKE) -f Makefile.module unload
+
+.PHONY: clean
+clean:
+	$(MAKE) -f Makefile.module clean
+	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h
