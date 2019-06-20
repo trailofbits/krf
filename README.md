@@ -76,18 +76,19 @@ or, if you're using Vagrant:
 
 ```bash
 git clone https://github.com/woodruffw/krf && cd krf
-vagrant up && vagrant ssh
+vagrant up linux && vagrant ssh linux
 # inside the VM
 cd /vagrant
 make -j$(nproc)
 ```
 
-or, if you're using FreeBSD:
+or, for FreeBSD:
 
 ```bash
 git clone https://github.com/woodruffw/krf && cd krf
-cd src/module/freebsd
-ruby ../codegen/codegen freebsd
+cd vagrant up freebsd && vagrant ssh freebsd
+# inside the VM
+cd /vagrant
 make
 ```
 
@@ -99,8 +100,7 @@ KRF has three components:
 * An execution utility (`krfexec`)
 * A control utility (`krfctl`)
 
-To load the kernel module, run `make insmod` (or run `insmod krfx.ko` directly). To unload
-it, run `make rmmod` (or `rmmod krfx` directly). In FreeBSD, use `kldload` and `kldunload`.
+To load the kernel module, run `make insmod`. To unload it, run `make rmmod`.
 
 KRF begins in a neutral state: no syscalls will be intercepted or faulted until the user
 specifies some behavior via `krfctl`:
