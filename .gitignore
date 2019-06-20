@@ -1,6 +1,10 @@
 *.o
 *.ko
 *.o.ur-safe
+*.cache.mk
+Module.symvers
+*.mod.c
+modules.order
 .vagrant/
 *.gen.x
 *.gen.h
