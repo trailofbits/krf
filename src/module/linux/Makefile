@@ -11,6 +11,10 @@ ccflags-y := -DKRF_CODEGEN=1 -DLINUX
 obj-m += $(MOD).o
 $(MOD)-objs := krf.o syscalls.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
 
+.PHONY: module
+module: all
+
+.PHONY: all
 all: codegen
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 

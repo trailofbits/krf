@@ -7,12 +7,12 @@
 
 require "yaml"
 
-PLATFORM = ARGV.shift || 'linux'
-TYPEOF = (PLATFORM == "freebsd") ? "__typeof" : "typeof"
-SYSCALL_RET_TYPE = (PLATFORM == "freebsd") ? "int" : "long"
-PRINT = (PLATFORM == "freebsd") ? "uprintf" : "printk"
-FAULT_PREFIX = (PLATFORM == "freebsd") ? "" : "-"
-ASMLINKAGE = (PLATFORM == "freebsd") ? "" : "asmlinkage"
+PLATFORM = ARGV.shift || "linux"
+TYPEOF = PLATFORM == "freebsd" ? "__typeof" : "typeof"
+SYSCALL_RET_TYPE = PLATFORM == "freebsd" ? "int" : "long"
+PRINT = PLATFORM == "freebsd" ? "uprintf" : "printk"
+FAULT_PREFIX = PLATFORM == "freebsd" ? "" : "-"
+ASMLINKAGE = PLATFORM == "freebsd" ? "" : "asmlinkage"
 
 HEADER = <<~HEADER
   /* WARNING!
@@ -52,23 +52,23 @@ SYSCALLS.each do |call, spec|
   # 3. syscalls.gen.x, to set up the initial wrapper
   # 4. syscalls/internal.gen.h, to prototype the internal wrapper
   # 5. syscalls/<syscall>.gen.c, to set up the actual faulty calls
-  
+
   nr = spec["nr"] || call
-  number = (PLATFORM == "freebsd") ? "SYS_#{nr}" : "__NR_#{nr}"
-  
+  number = PLATFORM == "freebsd" ? "SYS_#{nr}" : "__NR_#{nr}"
+
   hai "#{call} (nr: #{number})"
-  if PLATFORM == 'freebsd'
+  if PLATFORM == "freebsd"
     gen_files[:krf_x].puts <<~KRF_X
       krf_faultable_table[#{number}].sy_call = (sy_call_t *)&krf_sys_#{call};
     KRF_X
-  else       
+  else
     gen_files[:krf_x].puts <<~KRF_X
       krf_faultable_table[#{number}] = (void *)&krf_sys_#{call};
     KRF_X
   end
 
-  syscall_insert = (PLATFORM == "freebsd") ? "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call" : "(void *)krf_sys_call_table[#{number}]"
-  
+  syscall_insert = PLATFORM == "freebsd" ? "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call" : "(void *)krf_sys_call_table[#{number}]"
+
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
     #{SYSCALL_RET_TYPE} #{ASMLINKAGE} krf_sys_#{call}(#{spec["proto"]}) {
       #{TYPEOF}(sys_#{call}) *real_#{call} = #{syscall_insert};
@@ -112,7 +112,6 @@ SYSCALLS.each do |call, spec|
       FAULT
     end
 
-    
     file.puts <<~TRAILER
       static #{TYPEOF}(sys_#{call})(*fault_table[]) = {
         #{fault_table.join ", "}

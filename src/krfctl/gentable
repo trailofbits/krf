@@ -20,7 +20,7 @@ end
 
 abort "Barf: no sys/syscall.h" unless SYSCALL_H
 
-processed, status = Open3.capture2("gcc -dD -E -", stdin_data: File.read(SYSCALL_H))
+processed, status = Open3.capture2("cc -dD -E -", stdin_data: File.read(SYSCALL_H))
 
 abort "Barf: Preprocess failed" unless status.success?
 
