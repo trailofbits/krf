@@ -5,6 +5,7 @@
 Module.symvers
 *.mod.c
 modules.order
+.tmp_versions
 .vagrant/
 *.gen.x
 *.gen.h
