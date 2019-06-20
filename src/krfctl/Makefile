@@ -1,4 +1,5 @@
 PROG := krfctl
+OBJS := $(PROG).o table.gen.o profiles.gen.o
 
 # OS detection - manually can be controlled by `make PLATFORM=FreeBSD` or whatever
 PLATFORM := $(shell uname -s)
@@ -16,7 +17,8 @@ genprofiles:
 table.gen.c: gentable
 profiles.gen.c: genprofiles
 
-$(PROG): $(PROG).o table.gen.o profiles.gen.o
+$(PROG): $(OBJS)
+	$(CC) $(OBJS) -o $@
 
 .PHONY: clean
 clean:
