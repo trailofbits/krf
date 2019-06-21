@@ -1,6 +1,6 @@
-CFLAGS := -std=gnu99 -Wall -Werror -pedantic
-ALL_SRCS := `find . -type f \( -name '*.c' -o -name '*.h' \)`
-PLATFORM := `uname -s | tr '[:upper:]' '[:lower:]'`
+export CFLAGS := -std=gnu99 -Wall -Werror -pedantic
+export PLATFORM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+ALL_SRCS := $(shell find . -type f \( -name '*.c' -o -name '*.h' \))
 
 all: module krfexec krfctl example
 
