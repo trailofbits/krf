@@ -5,7 +5,11 @@
 
 require "yaml"
 
-SYSCALL_SPECS_DIR = File.expand_path "../module/codegen/linux", __dir__
+PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+
+abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
+
+SYSCALL_SPECS_DIR = File.expand_path File.join("../module/codegen/", PLATFORM), __dir__
 SYSCALL_SPECS = Dir[File.join(SYSCALL_SPECS_DIR, "*.yml")]
 
 SYSCALLS = SYSCALL_SPECS.map do |path|

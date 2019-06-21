@@ -56,8 +56,10 @@ This includes the default kernel on Ubuntu 18.04 and probably many other recent 
 
 **NOTE**: Ignore this if you're using Vagrant.
 
-Apart from a C toolchain (GCC will probably work best), KRF's only dependencies should be
+Apart from a C toolchain (GCC is probably necessary for Linux), KRF's only dependencies should be
 `libelf`, the kernel headers, and Ruby (for code generation).
+
+GNU Make is required on all platforms; FreeBSD *additionally* requires BSD Make.
 
 For systems with `apt`:
 
@@ -76,19 +78,20 @@ or, if you're using Vagrant:
 
 ```bash
 git clone https://github.com/woodruffw/krf && cd krf
-vagrant up && vagrant ssh
+vagrant up linux && vagrant ssh linux
 # inside the VM
 cd /vagrant
 make -j$(nproc)
 ```
 
-or, if you're using FreeBSD:
+or, for FreeBSD:
 
 ```bash
 git clone https://github.com/woodruffw/krf && cd krf
-cd src/module/freebsd
-ruby ../codegen/codegen freebsd
-make
+cd vagrant up freebsd && vagrant ssh freebsd
+# inside the VM
+cd /vagrant
+gmake # NOT make!
 ```
 
 ## Usage
@@ -99,8 +102,7 @@ KRF has three components:
 * An execution utility (`krfexec`)
 * A control utility (`krfctl`)
 
-To load the kernel module, run `make insmod` (or run `insmod krfx.ko` directly). To unload
-it, run `make rmmod` (or `rmmod krfx` directly). In FreeBSD, use `kldload` and `kldunload`.
+To load the kernel module, run `make insmod`. To unload it, run `make rmmod`.
 
 KRF begins in a neutral state: no syscalls will be intercepted or faulted until the user
 specifies some behavior via `krfctl`:

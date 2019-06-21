@@ -5,6 +5,10 @@
 
 require "open3"
 
+PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+
+abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
+
 SYSCALL_H_CANDIDATES = %w[
   /usr/include/sys/syscall.h
   /usr/include/x86_64-linux-gnu/sys/syscall.h
@@ -20,17 +24,25 @@ end
 
 abort "Barf: no sys/syscall.h" unless SYSCALL_H
 
-processed, status = Open3.capture2("gcc -dD -E -", stdin_data: File.read(SYSCALL_H))
+processed, status = Open3.capture2("cc -dD -E -", stdin_data: File.read(SYSCALL_H))
 
 abort "Barf: Preprocess failed" unless status.success?
 
-lines = processed.lines.select { |l| l.match?(/^#define __NR_/) }.map(&:chomp)
+table = if PLATFORM == "linux"
+          lines = processed.lines.select { |l| l.match?(/^#define __NR_/) }.map(&:chomp)
+          lines.map do |line|
+            const, number = line.split[1..2]
 
-table = lines.map do |line|
-  const, number = line.split[1..2]
+            [const[5..-1], number]
+          end.to_h
+        elsif PLATFORM == "freebsd"
+          lines = processed.lines.select { |l| l.match?(/^#define SYS_/) }.map(&:chomp)
+          lines.map do |line|
+            const, number = line.split[1..2]
 
-  [const[5..-1], number]
-end.to_h
+            [const[4..-1], number]
+          end.to_h
+        end
 
 hai "building lookup table with #{table.size} entries"
 
@@ -49,6 +61,8 @@ File.open(OUTPUT_NAME, "w") do |file|
   file.puts "syscall_lookup_t syscall_lookup_table[] = {"
 
   table.each do |name, number|
+    next if PLATFORM == "freebsd" && name == "MAXSYSCALL"
+
     file.puts %({ "#{name}", "#{number}" },)
   end
 
