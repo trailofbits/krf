@@ -18,7 +18,6 @@ table.gen.c: gentable
 profiles.gen.c: genprofiles
 
 $(PROG): $(OBJS)
-	$(CC) $(OBJS) -o $@
 
 .PHONY: clean
 clean:
