@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     freebsd.vm.synced_folder ".", "/vagrant", type: :rsync
     freebsd.vm.box = "freebsd/FreeBSD-12.0-RELEASE"
     freebsd.vm.provision :shell, inline: <<~PROVISION
-      su -m root -c 'pkg install -y ruby'
+      su -m root -c 'pkg install -y gmake ruby'
       su -m root -c 'svnlite co svn://svn.freebsd.org/base/releng/12.0 /usr/src'
     PROVISION
 
