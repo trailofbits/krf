@@ -1,9 +1,13 @@
+# NOTE(ww): The targets in this file intentionally use `make`
+# instead of `$(MAKE)`, since we expect `$(MAKE)` to be GNU Make
+# and not the BSD `make` that the FreeBSD module build requires.
+
 .PHONY: all
 all: module
 
 .PHONY: module
 module: codegen
-	$(MAKE) -f Makefile.module all
+	make -f Makefile.module all
 
 .PHONY: codegen
 codegen:
@@ -11,13 +15,13 @@ codegen:
 
 .PHONY: insmod
 insmod:
-	sudo $(MAKE) -f Makefile.module load
+	sudo make -f Makefile.module load
 
 .PHONY: rmmod
 rmmod:
-	sudo $(MAKE) -f Makefile.module unload
+	sudo make -f Makefile.module unload
 
 .PHONY: clean
 clean:
-	$(MAKE) -f Makefile.module clean
+	make -f Makefile.module clean
 	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h
