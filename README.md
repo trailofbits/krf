@@ -70,14 +70,14 @@ sudo apt install libelf-dev ruby linux-headers-$(uname -r)
 ### Building
 
 ```bash
-git clone https://github.com/woodruffw/krf && cd krf
+git clone https://github.com/trailofbits/krf && cd krf
 make -j$(nproc)
 ```
 
 or, if you're using Vagrant:
 
 ```bash
-git clone https://github.com/woodruffw/krf && cd krf
+git clone https://github.com/trailofbits/krf && cd krf
 vagrant up linux && vagrant ssh linux
 # inside the VM
 cd /vagrant
@@ -87,7 +87,7 @@ make -j$(nproc)
 or, for FreeBSD:
 
 ```bash
-git clone https://github.com/woodruffw/krf && cd krf
+git clone https://github.com/trailofbits/krf && cd krf
 cd vagrant up freebsd && vagrant ssh freebsd
 # inside the VM
 cd /vagrant
