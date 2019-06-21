@@ -56,8 +56,10 @@ This includes the default kernel on Ubuntu 18.04 and probably many other recent 
 
 **NOTE**: Ignore this if you're using Vagrant.
 
-Apart from a C toolchain (GCC will probably work best), KRF's only dependencies should be
+Apart from a C toolchain (GCC is probably necessary for Linux), KRF's only dependencies should be
 `libelf`, the kernel headers, and Ruby (for code generation).
+
+GNU Make is required on all platforms; FreeBSD *additionally* requires BSD Make.
 
 For systems with `apt`:
 
@@ -89,7 +91,7 @@ git clone https://github.com/woodruffw/krf && cd krf
 cd vagrant up freebsd && vagrant ssh freebsd
 # inside the VM
 cd /vagrant
-make
+gmake # NOT make!
 ```
 
 ## Usage
