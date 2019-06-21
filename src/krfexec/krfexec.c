@@ -2,11 +2,9 @@
 #include <string.h>
 #include <sys/resource.h>
 #include <unistd.h>
-#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/fcntl.h>
-#include <err.h>
 
 #include "krfexec.h"
 
@@ -15,6 +13,8 @@ int main(int argc, char *argv[]) {
     printf("usage: krfexec <command or file> [args]\n");
     return 1;
   }
+
+  krfexec_prep();
 
   struct rlimit core_limit;
   core_limit.rlim_cur = core_limit.rlim_max = RLIM_INFINITY;
