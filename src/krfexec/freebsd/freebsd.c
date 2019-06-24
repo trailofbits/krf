@@ -21,4 +21,10 @@ void krfexec_prep(void) {
   if (sysctlbyname(KRF_TARGETING_NAME, NULL, NULL, &buf, strnlen(buf, 32)) < 0) {
     err(errno, "sysctl failed");
   }
+  
+  /* TODO(hw)
+   * This must be run as root to successfully do sysctl, so setting euid and egid
+   * back to the real uid and real gid will allow programs to be executed without
+   * potentially dangerous root privileges.
+   */
 }
