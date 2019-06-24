@@ -1,0 +1,9 @@
+proto: struct thread *td, struct wait4_args *uap
+parms: td, uap
+errors:
+  - ECHILD
+  - EFAULT
+  - EINTR
+  - EINVAL
+profiles:
+  - proc

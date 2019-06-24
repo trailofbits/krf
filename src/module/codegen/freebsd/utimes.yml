@@ -1,0 +1,15 @@
+proto: struct thread *td, struct utimes_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EFAULT
+  - EINVAL
+  - EIO
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOTDIR
+  - EPERM
+  - EROFS
+profiles:
+  - fs

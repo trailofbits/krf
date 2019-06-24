@@ -1,0 +1,8 @@
+proto: struct thread *td, struct fchdir_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - ENOTDIR
+  - EBADF
+profiles:
+  - fs

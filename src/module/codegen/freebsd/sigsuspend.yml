@@ -1,0 +1,4 @@
+proto: struct thread *td, struct sigsuspend_args *uap
+parms: td, uap
+errors:
+  - EINTR

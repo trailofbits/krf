@@ -1,0 +1,12 @@
+proto: struct thread *td, struct getpeername_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ECONNRESET
+  - EINVAL
+  - ENOTSOCK
+  - ENOTCONN
+  - ENOBUFS
+  - EFAULT
+profiles:
+  - net

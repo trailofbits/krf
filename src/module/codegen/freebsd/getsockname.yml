@@ -1,0 +1,11 @@
+proto: struct thread *td, struct getsockname_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ECONNRESET
+  - EINVAL
+  - ENOTSOCK
+  - ENOBUFS
+  - EFAULT
+profiles:
+  - net

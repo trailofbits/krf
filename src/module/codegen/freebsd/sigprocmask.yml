@@ -1,0 +1,4 @@
+proto: struct thread *td, struct sigprocmask_args *uap
+parms: td, uap
+errors:
+  - EINVAL

@@ -1,0 +1,8 @@
+proto: struct thread *td, struct shmctl_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EPERM
+  - EACCES
+profiles:
+  - ipc

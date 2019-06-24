@@ -1,0 +1,7 @@
+proto: struct thread *td, struct pdkill_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOTCAPABLE
+profiles:
+  - proc

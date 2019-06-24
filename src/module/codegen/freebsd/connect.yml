@@ -1,0 +1,28 @@
+proto: struct thread *td, struct connect_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+  - ENOTSOCK
+  - EADDRNOTAVAIL
+  - EAFNOSUPPORT
+  - EISCONN
+  - ETIMEDOUT
+  - ECONNREFUSED
+  - ECONNRESET
+  - ENETUNREACH
+  - EHOSTUNREACH
+  - EADDRINUSE
+  - EFAULT
+  - EINPROGRESS
+  - EINTR
+  - EALREADY
+  - EACCES
+  - EAGAIN
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - EPERM
+profiles:
+  - net

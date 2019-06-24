@@ -1,0 +1,8 @@
+proto: struct thread *td, struct jail_get_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - ENOENT
+  - EINVAL
+profiles:
+  - security

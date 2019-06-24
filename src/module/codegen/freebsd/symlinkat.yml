@@ -1,0 +1,20 @@
+proto: struct thread *td, struct symlinkat_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EEXIST
+  - EPERM
+  - EIO
+  - EROFS
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - EFAULT
+  - EBADF
+  - ENOTDIR
+profiles:
+  - fs

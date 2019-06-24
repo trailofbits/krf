@@ -1,0 +1,17 @@
+proto: struct thread *td, struct fcntl_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EBADF
+  - EDEADLK
+  - EINTR
+  - EINVAL
+  - EMFILE
+  - ENOTTY
+  - ENOLCK
+  - EOPNOTSUPP
+  - EOVERFLOW
+  - EPERM
+  - ESRCH
+profiles:
+  - fs

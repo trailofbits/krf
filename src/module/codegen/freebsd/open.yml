@@ -1,0 +1,31 @@
+proto: struct thread *td, struct open_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - EPERM
+  - ELOOP
+  - EISDIR
+  - EROFS
+  - EMFILE
+  - ENFILE
+  - EMLINK
+  - ENXIO
+  - EINTR
+  - EOPNOTSUPP
+  - EWOULDBLOCK
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - ETXTBSY
+  - EFAULT
+  - EEXIST
+  - EINVAL
+  - EBADF
+  - ENOTDIR
+  - ECAPMODE
+  - ENOTCAPABLE
+profiles:
+  - io

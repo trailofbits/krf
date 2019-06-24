@@ -1,0 +1,7 @@
+proto: struct thread *td, struct fork_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - ENOMEM
+profiles:
+  - proc

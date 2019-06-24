@@ -1,0 +1,5 @@
+proto: struct thread *td, struct getresgid_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - EFAULT

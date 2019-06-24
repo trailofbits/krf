@@ -1,0 +1,10 @@
+proto: struct thread *td, struct msync_args *uap
+parms: td, uap
+errors:
+  - EBUSY
+  - EINVAL
+  - ENOMEM
+  - EINVAL
+  - EIO
+profiles:
+  - mem

@@ -1,0 +1,15 @@
+proto: struct thread *td, struct chmod_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EROFS
+  - EFAULT
+  - EIO
+  - EFTYPE 
+profiles:
+  - fs

@@ -1,0 +1,7 @@
+proto: struct thread *td, struct getrandom_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EFAULT
+  - EINTR
+  - EINVAL

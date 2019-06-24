@@ -1,0 +1,8 @@
+proto: struct thread *td, struct aio_suspend_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - EINTR
+profiles:
+  - io

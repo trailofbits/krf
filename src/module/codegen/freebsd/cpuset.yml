@@ -1,0 +1,11 @@
+proto: struct thread *td, struct cpuset_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EDEADLK
+  - EFAULT
+  - ESRCH
+  - EPERM
+  - ENFILE
+profiles:
+  - proc

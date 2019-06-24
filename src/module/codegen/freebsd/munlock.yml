@@ -1,0 +1,8 @@
+proto: struct thread *td, struct munlock_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - EINVAL
+  - ENOMEM
+profiles:
+  - mem

@@ -1,0 +1,7 @@
+proto: struct thread *td, struct getgroups_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EFAULT
+profiles:
+  - user

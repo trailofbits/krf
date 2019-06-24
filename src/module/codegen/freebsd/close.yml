@@ -1,0 +1,11 @@
+proto: struct thread *td, struct close_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINTR
+  - ENOSPC
+  - ECONNRESET
+profiles:
+  - io
+  - net
+  - fs

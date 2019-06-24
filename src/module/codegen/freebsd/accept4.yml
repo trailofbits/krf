@@ -1,4 +1,4 @@
-proto: struct thread *td, struct accept_args *uap
+proto: struct thread *td, struct accept4_args *uap
 parms: td, uap
 errors:
   - EBADF
@@ -11,5 +11,6 @@ errors:
   - EWOULDBLOCK
   - EAGAIN
   - ECONNABORTED
+  - EINVAL
 profiles:
   - net

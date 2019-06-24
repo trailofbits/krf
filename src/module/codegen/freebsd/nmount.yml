@@ -1,0 +1,22 @@
+proto: struct thread *td, struct nmount_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - ENAMETOOLONG
+  - ELOOP
+  - ENOENT
+  - ENOTDIR
+  - EBUSY
+  - EFAULT
+  - ENODEV
+  - ENOTBLK
+  - ENXIO
+  - EBUSY
+  - EMFILE
+  - EINVAL
+  - ENOMEM
+  - EIO
+  - EFAULT
+  - ETIMEDOUT
+profiles:
+  - fs

@@ -1,0 +1,8 @@
+proto: struct thread *td, struct rfork_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - ENOMEM
+profiles:
+  - proc

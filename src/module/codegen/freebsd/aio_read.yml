@@ -1,0 +1,11 @@
+proto: struct thread *td, struct aio_read_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - EOPNOTSUPP
+  - EBADF
+  - EOVERFLOW
+  - ECANCELED
+profiles:
+  - io

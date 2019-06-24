@@ -1,0 +1,9 @@
+proto: struct thread *td, struct ioctl_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ENOTTY
+  - EINVAL
+  - EFAULT
+profiles:
+  - io

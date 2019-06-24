@@ -1,0 +1,12 @@
+proto: struct thread *td, struct lgetfh_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EFAULT
+  - EIO
+profiles:
+  - fs

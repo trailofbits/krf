@@ -1,0 +1,5 @@
+proto: struct thread *td, struct pdgetpid_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOTCAPABLE

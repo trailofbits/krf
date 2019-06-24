@@ -1,0 +1,7 @@
+proto: struct thread *td, struct sched_getscheduler_args *uap
+parms: td, uap
+errors:
+  - ENOSYS
+  - EPERM
+  - ESRCH
+  - EINVAL

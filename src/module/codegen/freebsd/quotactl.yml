@@ -1,0 +1,17 @@
+proto: struct thread *td, struct quotactl_args *uap
+parms: td, uap
+errors:
+  - EOPNOTSUPP
+  - EUSERS
+  - EINVAL
+  - EACCES
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - EROFS
+  - EIO
+  - EFAULT
+  - EPERM
+profiles:
+  - fs

@@ -1,0 +1,16 @@
+proto: struct thread *td, struct pread_args *uap
+parms: td, uap
+errors:
+  - ECONNRESET
+  - EFAULT
+  - EIO
+  - EBUSY
+  - EINTR
+  - EINVAL
+  - EAGAIN
+  - EISDIR
+  - EOPNOTSUPP
+  - EOVERFLOW
+  - ESPIPE
+profiles:
+  - io

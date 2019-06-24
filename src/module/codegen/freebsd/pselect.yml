@@ -1,0 +1,10 @@
+proto: struct thread *td, struct pselect_args *uap
+parms: td, uap
+errors:
+errors:
+  - EBADF
+  - EFAULT
+  - EINTR
+  - EINVAL
+profiles:
+  - io

@@ -1,0 +1,16 @@
+proto: struct thread *td, struct jail_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - EPERM
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EFAULT
+  - EIO
+  - EFAULT
+  - EINVAL
+  - EAGAIN
+profiles:
+  - security

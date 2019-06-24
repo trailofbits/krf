@@ -1,0 +1,10 @@
+proto: struct thread *td, struct fchown_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+  - EPERM
+  - EROFS
+  - EIO
+profiles:
+  - fs

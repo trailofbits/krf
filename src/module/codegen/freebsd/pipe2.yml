@@ -1,0 +1,10 @@
+proto: struct thread *td, struct pipe2_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EMFILE
+  - ENFILE
+  - ENOMEM
+  - EINVAL
+profiles:
+  - ipc

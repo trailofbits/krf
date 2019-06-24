@@ -1,0 +1,19 @@
+proto: struct thread *td, struct sendfile_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EBADF
+  - EBUSY
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EINVAL
+  - EIO
+  - ENOTCAPABLE
+  - ENOBUFS
+  - ENOTCONN
+  - ENOTSOCK
+  - EOPNOTSUPP
+  - EPIPE
+profiles:
+  - net

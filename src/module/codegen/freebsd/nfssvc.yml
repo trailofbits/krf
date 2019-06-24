@@ -1,0 +1,7 @@
+proto: struct thread *td, struct nfssvc_args *uap
+parms: td, uap
+errors:
+  - ENEEDAUTH
+  - EPERM
+profiles:
+  - fs

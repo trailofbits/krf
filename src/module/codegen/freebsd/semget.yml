@@ -1,0 +1,10 @@
+proto: struct thread *td, struct semget_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EEXIST
+  - EINVAL
+  - ENOSPC
+  - ENOENT
+profiles:
+  - ipc

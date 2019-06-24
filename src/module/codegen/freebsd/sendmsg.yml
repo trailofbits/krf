@@ -1,0 +1,19 @@
+proto: struct thread *td, struct sendmsg_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EACCES
+  - ENOTSOCK
+  - EFAULT
+  - EMSGSIZE
+  - EAGAIN
+  - ENOBUFS
+  - EHOSTUNREACH
+  - EISCONN
+  - ECONNREFUSED
+  - EHOSTDOWN
+  - ENETDOWN
+  - EADDRNOTAVAIL
+  - EPIPE
+profiles:
+  - net

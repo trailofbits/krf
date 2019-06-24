@@ -1,0 +1,6 @@
+proto: struct thread *td, struct munmap_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+profiles:
+  - mem

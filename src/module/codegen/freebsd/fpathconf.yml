@@ -1,0 +1,8 @@
+proto: struct thread *td, struct fpathconf_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EBADF
+  - EIO
+profiles:
+  - fs

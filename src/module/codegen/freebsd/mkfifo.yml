@@ -1,0 +1,16 @@
+proto: struct thread *td, struct mkfifo_args *uap
+parms: td, uap
+errors:
+  - ENOTSUP
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EROFS
+  - EEXIST
+  - EPERM
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - EFAULT

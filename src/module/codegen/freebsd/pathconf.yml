@@ -1,0 +1,12 @@
+proto: struct thread *td, struct pathconf_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EIO
+profiles:
+  - fs

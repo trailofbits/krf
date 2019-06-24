@@ -1,0 +1,16 @@
+proto: struct thread *td, struct undelete_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - EEXIST
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EINVAL
+  - EIO
+  - EROFS
+  - EFAULT
+profiles:
+  - fs

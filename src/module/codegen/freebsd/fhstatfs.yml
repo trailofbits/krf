@@ -1,0 +1,32 @@
+proto: struct thread *td, struct fhstatfs_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - EPERM
+  - ELOOP
+  - EISDIR
+  - EROFS
+  - ENFILE
+  - EMLINK
+  - ENXIO
+  - EINTR
+  - EOPNOTSUPP
+  - EWOULDBLOCK
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - ETXTBSY
+  - EFAULT
+  - EEXIST
+  - EBADF
+  - ENOTDIR
+  - ECAPMODE
+  - ENOTCAPABLE
+  - EINVAL
+  - ESTALE
+  - EOVERFLOW
+profiles:
+  - fs

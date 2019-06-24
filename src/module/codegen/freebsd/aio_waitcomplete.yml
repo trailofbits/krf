@@ -1,0 +1,10 @@
+proto: struct thread *td, struct aio_waitcomplete_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EAGAIN
+  - EINTR
+  - EWOULDBLOCK
+  - EINPROGRESS
+profiles:
+  - io

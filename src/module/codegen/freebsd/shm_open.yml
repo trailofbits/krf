@@ -1,0 +1,14 @@
+proto: struct thread *td, struct shm_open_args *uap
+parms: td, uap
+errors:
+  - EMFILE
+  - ENFILE
+  - EINVAL
+  - EFAULT
+  - ENAMETOOLONG
+  - EINVAL
+  - ENOENT
+  - EEXIST
+  - EACCES
+profiles:
+  - ipc

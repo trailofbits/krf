@@ -1,0 +1,6 @@
+proto: struct thread *td, struct aio_error_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+profiles:
+  - io

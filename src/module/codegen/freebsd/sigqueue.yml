@@ -1,0 +1,7 @@
+proto: struct thread *td, struct sigqueue_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - EPERM
+  - ESRCH

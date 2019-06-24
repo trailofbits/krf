@@ -1,0 +1,4 @@
+proto: struct thread *td, struct profil_args *uap
+parms: td, uap
+errors:
+  - EFAULT

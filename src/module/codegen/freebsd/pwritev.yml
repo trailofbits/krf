@@ -1,0 +1,19 @@
+proto: struct thread *td, struct pwritev_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EPIPE
+  - EFBIG
+  - EFAULT
+  - EINVAL
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - EINTR
+  - EAGAIN
+  - EROFS
+  - EDESTADDRREQ
+  - ENOBUFS
+  - ESPIPE
+profiles:
+  - io

@@ -1,0 +1,24 @@
+proto: struct thread *td, struct renameat_args *uap
+parms: td, uap
+errors:
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - EPERM
+  - ELOOP
+  - ENOTDIR
+  - EISDIR
+  - EXDEV
+  - ENOSPC
+  - EDQUOT
+  - EIO
+  - EFAULT
+  - EINVAL
+  - ENOTEMPTY
+  - ECAPMODE
+  - EBADF
+  - ENOTDIR
+  - ECAPMODE
+  - ENOTCAPABLE
+profiles:
+  - fs

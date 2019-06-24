@@ -1,0 +1,11 @@
+proto: struct thread *td, struct setsockopt_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ENOTSOCK
+  - ENOPROTOOPT
+  - EFAULT
+  - EINVAL
+  - ENOMEM
+profiles:
+  - net

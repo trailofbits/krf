@@ -1,0 +1,11 @@
+proto: struct thread *td, struct fchflags_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+  - EPERM
+  - EROFS
+  - EIO
+  - EOPNOTSUPP
+profiles:
+  - fs

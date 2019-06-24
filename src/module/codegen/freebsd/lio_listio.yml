@@ -1,0 +1,14 @@
+proto: struct thread *td, struct lio_listio_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - EINTR
+  - EIO
+  - EAGAIN
+  - EOPNOTSUPP
+  - EBADF
+  - EOVERFLOW
+  - ECANCELED
+profiles:
+  - io

@@ -1,0 +1,10 @@
+proto: struct thread *td, struct listen_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EDESTADDRREQ
+  - EINVAL
+  - ENOTSOCK
+  - EOPNOTSUPP
+profiles:
+  - net

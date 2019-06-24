@@ -1,0 +1,15 @@
+proto: struct thread *td, struct lchflags_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EROFS
+  - EFAULT
+  - EIO
+  - EOPNOTSUPP
+profiles:
+  - fs

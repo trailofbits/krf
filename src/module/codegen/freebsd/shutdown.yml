@@ -1,0 +1,7 @@
+proto: struct thread *td, struct shutdown_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+  - ENOTCONN
+  - ENOTSOCK

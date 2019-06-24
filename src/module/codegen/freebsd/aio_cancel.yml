@@ -1,0 +1,6 @@
+proto: struct thread *td, struct aio_cancel_args *uap
+parms: td, uap
+errors:
+  - EBADF
+profiles:
+  - io

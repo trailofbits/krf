@@ -1,0 +1,7 @@
+proto: struct thread *td, struct jail_remove_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - EINVAL
+profiles:
+  - security

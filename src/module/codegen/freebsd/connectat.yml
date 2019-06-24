@@ -1,0 +1,7 @@
+proto: struct thread *td, struct connectat_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ENOTDIR
+profiles:
+  - net

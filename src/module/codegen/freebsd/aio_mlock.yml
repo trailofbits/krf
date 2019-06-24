@@ -1,0 +1,7 @@
+proto: struct thread *td, struct aio_mlock_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+profiles:
+  - io
