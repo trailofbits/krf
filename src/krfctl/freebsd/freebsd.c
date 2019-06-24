@@ -28,7 +28,7 @@
 void fault_syscall(const char *sys_name) {
   const char *sys_num;
   unsigned int syscall;
-  
+
   if (!(sys_num = lookup_syscall_number(sys_name))) {
     errx(1, "couldn't find syscall %s", sys_name);
   }
@@ -55,7 +55,7 @@ void set_rng_state(const char *state) {
   if (sscanf(state, "%u", &rng_state) != 1) {
     err(1, "Weird rng_state");
   }
-  
+
   if (sysctlbyname(RNG_STATE_NAME, NULL, NULL, &rng_state, sizeof(rng_state)) < 0) {
     err(errno, "write " RNG_STATE_NAME);
   }
@@ -97,7 +97,3 @@ void set_targeting(unsigned int mode, const char *data) {
     errx(errno, "write " TARGETING_NAME " - %s", buf);
   }
 }
-							
-  
-  
-		    
