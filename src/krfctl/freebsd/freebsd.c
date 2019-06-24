@@ -15,7 +15,7 @@
 
 /* control will interpret any number larger than its syscall table
  * as a command to clear all current masks.
- * it's a good bet that linux will never have 65535 syscalls.
+ * it's a good bet that FreeBSD will never have 65535 syscalls.
  */
 #define CLEAR_MAGIC 65535
 
@@ -38,7 +38,11 @@ void fault_syscall(const char *sys_name) {
   }
 
   if (sysctlbyname(CONTROL_NAME, NULL, NULL, &syscall, sizeof(syscall)) < 0) {
-    errx(errno, "faulting for %s unimplemented", sys_name);
+    if (errno == EOPNOTSUPP) {
+      errx(errno, "faulting for %s unimplemented", sys_name);
+    } else {
+      err(errno, "sysctl " CONTROL_NAME);
+    }
   }
 }
 
