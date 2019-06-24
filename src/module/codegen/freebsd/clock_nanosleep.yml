@@ -1,0 +1,11 @@
+proto: struct thread *td, struct clock_nanosleep_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EINTR
+  - EINVAL
+  - EINVAL
+  - EINVAL
+  - ENOTSUP
+profiles:
+  - time

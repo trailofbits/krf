@@ -1,0 +1,18 @@
+proto: struct thread *td, struct fexecve_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOEXEC
+  - ENOENT
+  - ELOOP
+  - EACCES
+  - ENOEXEC
+  - ETXTBSY
+  - ENOMEM
+  - E2BIG
+  - EFAULT
+  - EIO
+  - EBADF
+profiles:
+  - proc

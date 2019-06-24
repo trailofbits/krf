@@ -1,0 +1,14 @@
+proto: struct thread *td, struct lchown_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EROFS
+  - EFAULT
+  - EIO
+profiles:
+  - fs

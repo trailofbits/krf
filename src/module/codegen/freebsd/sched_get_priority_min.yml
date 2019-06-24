@@ -1,0 +1,6 @@
+proto: struct thread *td, struct sched_get_priority_min_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOSYS
+  - ESRCH

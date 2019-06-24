@@ -1,0 +1,7 @@
+proto: struct thread *td, struct settimeofday_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EPERM
+profiles:
+  - time

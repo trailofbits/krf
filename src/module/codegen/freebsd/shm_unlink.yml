@@ -1,0 +1,9 @@
+proto: struct thread *td, struct shm_unlink_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+profiles:
+  - ipc

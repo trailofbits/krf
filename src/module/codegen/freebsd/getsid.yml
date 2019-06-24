@@ -1,0 +1,6 @@
+proto: struct thread *td, struct getsid_args *uap
+parms: td, uap
+errors:
+  - ESRCH
+profiles:
+  - proc

@@ -1,0 +1,11 @@
+proto: struct thread *td, struct ptrace_args *uap
+parms: td, uap
+errors:
+  - ESRCH
+  - EINVAL
+  - EBUSY
+  - EPERM
+  - ENOENT
+  - ENAMETOOLONG
+profiles:
+  - proc

@@ -1,0 +1,10 @@
+proto: struct thread *td, struct aio_fsync_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EINVAL
+  - EOPNOTSUPP
+  - EINVAL
+  - EBADF
+profiles:
+  - io

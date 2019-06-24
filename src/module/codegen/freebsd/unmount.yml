@@ -1,0 +1,12 @@
+proto: struct thread *td, struct unmount_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - ENAMETOOLONG
+  - EINVAL
+  - ENOENT
+  - EBUSY
+  - EIO
+  - EFAULT
+profiles:
+  - fs

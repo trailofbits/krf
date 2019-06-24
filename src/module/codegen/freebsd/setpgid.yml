@@ -1,0 +1,8 @@
+proto: struct thread *td, struct setpgid_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ESRCH
+  - ESRCH
+  - EACCES
+  - EPERM

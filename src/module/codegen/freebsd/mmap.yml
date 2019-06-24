@@ -1,0 +1,9 @@
+proto: struct thread *td, struct mmap_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EBADF
+  - EINVAL
+  - ENOMEM
+profiles:
+  - mem

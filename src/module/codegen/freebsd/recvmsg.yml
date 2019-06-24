@@ -1,0 +1,13 @@
+proto: struct thread *td, struct recvmsg_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ECONNRESET
+  - ENOTCONN
+  - ENOTSOCK
+  - EMSGSIZE
+  - EAGAIN
+  - EINTR
+  - EFAULT
+profiles:
+  - net

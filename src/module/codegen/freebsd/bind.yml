@@ -1,0 +1,21 @@
+proto: struct thread *td, struct bind_args *uap
+parms: td, uap
+errors:
+  - EAGAIN
+  - EBADF
+  - EINVAL
+  - ENOTSOCK
+  - EADDRNOTAVAIL
+  - EADDRINUSE
+  - EAFNOSUPPORT
+  - EACCES
+  - EFAULT
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - EIO
+  - EROFS
+  - EISDIR
+profiles:
+  - net

@@ -1,0 +1,9 @@
+proto: struct thread *td, struct msgrcv_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - E2BIG
+  - EACCES
+  - EFAULT
+  - EINTR
+  - ENOMSG

@@ -1,0 +1,7 @@
+proto: struct thread *td, struct ftruncate_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+profiles:
+  - fs

@@ -1,0 +1,18 @@
+proto: struct thread *td, struct fchmodat_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EINVAL
+  - ENOTDIR
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EROFS
+  - EFAULT
+  - EIO
+  - EFTYPE 
+profiles:
+  - fs

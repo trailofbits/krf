@@ -1,0 +1,6 @@
+proto: struct thread *td, struct kqueue_args *uap
+parms: td, uap
+errors:
+  - ENOMEM
+  - EMFILE
+  - ENFILE

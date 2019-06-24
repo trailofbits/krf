@@ -1,0 +1,6 @@
+proto: struct thread *td, struct posix_openpt_args *uap
+parms: td, uap
+errors:
+  - ENFILE
+  - EINVAL
+  - EAGAIN

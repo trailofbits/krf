@@ -1,0 +1,16 @@
+proto: struct thread *td, struct futimesat_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EFAULT
+  - EINVAL
+  - EIO
+  - ELOOP
+  - ENAMETOOLONG
+  - ENOENT
+  - ENOTDIR
+  - EPERM
+  - EPERM
+  - EROFS
+profiles:
+  - fs

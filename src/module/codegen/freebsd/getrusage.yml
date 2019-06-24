@@ -1,0 +1,5 @@
+proto: struct thread *td, struct getrusage_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EFAULT

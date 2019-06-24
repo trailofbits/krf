@@ -1,0 +1,5 @@
+proto: struct thread *td, struct __semctl_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EFAULT

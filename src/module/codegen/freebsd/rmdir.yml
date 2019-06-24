@@ -1,0 +1,18 @@
+proto: struct thread *td, struct rmdir_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - ENOTEMPTY
+  - EACCES
+  - EACCES
+  - EPERM
+  - EINVAL
+  - EBUSY
+  - EIO
+  - EROFS
+  - EFAULT
+profiles:
+  - fs

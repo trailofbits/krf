@@ -1,0 +1,11 @@
+proto: struct thread *td, struct procctl_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EINVAL
+  - EPERM
+  - ESRCH
+  - EINVAL
+  - EBUSY
+profiles:
+  - proc

@@ -1,0 +1,12 @@
+proto: struct thread *td, struct posix_fallocate_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EFBIG
+  - EINTR
+  - EINVAL
+  - EIO
+  - ENODEV
+  - ENOSPC
+  - ENOTCAPABLE
+  - ESPIPE

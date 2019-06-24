@@ -1,0 +1,6 @@
+proto: struct thread *td, struct sched_yield_args *uap
+parms: td, uap
+errors:
+  - ENOSYS
+profiles:
+  - proc

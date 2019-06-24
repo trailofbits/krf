@@ -1,0 +1,7 @@
+proto: struct thread *td, struct mprotect_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EACCES
+profiles:
+  - mem

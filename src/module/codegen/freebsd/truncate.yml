@@ -1,0 +1,18 @@
+proto: struct thread *td, struct truncate_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EISDIR
+  - EROFS
+  - ETXTBSY
+  - EFBIG
+  - EINVAL
+  - EIO
+  - EFAULT
+profiles:
+  - fs

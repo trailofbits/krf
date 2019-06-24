@@ -1,0 +1,8 @@
+proto: struct thread *td, struct ppoll_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EINTR
+  - EINVAL
+profiles:
+  - io

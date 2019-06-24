@@ -1,0 +1,10 @@
+proto: struct thread *td, struct flock_args *uap
+parms: td, uap
+errors:
+  - EWOULDBLOCK
+  - EBADF
+  - EINVAL
+  - EOPNOTSUPP
+  - ENOLCK
+profiles:
+  - fs

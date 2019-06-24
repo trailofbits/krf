@@ -1,0 +1,7 @@
+proto: struct thread *td, struct msgget_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EEXIST
+  - ENOSPC
+  - ENOENT

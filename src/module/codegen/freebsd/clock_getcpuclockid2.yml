@@ -1,0 +1,7 @@
+proto: struct thread *td, struct clock_getcpuclockid2_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - ESRCH
+profiles:
+  - time

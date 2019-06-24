@@ -1,0 +1,7 @@
+proto: struct thread *td, struct shmat_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EMFILE
+profiles:
+  - ipc

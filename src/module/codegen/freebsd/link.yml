@@ -1,0 +1,21 @@
+proto: struct thread *td, struct link_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EOPNOTSUPP
+  - EMLINK
+  - EACCES
+  - ENOENT
+  - EEXIST
+  - EPERM
+  - EXDEV
+  - ENOSPC
+  - EDQUOT
+  - ELOOP
+  - EIO
+  - EROFS
+  - EFAULT
+profiles:
+  - fs

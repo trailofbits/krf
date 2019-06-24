@@ -1,0 +1,8 @@
+proto: struct thread *td, struct madvise_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOMEM
+  - EPERM
+profiles:
+  - mem

@@ -1,0 +1,9 @@
+proto: struct thread *td, struct getdirentries_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EFAULT
+  - EINVAL
+  - EIO
+profiles:
+  - fs

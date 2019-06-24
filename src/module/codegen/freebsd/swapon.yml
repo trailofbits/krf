@@ -1,0 +1,16 @@
+proto: struct thread *td, struct swapon_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EFAULT
+  - ENOTBLK
+  - EBUSY
+  - ENXIO
+  - EIO
+profiles:
+  - mem

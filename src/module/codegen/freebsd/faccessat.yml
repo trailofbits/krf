@@ -1,0 +1,18 @@
+proto: struct thread *td, struct faccessat_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - EROFS
+  - ETXTBSY
+  - EACCES
+  - EFAULT
+  - EIO
+  - EBADF
+  - EINVAL
+  - ENOTDIR
+profiles:
+  - fs

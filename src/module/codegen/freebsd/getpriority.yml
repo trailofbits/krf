@@ -1,0 +1,7 @@
+proto: struct thread *td, struct getpriority_args *uap
+parms: td, uap
+errors:
+  - ESRCH
+  - EINVAL
+profiles:
+  - proc

@@ -1,0 +1,10 @@
+proto: struct thread *td, struct socketpair_args *uap
+parms: td, uap
+errors:
+  - EMFILE
+  - EAFNOSUPPORT
+  - EPROTONOSUPPORT
+  - EOPNOTSUPP
+  - EFAULT
+profiles:
+  - net

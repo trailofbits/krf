@@ -1,0 +1,4 @@
+proto: struct thread *td, struct setegid_args *uap
+parms: td, uap
+errors:
+  - EPERM

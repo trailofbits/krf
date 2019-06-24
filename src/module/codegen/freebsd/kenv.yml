@@ -1,0 +1,8 @@
+proto: struct thread *td, struct kenv_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - ENOENT
+  - EPERM
+  - EFAULT
+  - ENAMETOOLONG

@@ -1,0 +1,13 @@
+proto: struct thread *td, struct futimens_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EINVAL
+  - EIO
+  - EPERM
+  - EACCES
+  - EPERM
+  - EROFS
+  - EBADF
+profiles:
+  - time

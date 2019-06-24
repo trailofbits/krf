@@ -1,0 +1,17 @@
+proto: struct thread *td, struct mknodat_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EIO
+  - ENOSPC
+  - EDQUOT
+  - EROFS
+  - EEXIST
+  - EFAULT
+  - EINVAL
+  - EBADF

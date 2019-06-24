@@ -1,0 +1,14 @@
+proto: struct thread *td, struct semop_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EACCES
+  - EAGAIN
+  - E2BIG
+  - EFBIG
+  - EIDRM
+  - EINTR
+  - ENOSPC
+  - ERANGE
+profiles:
+  - ipc

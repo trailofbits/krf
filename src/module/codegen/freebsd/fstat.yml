@@ -1,0 +1,9 @@
+proto: struct thread *td, struct fstat_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EFAULT
+  - EIO
+  - EOVERFLOW
+profiles:
+  - fs

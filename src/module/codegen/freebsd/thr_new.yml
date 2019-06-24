@@ -1,0 +1,8 @@
+proto: struct thread *td, struct thr_new_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EPROCLIM
+  - EFAULT
+profiles:
+  - proc

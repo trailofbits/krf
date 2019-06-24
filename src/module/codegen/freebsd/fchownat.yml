@@ -1,0 +1,17 @@
+proto: struct thread *td, struct fchownat_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - EBADF
+  - ENOTDIR
+  - EINVAL
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EPERM
+  - EROFS
+  - EFAULT
+  - EIO
+profiles:
+  - fs

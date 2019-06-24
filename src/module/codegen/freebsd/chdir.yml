@@ -1,0 +1,12 @@
+proto: struct thread *td, struct chdir_args *uap
+parms: td, uap 
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - ELOOP
+  - EACCES
+  - EFAULT
+  - EIO
+profiles:
+  - fs

@@ -1,0 +1,11 @@
+proto: struct thread *td, struct rctl_get_rules_args *uap
+parms: td, uap
+errors:
+  - ENOSYS
+  - EINVAL
+  - EPERM
+  - E2BIG
+  - ESRCH
+  - ENAMETOOLONG
+  - ERANGE
+  - EOPNOTSUPP

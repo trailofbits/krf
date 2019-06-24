@@ -1,0 +1,7 @@
+proto: struct thread *td, struct setitimer_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EINVAL
+profiles:
+  - time

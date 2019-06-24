@@ -1,0 +1,12 @@
+proto: struct thread *td, struct cpuset_getdomain_args *uap
+parms: td, uap
+errors:
+  - EINVAL
+  - EDEADLK
+  - EFAULT
+  - ESRCH
+  - ERANGE
+  - EPERM
+  - ECAPMODE
+profiles:
+  - proc

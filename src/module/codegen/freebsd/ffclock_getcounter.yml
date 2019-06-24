@@ -1,0 +1,7 @@
+proto: struct thread *td, struct ffclock_getcounter_args *uap
+parms: td, uap
+errors:
+  - EFAULT
+  - EPERM
+profiles:
+  - time

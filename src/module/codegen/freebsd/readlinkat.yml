@@ -1,0 +1,14 @@
+proto: struct thread *td, struct readlinkat_args *uap
+parms: td, uap
+errors:
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EINVAL
+  - EIO
+  - EFAULT
+  - EBADF
+profiles:
+  - fs

@@ -1,0 +1,9 @@
+proto: struct thread *td, struct fchmod_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EINVAL
+  - EROFS
+  - EIO
+profiles:
+  - fs

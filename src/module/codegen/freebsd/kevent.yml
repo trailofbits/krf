@@ -1,0 +1,12 @@
+proto: struct thread *td, struct kevent_args *uap
+parms: td, uap
+errors:
+  - EACCES
+  - EFAULT
+  - EBADF
+  - EINTR
+  - EINTR
+  - EINVAL
+  - ENOENT
+  - ENOMEM
+  - ESRCH

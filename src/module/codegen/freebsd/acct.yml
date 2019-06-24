@@ -1,0 +1,14 @@
+proto: struct thread *td, struct acct_args *uap
+parms: td, uap
+errors:
+  - EPERM
+  - ENOTDIR
+  - ENAMETOOLONG
+  - ENOENT
+  - EACCES
+  - ELOOP
+  - EROFS
+  - EFAULT
+  - EIO
+profiles:
+  - proc

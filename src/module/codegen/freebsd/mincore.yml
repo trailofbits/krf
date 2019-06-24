@@ -1,0 +1,5 @@
+proto: struct thread *td, struct mincore_args *uap
+parms: td, uap
+errors:
+  - ENOMEM
+  - EFAULT

@@ -1,0 +1,5 @@
+proto: struct thread *td, struct dup_args *uap
+parms: td, uap
+errors:
+  - EBADF
+  - EMFILE
