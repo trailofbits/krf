@@ -17,3 +17,11 @@ typedef struct fault_profile_t {
 
 extern syscall_lookup_t syscall_lookup_table[];
 extern fault_profile_t fault_profile_table[];
+
+const char *lookup_syscall_number(const char *sys_name);
+void fault_syscall(const char *sys_name);
+void clear_faulty_calls(void);
+void set_rng_state(const char *state);
+void set_prob_state(const char *state);
+void toggle_fault_logging(void);
+void set_targeting(unsigned int mode, const char *data);

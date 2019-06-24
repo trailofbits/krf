@@ -1,5 +1,6 @@
 PROG := krfctl
-OBJS := $(PROG).o table.gen.o profiles.gen.o
+SRCS := $(PROG).c table.gen.c profiles.gen.c $(wildcard ./$(PLATFORM)/*.c)
+OBJS := $(SRCS:.c=.o)
 
 all: gentable $(PROG)
 
@@ -13,6 +14,8 @@ genprofiles:
 
 table.gen.c: gentable
 profiles.gen.c: genprofiles
+
+$(OBJS): $(SRCS)
 
 $(PROG): $(OBJS)
 
