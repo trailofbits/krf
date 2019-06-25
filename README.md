@@ -135,6 +135,14 @@ sudo ./src/krfctl/krfctl -C
 ./src/krfexec/krfexec firefox
 ```
 
+On FreeBSD, `krfexec` requires root privileges. By default, it will attempt to use `SUDO_UID`
+and the username returned by `getlogin_r` to return to a non-root user before executing the target.
+To force a particular UID, export `REAL_UID`, e.g.:
+
+```bash
+REAL_UID=1000 sudo ./src/krfexec/krfexec ls
+```
+
 ## Configuration
 
 **NOTE**: Most users should use `krfctl` instead of manipulating these files by hand.
