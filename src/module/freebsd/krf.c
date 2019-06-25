@@ -70,18 +70,20 @@ static int krf_init() {
   memcpy(krf_sys_call_table, sysent, KRF_NR_SYSCALLS * sizeof(struct sysent));
 
   SYSCTL_ADD_UINT(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_PROBABILITY_FILENAME,
-                  CTLFLAG_RW, &krf_probability, krf_probability,
+                  CTLFLAG_ANYBODY | CTLFLAG_RW, &krf_probability, krf_probability,
                   "Reciprocal of the probability of a fault");
   SYSCTL_ADD_UINT(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_RNG_STATE_FILENAME,
-                  CTLFLAG_RW, &krf_rng_state, krf_rng_state, "Sets the current RNG state");
+                  CTLFLAG_ANYBODY | CTLFLAG_RW, &krf_rng_state, krf_rng_state,
+                  "Sets the current RNG state");
   SYSCTL_ADD_UINT(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_LOG_FAULTS_FILENAME,
-                  CTLFLAG_RW, &krf_log_faults, krf_log_faults, "Toggle logging faults to syslog");
+                  CTLFLAG_ANYBODY | CTLFLAG_RW, &krf_log_faults, krf_log_faults,
+                  "Toggle logging faults to syslog");
   SYSCTL_ADD_PROC(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_CONTROL_FILENAME,
-                  CTLTYPE_UINT | CTLFLAG_WR, &krf_control, krf_control, control_file_sysctl, "IU",
-                  "Enables specific syscall faults");
+                  CTLFLAG_ANYBODY | CTLTYPE_UINT | CTLFLAG_WR, &krf_control, krf_control,
+                  control_file_sysctl, "IU", "Enables specific syscall faults");
   SYSCTL_ADD_PROC(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_TARGETING_FILENAME,
-                  CTLTYPE_STRING | CTLFLAG_WR, &krf_targetings, 13, targeting_file_sysctl, "A",
-                  "Enables specific targeting options");
+                  CTLFLAG_ANYBODY | CTLTYPE_STRING | CTLFLAG_WR, &krf_targetings, 13,
+                  targeting_file_sysctl, "A", "Enables specific targeting options");
   return err;
 }
 
