@@ -13,25 +13,25 @@
 /* This employs a collection of hacks to attempt to drop down
  * to the "originating" user, including:
  *
- * 1. Checking for SUDO_UID, and using its value
- * 2. Checking for REAL_UID, which we document
+ * 1. Checking for REAL_UID, which we document
+ * 2. Checking for SUDO_UID, and using its value
  * 3. Checking getlogin_r, which returns the username for the controlling terminal
  */
 static uid_t guess_original_uid(void) {
   uid_t uid;
 
-  const char *uid_s = getenv("SUDO_UID");
-  if (uid_s != NULL) {
-    if (sscanf(uid_s, "%u", &uid) != 1) {
-      errx(1, "weird SUDO_UID value: %s", uid_s);
-    }
-    return uid;
-  }
-
   uid_s = getenv("REAL_UID");
   if (uid_s != NULL) {
     if (sscanf(uid_s, "%u", &uid) != 1) {
       errx(1, "weird REAL_UID value: %s", uid_s);
+    }
+    return uid;
+  }
+
+  const char *uid_s = getenv("SUDO_UID");
+  if (uid_s != NULL) {
+    if (sscanf(uid_s, "%u", &uid) != 1) {
+      errx(1, "weird SUDO_UID value: %s", uid_s);
     }
     return uid;
   }
