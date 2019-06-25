@@ -8,4 +8,4 @@ $(PROG): $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(PROG) $(PROG).o
+	rm -f $(PROG) $(OBJS)

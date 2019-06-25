@@ -21,5 +21,5 @@ $(PROG): $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(PROG) *.o
+	rm -f $(PROG) $(OBJS)
 	rm -f *.gen.c # gentable/genprofiles files
