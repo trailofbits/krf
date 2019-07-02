@@ -62,7 +62,7 @@ SYSCALLS.each do |call, spec|
   hai "#{call} (nr: #{number})"
   if PLATFORM == "freebsd"
     gen_files[:krf_x].puts <<~KRF_X
-      krf_faultable_table[#{number}].sy_call = (sy_call_t *)&krf_sys_#{call};
+      krf_faultable_table[#{number}] = (sy_call_t *)&krf_sys_#{call};
     KRF_X
   else
     gen_files[:krf_x].puts <<~KRF_X
@@ -71,7 +71,7 @@ SYSCALLS.each do |call, spec|
   end
 
   syscall_insert = if PLATFORM == "freebsd"
-                     "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}].sy_call"
+                     "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}]"
                    else
                      "(void *)krf_sys_call_table[#{number}]"
                    end
