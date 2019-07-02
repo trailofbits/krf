@@ -66,8 +66,10 @@ static int krf_init() {
     return -1;
   }
 
-  memset(krf_faultable_table, 0, KRF_NR_SYSCALLS * sizeof(struct sysent));
-  memcpy(krf_sys_call_table, sysent, KRF_NR_SYSCALLS * sizeof(struct sysent));
+  memset(krf_faultable_table, 0, KRF_NR_SYSCALLS * sizeof(sy_call_t *));
+  for (unsigned int i = 0; i < KRF_NR_SYSCALLS; i++) {
+    krf_sys_call_table[i] = sysent[i].sy_call;
+  }
 
   SYSCTL_ADD_UINT(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_PROBABILITY_FILENAME,
                   CTLFLAG_ANYBODY | CTLFLAG_RW, &krf_probability, krf_probability,

@@ -9,7 +9,7 @@
 
 struct sysent;
 extern struct sysent sysent[];
-extern struct sysent krf_faultable_table[KRF_MAX_SYSCALL];
-extern struct sysent krf_sys_call_table[KRF_MAX_SYSCALL];
+extern sy_call_t *krf_faultable_table[KRF_MAX_SYSCALL];
+extern sy_call_t *krf_sys_call_table[KRF_MAX_SYSCALL];
 
 #include "syscalls.gen.h"
