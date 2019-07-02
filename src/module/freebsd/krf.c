@@ -66,7 +66,7 @@ static int krf_init() {
     return -1;
   }
 
-  memset(krf_faultable_table, 0, KRF_NR_SYSCALLS * sizeof(sy_call_t*));
+  memset(krf_faultable_table, 0, KRF_NR_SYSCALLS * sizeof(sy_call_t *));
   for (unsigned int i = 0; i < KRF_NR_SYSCALLS; i++) {
     krf_sys_call_table[i] = sysent[i].sy_call;
   }
