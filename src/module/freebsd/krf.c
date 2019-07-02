@@ -70,7 +70,6 @@ static int krf_init() {
   for (unsigned int i = 0; i < KRF_NR_SYSCALLS; i++) {
     krf_sys_call_table[i] = sysent[i].sy_call;
   }
-  // memcpy(krf_sys_call_table, sysent, KRF_NR_SYSCALLS * sizeof());
 
   SYSCTL_ADD_UINT(&clist, SYSCTL_CHILDREN(krf_sysctl_root), OID_AUTO, KRF_PROBABILITY_FILENAME,
                   CTLFLAG_ANYBODY | CTLFLAG_RW, &krf_probability, krf_probability,
