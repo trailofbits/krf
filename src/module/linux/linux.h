@@ -7,8 +7,8 @@
 #define KRF_SYSCALL_TABLE sys_call_table
 #define KRF_TARGETING_PROTO void
 #define KRF_TARGETING_PARMS
-#define KRF_PERSONALITY() (current->personality)
+#define KRF_PERSONALITY(target) (current->personality & (target))
 #define KRF_PID(target) (current->pid == (target))
-#define KRF_UID() (current->cred->uid.val)
-#define KRF_GID() (current->cred->gid.val)
+#define KRF_UID(target) (current->cred->uid.val == (target))
+#define KRF_GID(target) (current->cred->gid.val == (target))
 #define KRF_EXTRACT_SYSCALL(x) (x)
