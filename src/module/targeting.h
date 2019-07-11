@@ -17,25 +17,25 @@ static __always_inline int krf_targeted(KRF_TARGETING_PROTO) {
     if (krf_target_options.mode_mask & (1 << i)) {
       switch (i) {
       case KRF_T_MODE_PERSONALITY:
-        if ((KRF_PERSONALITY() & krf_target_options.target_data[i]) != 0)
+        if (KRF_PERSONALITY(krf_target_options.target_data[i]))
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_PID:
-        if (KRF_PID() == krf_target_options.target_data[i])
+        if (KRF_PID(krf_target_options.target_data[i]))
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_UID:
-        if (KRF_UID() == krf_target_options.target_data[i])
+        if (KRF_UID(krf_target_options.target_data[i]))
           targeted++;
         else
           targeted = 0;
         break;
       case KRF_T_MODE_GID:
-        if (KRF_GID() == krf_target_options.target_data[i])
+        if (KRF_GID(krf_target_options.target_data[i]))
           targeted++;
         else
           targeted = 0;
