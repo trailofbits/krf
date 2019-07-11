@@ -23,7 +23,7 @@ static __always_inline int krf_targeted(KRF_TARGETING_PROTO) {
           targeted = 0;
         break;
       case KRF_T_MODE_PID:
-        if (KRF_PID() == krf_target_options.target_data[i])
+        if (KRF_PID(krf_target_options.target_data[i]))
           targeted++;
         else
           targeted = 0;
