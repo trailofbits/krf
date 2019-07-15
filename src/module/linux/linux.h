@@ -5,10 +5,12 @@
 #define KRF_SAFE_WRITE(x) KRF_CR0_WRITE_UNLOCK(x)
 #define KRF_LOG(...) printk(KERN_INFO __VA_ARGS__)
 #define KRF_SYSCALL_TABLE sys_call_table
-#define KRF_TARGETING_PROTO void
-#define KRF_TARGETING_PARMS
-#define KRF_PERSONALITY(target) (current->personality & (target))
-#define KRF_PID(target) (current->pid == (target))
-#define KRF_UID(target) (current->cred->uid.val == (target))
-#define KRF_GID(target) (current->cred->gid.val == (target))
+#define KRF_TARGETING_PARMS current
 #define KRF_EXTRACT_SYSCALL(x) (x)
+typedef struct task_struct krf_ctx_t;
+
+bool krf_personality(unsigned int target, krf_ctx_t *context);
+bool krf_pid(pid_t target, krf_ctx_t *context);
+bool krf_uid(unsigned int target, krf_ctx_t *context);
+bool krf_gid(unsigned int target, krf_ctx_t *context);
+bool krf_file(unsigned int target, krf_ctx_t *context);

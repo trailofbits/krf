@@ -29,7 +29,7 @@ void krf_flush_table(void) {
 
 int control_file_handler(unsigned int sys_num) {
   if (sys_num >= KRF_NR_SYSCALLS) {
-    KRF_LOG("krf: flushing all faulty syscalls \nn");
+    KRF_LOG("krf: flushing all faulty syscalls \n");
     krf_flush_table();
   } else if (krf_faultable_table[sys_num] != NULL) {
     KRF_SAFE_WRITE(

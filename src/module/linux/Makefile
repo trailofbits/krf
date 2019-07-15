@@ -9,7 +9,7 @@ KRF_SYSCALL_OBJS = $(foreach obj,$(KRF_SYSCALL_OBJS_FAKE),syscalls/$(obj))
 ccflags-y := -DKRF_CODEGEN=1 -DLINUX
 
 obj-m += $(MOD).o
-$(MOD)-objs := krf.o syscalls.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
+$(MOD)-objs := krf.o syscalls.o linux.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
 
 .PHONY: module
 module: all
