@@ -1,5 +1,5 @@
 SYSCALL_C_FILES != ls syscalls/*.gen.c
-SRCS = krf.c syscalls.c ../config.c ../krf.c $(SYSCALL_C_FILES)
+SRCS = krf.c syscalls.c ../config.c ../krf.c freebsd.c $(SYSCALL_C_FILES)
 KMOD = krf
 
 # NOTE(ww): Clear the default CFLAGS flags passed in the top-level Makefile.

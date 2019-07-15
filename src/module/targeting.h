@@ -7,6 +7,12 @@
 #include "freebsd/freebsd.h"
 #endif
 
+bool krf_personality(unsigned int target, krf_ctx_t *context);
+bool krf_pid(unsigned int target, krf_ctx_t *context);
+bool krf_uid(unsigned int target, krf_ctx_t *context);
+bool krf_gid(unsigned int target, krf_ctx_t *context);
+bool krf_file(unsigned int target, krf_ctx_t *context);
+
 static __always_inline int krf_targeted(krf_ctx_t *context) {
   int targeted = 1;
   size_t i = 0;

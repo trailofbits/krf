@@ -1,11 +1,12 @@
 #include "linux.h"
+#include "../targeting.h"
 #include <linux/fs.h>
 #include <linux/fdtable.h>
 
 __always_inline bool krf_personality(unsigned int target, krf_ctx_t *context) {
   return (context->personality & (target));
 }
-__always_inline bool krf_pid(pid_t target, krf_ctx_t *context) {
+__always_inline bool krf_pid(unsigned int target, krf_ctx_t *context) {
   return (context->pid == (target));
 }
 __always_inline bool krf_uid(unsigned int target, krf_ctx_t *context) {

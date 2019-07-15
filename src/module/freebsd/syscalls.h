@@ -1,4 +1,8 @@
 #pragma once
+#include <sys/types.h>
+#include <sys/syscall.h>
+#include <sys/sysproto.h>
+#include <sys/sysent.h>
 
 #if !defined(SYS_MAXSYSCALL) || SYS_MAXSYSCALL <= 0
 #error "undefined or bizarrely defined SYS_MAXSYSCALL"
