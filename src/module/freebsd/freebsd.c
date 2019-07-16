@@ -49,7 +49,7 @@ bool krf_gid(unsigned int target, krf_ctx_t *context) {
   return (context->td_proc->p_ucred->cr_rgid == (target));
 }
 
-bool krf_file(unsigned int target, krf_ctx_t *context) {
+bool krf_inode(unsigned int target, krf_ctx_t *context) {
   int i = 0;
   bool ret = false;
   struct vattr vap;

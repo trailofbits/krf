@@ -15,7 +15,7 @@ __always_inline bool krf_uid(unsigned int target, krf_ctx_t *context) {
 __always_inline bool krf_gid(unsigned int target, krf_ctx_t *context) {
   return (context->cred->gid.val == (target));
 }
-__always_inline bool krf_file(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_inode(unsigned int target, krf_ctx_t *context) {
   int i = 0;
   while (context->files->fdt->fd[i] != NULL) {
     if ((target == context->files->fdt->fd[i]->f_inode->i_ino)) {

@@ -11,7 +11,7 @@ bool krf_personality(unsigned int target, krf_ctx_t *context);
 bool krf_pid(unsigned int target, krf_ctx_t *context);
 bool krf_uid(unsigned int target, krf_ctx_t *context);
 bool krf_gid(unsigned int target, krf_ctx_t *context);
-bool krf_file(unsigned int target, krf_ctx_t *context);
+bool krf_inode(unsigned int target, krf_ctx_t *context);
 
 static __always_inline int krf_targeted(krf_ctx_t *context) {
   int targeted = 1;
@@ -46,8 +46,8 @@ static __always_inline int krf_targeted(krf_ctx_t *context) {
         else
           targeted = 0;
         break;
-      case KRF_T_MODE_FILE:
-        if (krf_file(krf_target_options.target_data[i], context))
+      case KRF_T_MODE_INODE:
+        if (krf_inode(krf_target_options.target_data[i], context))
           targeted++;
         else
           targeted = 0;
