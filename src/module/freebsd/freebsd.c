@@ -8,12 +8,12 @@
 #include <sys/file.h>
 #include <sys/filedesc.h>
 
-bool krf_personality(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_personality(unsigned int target, krf_ctx_t *context) {
   return (context->td_proc->p_flag2 & (target));
 }
 
 #ifdef KRF_FREEBSD_UNSAFE_PID_TRAVERSAL
-bool krf_pid(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_pid(unsigned int target, krf_ctx_t *context) {
   struct proc *par = context->td_proc;
   do {
     if (par->p_pid == (target)) {
@@ -24,7 +24,7 @@ bool krf_pid(unsigned int target, krf_ctx_t *context) {
   return false;
 }
 #else // Default: do a check with depth=1 using locks
-bool krf_pid(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_pid(unsigned int target, krf_ctx_t *context) {
   int ret = 0;
   PROC_LOCK(context->td_proc);
   if (context->td_proc->p_pid == (target)) {
@@ -40,16 +40,16 @@ bool krf_pid(unsigned int target, krf_ctx_t *context) {
 }
 #endif
 
-bool krf_uid(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_uid(unsigned int target, krf_ctx_t *context) {
   return (context->td_proc->p_ucred->cr_ruid ==
           (target)); // Currently using real UID but could use effective UID (cr_uid)
 }
 
-bool krf_gid(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_gid(unsigned int target, krf_ctx_t *context) {
   return (context->td_proc->p_ucred->cr_rgid == (target));
 }
 
-bool krf_inode(unsigned int target, krf_ctx_t *context) {
+__always_inline bool krf_inode(unsigned int target, krf_ctx_t *context) {
   int i = 0;
   bool ret = false;
   struct vattr vap;
