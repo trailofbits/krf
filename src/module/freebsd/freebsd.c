@@ -1,11 +1,12 @@
 #include "freebsd.h"
 #include "../targeting.h"
-/*#include <sys/types.h>
-#include <sys/systm.h>
-#include <sys/sysproto.h>*/
 #include <sys/proc.h>
 #include <sys/lock.h>
 #include <sys/mutex.h>
+#include <sys/param.h>
+#include <sys/vnode.h>
+#include <sys/file.h>
+#include <sys/filedesc.h>
 
 bool krf_personality(unsigned int target, krf_ctx_t *context) {
   return (context->td_proc->p_flag2 & (target));
@@ -49,5 +50,42 @@ bool krf_gid(unsigned int target, krf_ctx_t *context) {
 }
 
 bool krf_file(unsigned int target, krf_ctx_t *context) {
-  return false;
+  int i = 0;
+  bool ret = false;
+  struct vattr vap;
+  struct filedesc *fdp;
+
+  PROC_LOCK(context->td_proc);
+  fdp = context->td_proc->p_fd;
+  PROC_UNLOCK(context->td_proc);
+
+  if (fdp == NULL)
+    return false;
+
+  FILEDESC_SLOCK(context->td_proc->p_fd);
+  for (; i <= fdp->fd_lastfile; i++) {
+    if (fdp->fd_refcnt <= 0)
+      break;
+    if (fdp->fd_ofiles[i].fde_file == NULL)
+      break;
+    if (fdp->fd_ofiles[i].fde_file->f_type != DTYPE_VNODE)
+      continue;
+    if (fdp->fd_ofiles[i].fde_file->f_vnode == NULL)
+      break;
+
+    VI_LOCK(fdp->fd_ofiles[i].fde_file->f_vnode);
+    vget(fdp->fd_files->fdt_ofiles[i].fde_file->f_vnode, LK_EXCLUSIVE | LK_INTERLOCK, context);
+    if (VOP_GETATTR(fdp->fd_files->fdt_ofiles[i].fde_file->f_vnode, &vap,
+                    fdp->fd_files->fdt_ofiles[i].fde_file->f_cred) != 0) {
+      vput(fdp->fd_files->fdt_ofiles[i].fde_file->f_vnode);
+      break;
+    }
+    vput(fdp->fd_files->fdt_ofiles[i].fde_file->f_vnode);
+    if (target == vap.va_fileid) {
+      ret = true;
+      break;
+    }
+  }
+  FILEDESC_SUNLOCK(fdp);
+  return ret;
 }
