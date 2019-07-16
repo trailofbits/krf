@@ -230,6 +230,12 @@ cat /proc/krf/log_faults
 * Allow users to specify a particular class of faults, e.g. memory pressure (`ENOMEM`).
   * This should be do-able by adding some more bits to the `personality(2)` value.
 
+## Thanks
+
+Many thanks go to [Andrew Reiter](https://github.com/roachspray) for the
+[initial port](https://github.com/roachspray/fkrf) of KRF to FreeBSD. Andrew's work was performed
+on behalf of the Applied Research Group at Veracode.
+
 ## Licensing
 
 KRF is licensed under the terms of the GNU GPLv3.
