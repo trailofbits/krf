@@ -59,12 +59,13 @@ static void fault_syscall_profile(const char *profile) {
   }
 }
 
-enum { TARGET_PERSONALITY = 0, TARGET_PID, TARGET_UID, TARGET_GID, TARGET_NUM_MODES };
+enum { TARGET_PERSONALITY = 0, TARGET_PID, TARGET_UID, TARGET_GID, TARGET_INODE, TARGET_NUM_MODES };
 
 char *const targeting_opts[] = {[TARGET_PERSONALITY] = "personality",
                                 [TARGET_PID] = "PID",
                                 [TARGET_UID] = "UID",
                                 [TARGET_GID] = "GID",
+                                [TARGET_INODE] = "INODE",
                                 [TARGET_NUM_MODES] = NULL};
 
 int main(int argc, char *argv[]) {
@@ -130,7 +131,7 @@ int main(int argc, char *argv[]) {
              " -T <variable>=<value>       enable targeting option <variable> with value <value>\n"
              " -C                          clear the targeting options\n"
              "targeting options:\n"
-             " personality, PID, UID, and GID\n");
+             " personality, PID, UID, GID, and INODE\n");
       return 1;
     }
     }
