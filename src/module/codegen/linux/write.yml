@@ -2,13 +2,14 @@ proto: unsigned int fd, const char __user *buf, size_t count
 parms: fd, buf, count
 errors:
   - EBADF
-  - EDQUOT
   - EFAULT
+  - EPERM
+unlikely_errors:
+  - EDQUOT
   - EFBIG
   - EINTR
   - EINVAL
   - ENOSPC
-  - EPERM
 profiles:
   - fs
   - io

@@ -1,6 +1,10 @@
 proto: int fd, struct sockaddr __user *upeer_sockaddr, int __user *upeer_addrlen
 parms: fd, upeer_sockaddr, upeer_addrlen
 errors:
+  - EBADF
+  - ECONNABORTED
+  - EFAULT
+unlikely_errors:
   - EAGAIN
   - EWOULDBLOCK
   - EBADF
