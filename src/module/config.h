@@ -26,6 +26,7 @@ typedef enum {
   KRF_T_MODE_PID,
   KRF_T_MODE_UID,
   KRF_T_MODE_GID,
+  KRF_T_MODE_INODE,
   // Insert new modes here
   KRF_T_NUM_MODES
 } krf_target_mode_t;
