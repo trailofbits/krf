@@ -2,16 +2,12 @@
 #include "config.h"
 #ifdef LINUX
 #include "linux/linux.h"
+#include "linux/targeting.h"
 #endif
 #ifdef __FreeBSD__
 #include "freebsd/freebsd.h"
+#include "freebsd/targeting.h"
 #endif
-
-bool krf_personality(unsigned int target, krf_ctx_t *context);
-bool krf_pid(unsigned int target, krf_ctx_t *context);
-bool krf_uid(unsigned int target, krf_ctx_t *context);
-bool krf_gid(unsigned int target, krf_ctx_t *context);
-bool krf_inode(unsigned int target, krf_ctx_t *context);
 
 static __always_inline int krf_targeted(krf_ctx_t *context) {
   int targeted = 1;
