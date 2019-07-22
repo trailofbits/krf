@@ -31,4 +31,5 @@ insmod: krfx.ko
 	sudo insmod $(MOD).ko
 
 rmmod:
+	sudo ../../krfctl/krfctl -c
 	sudo rmmod $(MOD)
