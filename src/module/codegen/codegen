@@ -106,7 +106,8 @@ SYSCALLS.each do |call, spec|
     SETUP
 
     fault_table = []
-    errors = (not CONSERVATIVE and spec["unlikely_errors"]) ? (spec["errors"] + spec["unlikely_errors"]) : spec["errors"]
+    errors = spec["errors"]
+    errors += spec.fetch("unlikely_errors", []) unless CONSERVATIVE
     errors.uniq.each do |fault|
       fault_table << "krf_sys_internal_#{call}_#{fault}"
 
