@@ -2,6 +2,11 @@ proto: int dfd, const char __user *filename, int flags, umode_t mode
 parms: dfd, filename, flags, mode
 errors:
   - EACCES
+  - EFAULT
+  - EEXIST
+  - EBADF
+unlikely_errors:
+  - EACCES
   - EDQUOT
   # - EEXIST
   - EFAULT

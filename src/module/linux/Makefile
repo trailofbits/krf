@@ -20,7 +20,7 @@ all: codegen
 
 .PHONY: codegen
 codegen:
-	ruby ../codegen/codegen $(PLATFORM)
+	ruby ../codegen/codegen linux $(FAULTS)
 
 clean:
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean

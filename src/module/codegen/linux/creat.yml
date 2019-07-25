@@ -2,6 +2,11 @@ proto: const char __user *pathname, umode_t mode
 parms: pathname, mode
 errors:
   - EACCES
+  - EFAULT
+  - EEXIST
+  - EBADF
+unlikely_errors:
+  - EACCES
   - EDQUOT
   # - EEXIST
   - EFAULT

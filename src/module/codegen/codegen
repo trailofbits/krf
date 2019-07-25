@@ -8,6 +8,7 @@
 require "yaml"
 
 PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+CONSERVATIVE = (ARGV.shift == "conservative")
 
 abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
 
@@ -105,7 +106,9 @@ SYSCALLS.each do |call, spec|
     SETUP
 
     fault_table = []
-    spec["errors"].uniq.each do |fault|
+    errors = spec["errors"]
+    errors += spec.fetch("unlikely_errors", []) unless CONSERVATIVE
+    errors.uniq.each do |fault|
       fault_table << "krf_sys_internal_#{call}_#{fault}"
 
       file.puts <<~FAULT

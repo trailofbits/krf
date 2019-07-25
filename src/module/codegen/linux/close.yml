@@ -1,6 +1,8 @@
 proto: unsigned int fd
 parms: fd
 errors:
+  - EBADF
+unlikely_errors:
   # - EAGAIN
   # - EWOULDBLOCK
   - EBADF

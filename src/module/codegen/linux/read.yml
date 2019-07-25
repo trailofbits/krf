@@ -1,10 +1,11 @@
 proto: unsigned int fd, char __user *buf, size_t count
 parms: fd, buf, count
 errors:
-  # - EAGAIN
-  # - EWOULDBLOCK
   - EBADF
   - EFAULT
+unlikely_errors:
+  # - EAGAIN
+  # - EWOULDBLOCK
   - EINTR
   - EINVAL
   - EIO

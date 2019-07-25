@@ -1,4 +1,7 @@
 dist: xenial
+env:
+  - FAULTS=conservative
+  - FAULTS=
 language: c
 compiler:
   - clang

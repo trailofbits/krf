@@ -11,7 +11,7 @@ module: codegen
 
 .PHONY: codegen
 codegen:
-	ruby ../codegen/codegen $(PLATFORM)
+	ruby ../codegen/codegen freebsd $(FAULTS)
 
 .PHONY: insmod
 insmod:
