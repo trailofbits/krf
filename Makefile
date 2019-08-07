@@ -3,7 +3,7 @@ export PLATFORM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ALL_SRCS := $(shell find . -type f \( -name '*.c' -o -name '*.h' \))
 PREFIX = /usr/local
 
-all: module krfexec krfctl example
+all: module krfexec krfctl krfmesg example
 
 .PHONY: module
 module:
@@ -16,6 +16,10 @@ krfexec:
 .PHONY: krfctl
 krfctl:
 	$(MAKE) -C src/krfctl
+
+.PHONY: krfmesg
+krfmesg:
+	$(MAKE) -C src/krfmesg
 
 .PHONY: insmod
 insmod:
