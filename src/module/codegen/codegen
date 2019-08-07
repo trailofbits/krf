@@ -14,7 +14,7 @@ abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PL
 
 TYPEOF = PLATFORM == "freebsd" ? "__typeof" : "typeof"
 SYSCALL_RET_TYPE = PLATFORM == "freebsd" ? "int" : "long"
-PRINT = PLATFORM == "freebsd" ? "uprintf" : "printk"
+PRINT = PLATFORM == "freebsd" ? "uprintf" : "KRF_LOG"
 FAULT_PREFIX = PLATFORM == "freebsd" ? "" : "-"
 ASMLINKAGE = PLATFORM == "freebsd" ? "" : "asmlinkage"
 
