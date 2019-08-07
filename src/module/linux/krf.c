@@ -22,7 +22,7 @@ MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
 struct sock *krf_socket;
 
-int netlinkOut(char *buf, size_t message_size) {
+int krf_netlink_broadcast(char *buf, size_t message_size) {
   struct sk_buff *skb;
   struct nlmsghdr *nlh;
   int result;

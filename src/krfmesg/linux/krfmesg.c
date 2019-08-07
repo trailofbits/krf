@@ -6,18 +6,18 @@
 #include <unistd.h>
 
 /* Protocol family, consistent in both kernel prog and user prog. */
-#define MYPROTO 28 // NETLINK_USERSOCK
+#define NETLINK_KRF 28
 /* Multicast group, consistent in both kernel prog and user prog. */
-#define MYMGRP 28
+#define KRF_MGRP 28
 
 int open_netlink(void) {
   int sock;
   struct sockaddr_nl addr;
-  int group = MYMGRP;
+  int group = KRF_MGRP;
 
-  sock = socket(AF_NETLINK, SOCK_RAW, MYPROTO);
+  sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
   if (sock < 0) {
-    printf("sock < 0.\n");
+    printf("Failed to make socket. Is krf module installed?\n");
     return sock;
   }
 
@@ -25,10 +25,10 @@ int open_netlink(void) {
   addr.nl_family = AF_NETLINK;
   addr.nl_pid = getpid();
   /* This doesn't work for some reason. See the setsockopt() below. */
-  /* addr.nl_groups = MYMGRP; */
+  /* addr.nl_groups = KRF_MGRP; */
 
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-    printf("bind < 0.\n");
+    printf("Failed to bind socket\n");
     return -1;
   }
 
@@ -39,7 +39,7 @@ int open_netlink(void) {
    * http://stackoverflow.com/questions/17732044/
    */
   if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
-    printf("setsockopt < 0\n");
+    printf("Failed to setsockopt. Is krfmesg being run with sudo?\n");
     // Will need to be run with sudo
     return -1;
   }
