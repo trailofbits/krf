@@ -28,6 +28,11 @@ void fault_syscall(const char *sys_name) {
   int fd;
   const char *sys_num;
 
+  /* check for wait4 and select */
+  if (!strcmp(sys_name, "wait4") || !strcmp(sys_name, "select"))
+    printf("Warning: faulting syscall %s can potentially cause kernel oops on module unload\n",
+           sys_name);
+
   /* TODO(ww): Opening the control file once per syscall is
    * pretty nasty, but I don't like passing a fd around.
    * Maybe a static variable that we test-and-set?
