@@ -14,6 +14,7 @@ modules.order
 *~
 src/krfexec/krfexec
 src/krfctl/krfctl
+src/module/codegen/.*.mk
 *.bak
 example/*
 !example/*.{c,h}
