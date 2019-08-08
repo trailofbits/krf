@@ -1,21 +1,21 @@
 # NOTE(ww): The targets in this file intentionally use `make`
 # instead of `$(MAKE)`, since we expect `$(MAKE)` to be GNU Make
 # and not the BSD `make` that the FreeBSD module build requires.
-KRF_SYSCALL_YMLS = $(wildcard ../codegen/$(PLATFORM)/*.yml)
+KRF_SYSCALL_YMLS = $(wildcard ../codegen/freebsd/*.yml)
 
 .PHONY: all
 all: module
 
 .PHONY: module
-module: ../codegen/.$(PLATFORM).mk
+module: ../codegen/.freebsd.mk
 	make -f Makefile.module all
 
 .PHONY: codegen
-codegen: ../codegen/.$(PLATFORM).mk
+codegen: ../codegen/.freebsd.mk
 
-../codegen/.$(PLATFORM).mk: ../codegen/codegen $(KRF_SYSCALL_YMLS)
+../codegen/.freebsd.mk: ../codegen/codegen $(KRF_SYSCALL_YMLS)
 	ruby ../codegen/codegen freebsd $(FAULTS)
-	@touch ../codegen/.$(PLATFORM).mk
+	@touch ../codegen/.freebsd.mk
 
 .PHONY: insmod
 insmod:
@@ -28,4 +28,4 @@ rmmod:
 .PHONY: clean
 clean:
 	make -f Makefile.module clean
-	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h ../codegen/.$(PLATFORM).mk
+	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h ../codegen/.freebsd.mk
