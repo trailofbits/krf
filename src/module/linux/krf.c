@@ -4,41 +4,17 @@
 #include <linux/unistd.h>
 #include <linux/proc_fs.h>
 #include <linux/string.h>
-#include <linux/netlink.h>
-#include <net/netlink.h>
-#include <net/net_namespace.h>
 
 #include "../config.h"
 #include "../krf.h"
 #include "syscalls.h"
+#include "netlink.h"
 
 #define KRF_VERSION "0.0.1"
-#define NETLINK_KRF 28
-#define NETLINK_MYGROUP 28
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
 MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
-
-struct sock *krf_socket;
-
-int krf_netlink_broadcast(char *buf, size_t message_size) {
-  struct sk_buff *skb;
-  struct nlmsghdr *nlh;
-  int result;
-  skb = nlmsg_new(NLMSG_ALIGN(message_size), GFP_KERNEL);
-  if (!skb) {
-    printk(KERN_ERR "Failed to allocate a new skb\n");
-    return -1;
-  }
-  nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, message_size, 0);
-  strncpy(nlmsg_data(nlh), buf, message_size);
-  result = nlmsg_multicast(krf_socket, skb, 0, NETLINK_MYGROUP, GFP_KERNEL);
-  if (result < 0) {
-    printk(KERN_ERR "Failed to multicast message with error code %d\n", result);
-  }
-  return result;
-}
 
 static int krf_init(void);
 // static void krf_flush_table(void);
@@ -108,14 +84,8 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
-  struct netlink_kernel_cfg config = {
-      .groups = NETLINK_MYGROUP,
-  };
-  krf_socket = netlink_kernel_create(&init_net, NETLINK_KRF, &config);
-  if (krf_socket < 0) {
-    printk(KERN_ERR "krf couldn't create a netlink");
+  if (setup_netlink_socket() < 0)
     return -1;
-  }
 
   sys_call_table = (void *)kallsyms_lookup_name("sys_call_table");
 
@@ -159,7 +129,7 @@ static int krf_init(void) {
 static void krf_teardown(void) {
   krf_flush_table();
   remove_proc_subtree(KRF_PROC_DIR, NULL);
-  netlink_kernel_release(krf_socket);
+  destroy_netlink_socket();
 }
 
 static ssize_t rng_state_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {

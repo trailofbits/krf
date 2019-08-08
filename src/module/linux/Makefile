@@ -10,7 +10,7 @@ KRF_SYSCALL_YMLS = $(wildcard ../codegen/linux/*.yml)
 ccflags-y := -DKRF_CODEGEN=1 -DLINUX
 
 obj-m += $(MOD).o
-$(MOD)-objs := krf.o syscalls.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
+$(MOD)-objs := krf.o syscalls.o netlink.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
 
 .PHONY: all
 all: module
