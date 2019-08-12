@@ -65,10 +65,9 @@ void read_event(int sock) {
 
   ret = recvmsg(sock, &msg, 0);
   if (ret < 0) {
-    err(1, "ret < 0.");
-  } else {
-    printf("%s", (char *)NLMSG_DATA((struct nlmsghdr *)&buffer));
+    err(1, "recvmsg");
   }
+  printf("%s", (char *)NLMSG_DATA((struct nlmsghdr *)&buffer));
 }
 
 static void exit_sig(int signo) {
