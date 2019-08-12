@@ -1,3 +1,4 @@
+#include <err.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,7 +18,7 @@ int open_netlink(void) {
 
   sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
   if (sock < 0) {
-    printf("Failed to make socket. Is krf module installed?\n");
+    err(1, "Failed to make socket. Is krf module installed?");
     return sock;
   }
 
@@ -28,7 +29,7 @@ int open_netlink(void) {
   /* addr.nl_groups = KRF_MGRP; */
 
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-    printf("Failed to bind socket\n");
+    err(1, "Failed to bind socket");
     return -1;
   }
 
@@ -39,7 +40,7 @@ int open_netlink(void) {
    * http://stackoverflow.com/questions/17732044/
    */
   if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
-    printf("Failed to setsockopt. Is krfmesg being run with sudo?\n");
+    err(1, "Failed to setsockopt. Is krfmesg being run with sudo?");
     // Will need to be run with sudo
     return -1;
   }
@@ -49,26 +50,28 @@ int open_netlink(void) {
 
 void read_event(int sock) {
   struct sockaddr_nl nladdr;
-  struct msghdr msg;
-  struct iovec iov;
   char buffer[65536];
   int ret;
-
-  iov.iov_base = (void *)buffer;
-  iov.iov_len = sizeof(buffer);
-  msg.msg_name = (void *)&(nladdr);
-  msg.msg_namelen = sizeof(nladdr);
-  msg.msg_iov = &iov;
-  msg.msg_iovlen = 1;
+  struct iovec iov = {
+      .iov_base = (void *)buffer,
+      .iov_len = sizeof(buffer),
+  };
+  struct msghdr msg = {
+      .msg_name = (void *)&(nladdr),
+      .msg_namelen = sizeof(nladdr),
+      .msg_iov = &iov,
+      .msg_iovlen = 1,
+  };
 
   ret = recvmsg(sock, &msg, 0);
-  if (ret < 0)
-    printf("ret < 0.\n");
-  else
+  if (ret < 0) {
+    err(1, "ret < 0.");
+  } else {
     printf("%s", (char *)NLMSG_DATA((struct nlmsghdr *)&buffer));
+  }
 }
 
-int platformMain(int argc, char *argv[]) {
+int platform_main(int argc, char *argv[]) {
   int nls;
 
   nls = open_netlink();

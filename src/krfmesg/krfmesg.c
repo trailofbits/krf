@@ -1,5 +1,5 @@
-int platformMain(int, char **);
+int platform_main(int, char **);
 
 int main(int argc, char *argv[]) {
-  return platformMain(argc, argv);
+  return platform_main(argc, argv);
 }

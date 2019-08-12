@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <err.h>
 
-int platformMain(int argc, char *argv[]) {
-  printf("krfmesg not implemented on FreeBSD, since no netlink sockets\n");
+int platform_main(int argc, char *argv[]) {
+  errx(1, "krfmesg not implemented on FreeBSD, since no netlink sockets");
   return 0;
 }
