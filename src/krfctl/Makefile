@@ -1,19 +1,16 @@
 PROG := krfctl
 SRCS := $(PROG).c table.gen.c profiles.gen.c $(wildcard ./$(PLATFORM)/*.c)
 OBJS := $(SRCS:.c=.o)
+YMLS = $(wildcard ../module/codegen/$(PLATFORM)/*.yml)
 
-all: gentable $(PROG)
-
-.PHONY: gentable
-gentable:
-	ruby gentable
-
-.PHONY: genprofiles
-genprofiles:
-	ruby genprofiles
+.PHONY: all
+all: $(PROG)
 
 table.gen.c: gentable
-profiles.gen.c: genprofiles
+	ruby gentable
+
+profiles.gen.c: genprofiles $(YMLS)
+	ruby genprofiles
 
 $(OBJS): $(SRCS)
 
