@@ -72,6 +72,8 @@ sudo apt install libelf-dev ruby linux-headers-$(uname -r)
 ```bash
 git clone https://github.com/trailofbits/krf && cd krf
 make -j$(nproc)
+sudo make install # Installs module to /lib/modules and utils to /usr/local/bin
+sudo make insmod # Loads module
 ```
 
 or, if you're using Vagrant:
@@ -82,6 +84,8 @@ vagrant up linux && vagrant ssh linux
 # inside the VM
 cd /vagrant
 make -j$(nproc)
+sudo make install # Installs module to /lib/modules and utils to /usr/local/bin
+sudo make insmod # Loads module
 ```
 
 or, for FreeBSD:
@@ -92,6 +96,9 @@ cd vagrant up freebsd && vagrant ssh freebsd
 # inside the VM
 cd /vagrant
 gmake # NOT make!
+gmake install-module # Installs module to /boot/modules/
+sudo gmake install-utils # Installs utils to /usr/local/bin
+gmake insmod # Loads module
 ```
 
 ## Usage
@@ -115,8 +122,8 @@ ls
 # note that krfctl requires root privileges
 sudo ./src/krfctl/krfctl -F 'read,write'
 
-# tell krf to fault any program with a
-# personality of 28 (the value set by krfexec)
+# tell krf to fault any program started by
+# krfexec, meaning a personality of 28
 sudo ./src/krfctl/krfctl -T personality=28
 
 # may fault!
@@ -133,14 +140,6 @@ sudo ./src/krfctl/krfctl -C
 
 # no induced faults, since no syscalls are being faulted
 ./src/krfexec/krfexec firefox
-```
-
-On FreeBSD, `krfexec` requires root privileges. By default, it will attempt to use `SUDO_UID`
-and the username returned by `getlogin_r` to return to a non-root user before executing the target.
-To force a particular UID, export `REAL_UID`, e.g.:
-
-```bash
-REAL_UID=1000 sudo ./src/krfexec/krfexec ls
 ```
 
 ## Configuration
@@ -175,7 +174,8 @@ has the details.
 echo "0 28" | sudo tee /proc/krf/targeting
 ```
 
-A personality of 28 is hardcoded into `krfexec`.
+A personality of 28 is hardcoded into `krfexec`, and must be set in order for things executed
+by `krfexec` to be faulted.
 
 ### `/proc/krf/probability`
 
