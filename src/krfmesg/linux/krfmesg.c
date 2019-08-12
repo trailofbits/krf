@@ -12,7 +12,7 @@
 /* Multicast group, consistent in both kernel prog and user prog. */
 #define KRF_MGRP 28
 
-static sig_atomic_t exiting = 0;
+static sig_atomic_t exiting;
 
 int open_netlink(void) {
   int sock;
@@ -75,16 +75,11 @@ static void exit_sig(int signo) {
 }
 
 int platform_main(int argc, char *argv[]) {
-  int nls;
-
   sigaction(SIGINT, &(struct sigaction){.sa_handler = exit_sig}, NULL);
   sigaction(SIGTERM, &(struct sigaction){.sa_handler = exit_sig}, NULL);
   sigaction(SIGABRT, &(struct sigaction){.sa_handler = exit_sig}, NULL);
 
-  nls = open_netlink();
-  if (nls < 0) {
-    return nls;
-  }
+  int nls = open_netlink();
 
   while (!exiting) {
     read_event(nls);
