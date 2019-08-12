@@ -41,7 +41,8 @@ fmt:
 	clang-format -i -style=file $(ALL_SRCS)
 
 .PHONY: install
-install:
+install: krfexec krfctl module
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install src/krfexec/krfexec $(DESTDIR)$(PREFIX)/bin
 	install src/krfctl/krfctl $(DESTDIR)$(PREFIX)/bin
+	$(MAKE) -C src/module/$(PLATFORM) install
