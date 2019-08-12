@@ -3,6 +3,7 @@
 #include <net/netlink.h>
 #include <net/net_namespace.h>
 
+char krf_log_msg_buf[KRF_NETLINK_BUF_SIZE];
 static struct sock *krf_socket;
 
 int krf_netlink_broadcast(char *buf, unsigned message_size) {

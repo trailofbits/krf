@@ -5,11 +5,14 @@
 #include <sys/socket.h>
 #include <linux/netlink.h>
 #include <unistd.h>
+#include <signal.h>
 
 /* Protocol family, consistent in both kernel prog and user prog. */
 #define NETLINK_KRF 28
 /* Multicast group, consistent in both kernel prog and user prog. */
 #define KRF_MGRP 28
+
+static sig_atomic_t exiting = 0;
 
 int open_netlink(void) {
   int sock;
@@ -18,8 +21,7 @@ int open_netlink(void) {
 
   sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
   if (sock < 0) {
-    err(1, "Failed to make socket. Is krf module installed?");
-    return sock;
+    err(1, "socket");
   }
 
   memset((void *)&addr, 0, sizeof(addr));
@@ -30,7 +32,6 @@ int open_netlink(void) {
 
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     err(1, "Failed to bind socket");
-    return -1;
   }
 
   /*
@@ -40,9 +41,8 @@ int open_netlink(void) {
    * http://stackoverflow.com/questions/17732044/
    */
   if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
-    err(1, "Failed to setsockopt. Is krfmesg being run with sudo?");
+    err(1, "Failed to setsockopt");
     // Will need to be run with sudo
-    return -1;
   }
 
   return sock;
@@ -71,15 +71,26 @@ void read_event(int sock) {
   }
 }
 
+static void exit_sig(int signo) {
+  exiting = 1;
+}
+
 int platform_main(int argc, char *argv[]) {
   int nls;
 
+  sigaction(SIGINT, &(struct sigaction){.sa_handler = exit_sig}, NULL);
+  sigaction(SIGTERM, &(struct sigaction){.sa_handler = exit_sig}, NULL);
+  sigaction(SIGABRT, &(struct sigaction){.sa_handler = exit_sig}, NULL);
+
   nls = open_netlink();
-  if (nls < 0)
+  if (nls < 0) {
     return nls;
+  }
 
-  while (1)
+  while (!exiting) {
     read_event(nls);
+  }
 
+  close(nls);
   return 0;
 }

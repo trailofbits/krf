@@ -6,10 +6,14 @@
 #define KRF_SAFE_WRITE(x) KRF_CR0_WRITE_UNLOCK(x)
 #define KRF_LOG(...)                                                                               \
   ({                                                                                               \
-    char buf[KRF_NETLINK_BUF_SIZE]; /* max message size */                                         \
+    int krf_snprintf_ret_val;                                                                      \
     printk(KERN_INFO __VA_ARGS__);                                                                 \
-    snprintf(buf, KRF_NETLINK_BUF_SIZE, __VA_ARGS__);                                              \
-    krf_netlink_broadcast(buf, strlen(buf) + 1);                                                   \
+    krf_snprintf_ret_val = snprintf(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE, __VA_ARGS__);           \
+    if (krf_snprintf_ret_val < 0) {                                                                \
+      printk(KERN_WARNING "snprintf formatting error");                                            \
+    } else {                                                                                       \
+      krf_netlink_broadcast(krf_log_msg_buf, krf_snprintf_ret_val + 1);                            \
+    }                                                                                              \
   })
 #define KRF_SYSCALL_TABLE sys_call_table
 #define KRF_TARGETING_PARMS current

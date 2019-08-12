@@ -84,8 +84,9 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
-  if (setup_netlink_socket() < 0)
+  if (setup_netlink_socket() < 0) {
     return -1;
+  }
 
   sys_call_table = (void *)kallsyms_lookup_name("sys_call_table");
 
