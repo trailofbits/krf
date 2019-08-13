@@ -1,7 +1,8 @@
-#include "netlink.h"
 #include <linux/netlink.h>
 #include <net/netlink.h>
 #include <net/net_namespace.h>
+
+#include "netlink.h"
 
 DEFINE_PER_CPU(char[KRF_NETLINK_BUF_SIZE], krf_log_msg_buf);
 static struct sock *krf_socket;

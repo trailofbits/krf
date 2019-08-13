@@ -20,4 +20,7 @@
 #define KRF_SYSCALL_TABLE sys_call_table
 #define KRF_TARGETING_PARMS current
 #define KRF_EXTRACT_SYSCALL(x) (x)
+
 typedef struct task_struct krf_ctx_t;
+
+DECLARE_PER_CPU(char[KRF_NETLINK_BUF_SIZE], krf_log_msg_buf);

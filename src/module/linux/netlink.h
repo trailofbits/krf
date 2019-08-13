@@ -7,5 +7,3 @@
 int krf_netlink_broadcast(char *buf, unsigned message_size);
 int setup_netlink_socket(void);
 void destroy_netlink_socket(void);
-
-extern char krf_log_msg_buf[KRF_NETLINK_BUF_SIZE];
