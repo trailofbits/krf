@@ -11,6 +11,9 @@
     int written = snprintf(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE, __VA_ARGS__);                    \
     if (written < 0) {                                                                             \
       printk(KERN_WARNING "snprintf formatting error");                                            \
+    } else if (written >= KRF_NETLINK_BUF_SIZE) {                                                  \
+      printk(KERN_WARNING "truncated message");                                                    \
+      krf_netlink_broadcast(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE);                                \
     } else {                                                                                       \
       krf_netlink_broadcast(krf_log_msg_buf, written + 1);                                         \
     }                                                                                              \
