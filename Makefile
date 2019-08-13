@@ -1,6 +1,7 @@
 export CFLAGS := -std=gnu99 -Wall -Werror -pedantic
 export PLATFORM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ALL_SRCS := $(shell find . -type f \( -name '*.c' -o -name '*.h' \))
+PREFIX = /usr/local
 
 all: module krfexec krfctl example
 
@@ -38,3 +39,16 @@ clean:
 .PHONY: fmt
 fmt:
 	clang-format -i -style=file $(ALL_SRCS)
+
+.PHONY: install-module
+install-module: module
+	$(MAKE) -C src/module/$(PLATFORM) install
+
+.PHONY: install-utils
+install-utils: krfexec krfctl
+	install -d $(DESTDIR)$(PREFIX)/bin
+	install src/krfexec/krfexec $(DESTDIR)$(PREFIX)/bin
+	install src/krfctl/krfctl $(DESTDIR)$(PREFIX)/bin
+
+.PHONY: install
+install: install-module install-utils

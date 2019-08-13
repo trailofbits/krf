@@ -25,6 +25,10 @@ insmod:
 rmmod:
 	sudo make -f Makefile.module unload
 
+.PHONY: install
+install:
+	sudo make -f Makefile.module install
+
 .PHONY: clean
 clean:
 	make -f Makefile.module clean

@@ -12,11 +12,11 @@ ccflags-y := -DKRF_CODEGEN=1 -DLINUX
 obj-m += $(MOD).o
 $(MOD)-objs := krf.o syscalls.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
 
-.PHONY: module
-module: all
-
 .PHONY: all
-all: ../codegen/.linux.mk
+all: module
+
+.PHONY: module
+module: ../codegen/.linux.mk
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 
 .PHONY: codegen
@@ -31,9 +31,15 @@ clean:
 	rm -f ../*.o *.ur-safe ../*.ur-safe # some garbage not cleaned by the kernel's clean target
 	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c ../codegen/.linux.mk # codegen files
 
-insmod: krfx.ko
-	sudo insmod $(MOD).ko
+.PHONY: install
+install: $(MOD).ko
+	sudo $(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules_install
+	sudo depmod -a
 
+.PHONY: insmod
+insmod: $(MOD).ko
+	sudo modprobe $(MOD) --first-time
+
+.PHONY: rmmod
 rmmod:
-	sudo ../../krfctl/krfctl -c
-	sudo rmmod $(MOD)
+	sudo modprobe -r $(MOD) --first-time
