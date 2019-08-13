@@ -7,7 +7,7 @@ KRF_SYSCALL_OBJS_FAKE := $(KRF_SYSCALL_SRCS_FAKE:.c=.o)
 KRF_SYSCALL_OBJS = $(foreach obj,$(KRF_SYSCALL_OBJS_FAKE),syscalls/$(obj))
 KRF_SYSCALL_YMLS = $(wildcard ../codegen/linux/*.yml)
 
-ccflags-y := -DKRF_CODEGEN=1 -DLINUX
+ccflags-y := -DKRF_CODEGEN=1 -DLINUX -std=gnu99 -Wno-declaration-after-statement
 
 obj-m += $(MOD).o
 $(MOD)-objs := krf.o syscalls.o netlink.o ../krf.o ../config.o $(KRF_SYSCALL_OBJS)
@@ -17,7 +17,7 @@ all: module
 
 .PHONY: module
 module: ../codegen/.linux.mk
-	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
+	$(MAKE) V=1 -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 
 .PHONY: codegen
 codegen: ../codegen/.linux.mk

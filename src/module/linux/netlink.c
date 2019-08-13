@@ -4,7 +4,6 @@
 
 #include "netlink.h"
 
-DEFINE_PER_CPU(char[KRF_NETLINK_BUF_SIZE], krf_log_msg_buf);
 static struct sock *krf_socket;
 
 int krf_netlink_broadcast(char *buf, unsigned message_size) {
