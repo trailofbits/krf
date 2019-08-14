@@ -49,10 +49,11 @@ install-module: module
 	$(MAKE) -C src/module/$(PLATFORM) install
 
 .PHONY: install-utils
-install-utils: krfexec krfctl
+install-utils: krfexec krfctl krfmesg
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install src/krfexec/krfexec $(DESTDIR)$(PREFIX)/bin
 	install src/krfctl/krfctl $(DESTDIR)$(PREFIX)/bin
+	install src/krfmesg/krfmesg $(DESTDIR)$(PREFIX)/bin
 
 .PHONY: install
 install: install-module install-utils

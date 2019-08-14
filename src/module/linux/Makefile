@@ -17,7 +17,7 @@ all: module
 
 .PHONY: module
 module: ../codegen/.linux.mk
-	$(MAKE) V=1 -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 
 .PHONY: codegen
 codegen: ../codegen/.linux.mk
