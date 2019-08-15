@@ -60,8 +60,8 @@ static int targeting_file_sysctl(SYSCTL_HANDLER_ARGS) {
 static int krf_init() {
   int err = 0;
   sysctl_ctx_init(&clist);
-  if (!(krf_sysctl_root =
-            SYSCTL_ADD_ROOT_NODE(&clist, OID_AUTO, "krf", CTLFLAG_RW, 0, "krf sysctl root node"))) {
+  if (!(krf_sysctl_root = SYSCTL_ADD_ROOT_NODE(&clist, OID_AUTO, KRF_PROC_DIR, CTLFLAG_RW, 0,
+                                               "krf sysctl root node"))) {
     uprintf("krf error: Failed to add root sysctl node.\n");
     return -1;
   }

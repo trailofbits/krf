@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "../krfctl.h"
+#include "../../common/common.h"
 
 /* control will interpret any number larger than its syscall table
  * as a command to clear all current masks.
@@ -18,11 +19,11 @@
  */
 #define CLEAR_MAGIC "65535"
 
-#define CONTROL_FILE "/proc/krf/control"
-#define RNG_STATE_FILE "/proc/krf/rng_state"
-#define PROBABILITY_FILE "/proc/krf/probability"
-#define LOG_FAULTS_FILE "/proc/krf/log_faults"
-#define TARGETING_FILE "/proc/krf/targeting"
+#define CONTROL_FILE "/proc/" KRF_PROC_DIR "/" KRF_CONTROL_FILENAME
+#define RNG_STATE_FILE "/proc/" KRF_PROC_DIR "/" KRF_RNG_STATE_FILENAME
+#define PROBABILITY_FILE "/proc/" KRF_PROC_DIR "/" KRF_PROBABILITY_FILENAME
+#define LOG_FAULTS_FILE "/proc/" KRF_PROC_DIR "/" KRF_LOG_FAULTS_FILENAME
+#define TARGETING_FILE "/proc/" KRF_PROC_DIR "/" KRF_TARGETING_FILENAME
 
 void fault_syscall(const char *sys_name) {
   int fd;

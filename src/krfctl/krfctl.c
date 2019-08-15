@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "krfctl.h"
+#include "../common/common.h"
 
 const char *lookup_syscall_number(const char *sys_name) {
   for (syscall_lookup_t *elem = syscall_lookup_table; elem->sys_name != NULL; elem++) {
@@ -59,14 +60,12 @@ static void fault_syscall_profile(const char *profile) {
   }
 }
 
-enum { TARGET_PERSONALITY = 0, TARGET_PID, TARGET_UID, TARGET_GID, TARGET_INODE, TARGET_NUM_MODES };
-
-char *const targeting_opts[] = {[TARGET_PERSONALITY] = "personality",
-                                [TARGET_PID] = "PID",
-                                [TARGET_UID] = "UID",
-                                [TARGET_GID] = "GID",
-                                [TARGET_INODE] = "INODE",
-                                [TARGET_NUM_MODES] = NULL};
+char *const targeting_opts[] = {[KRF_T_MODE_PERSONALITY] = "personality",
+                                [KRF_T_MODE_PID] = "PID",
+                                [KRF_T_MODE_UID] = "UID",
+                                [KRF_T_MODE_GID] = "GID",
+                                [KRF_T_MODE_INODE] = "INODE",
+                                [KRF_T_NUM_MODES] = NULL};
 
 int main(int argc, char *argv[]) {
   char *subopts, *value;
@@ -106,7 +105,7 @@ int main(int argc, char *argv[]) {
           printf("error: there must be a value input for the targeting option\n");
           return 2;
         }
-        if (ca >= TARGET_NUM_MODES) {
+        if (ca >= KRF_T_NUM_MODES) {
           printf("error: unknown targeting option %s\n", value);
           return 3;
         }
