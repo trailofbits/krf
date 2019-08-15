@@ -8,6 +8,7 @@
 #include "../config.h"
 #include "../krf.h"
 #include "syscalls.h"
+#include "netlink.h"
 
 #define KRF_VERSION "0.0.1"
 
@@ -83,11 +84,15 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
+  if (setup_netlink_socket() < 0) {
+    return -1;
+  }
+
   sys_call_table = (void *)kallsyms_lookup_name("sys_call_table");
 
   if (sys_call_table == NULL) {
     printk(KERN_ERR "krf couldn't load the syscall table\n");
-    return -1;
+    return -2;
   }
 
   memcpy(krf_sys_call_table, sys_call_table, KRF_NR_SYSCALLS * sizeof(unsigned long *));
@@ -125,6 +130,7 @@ static int krf_init(void) {
 static void krf_teardown(void) {
   krf_flush_table();
   remove_proc_subtree(KRF_PROC_DIR, NULL);
+  destroy_netlink_socket();
 }
 
 static ssize_t rng_state_file_read(struct file *f, char __user *ubuf, size_t size, loff_t *off) {
