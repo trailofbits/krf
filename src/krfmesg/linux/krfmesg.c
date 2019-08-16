@@ -6,18 +6,14 @@
 #include <linux/netlink.h>
 #include <unistd.h>
 #include <signal.h>
-
-/* Protocol family, consistent in both kernel prog and user prog. */
-#define NETLINK_KRF 28
-/* Multicast group, consistent in both kernel prog and user prog. */
-#define KRF_MGRP 28
+#include "../../common/common.h"
 
 static sig_atomic_t exiting;
 
 int open_netlink(void) {
   int sock;
   struct sockaddr_nl addr;
-  int group = KRF_MGRP;
+  int group = NETLINK_MYGROUP;
 
   sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
   if (sock < 0) {
@@ -28,7 +24,7 @@ int open_netlink(void) {
   addr.nl_family = AF_NETLINK;
   addr.nl_pid = getpid();
   /* This doesn't work for some reason. See the setsockopt() below. */
-  /* addr.nl_groups = KRF_MGRP; */
+  /* addr.nl_groups = NETLINK_MYGROUP; */
 
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     err(1, "Failed to bind socket");

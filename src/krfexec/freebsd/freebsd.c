@@ -9,6 +9,7 @@
 #include <pwd.h>
 
 #include "../krfexec.h"
+#include "../../common/common.h"
 
 void krfexec_prep(void) {
   char buf[32] = {0};
@@ -17,7 +18,8 @@ void krfexec_prep(void) {
     errx(1, "snprintf");
   }
 
-  if (sysctlbyname(KRF_TARGETING_NAME, NULL, NULL, &buf, strnlen(buf, 32)) < 0) {
+  if (sysctlbyname(KRF_PROC_DIR "." KRF_TARGETING_FILENAME, NULL, NULL, &buf, strnlen(buf, 32)) <
+      0) {
     err(errno, "sysctl failed");
   }
 }
