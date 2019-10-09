@@ -1,0 +1,18 @@
+proto: unsigned long fd, const struct iovec __user *vec, unsigned long vlen, unsigned long pos_l, unsigned long pos_h
+parms: fd, vec, vlen, pos_l, pos_h
+errors:
+  - EBADF
+  - EFAULT
+unlikely_errors:
+  # - EAGAIN
+  # - EWOULDBLOCK
+  - EINTR
+  - EINVAL
+  - EIO
+  - EISDIR
+  - ENXIO
+  - EOVERFLOW
+  - ESPIPE
+profiles:
+  - fs
+  - io

@@ -1,0 +1,18 @@
+proto: unsigned int fd, const char __user *buf, size_t count, loff_t pos
+parms: fd, buf, count, pos
+errors:
+  - EBADF
+  - EFAULT
+unlikely_errors:
+  # - EAGAIN
+  # - EWOULDBLOCK
+  - EINTR
+  - EINVAL
+  - EIO
+  - EISDIR
+  - ENXIO
+  - EOVERFLOW
+  - ESPIPE
+profiles:
+  - fs
+  - io
