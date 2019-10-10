@@ -1,0 +1,7 @@
+proto: const clockid_t which_clock, struct timex __user *utx
+parms: which_clock, utx
+errors:
+  - EINVAL
+  - EPERM
+profiles:
+  - time

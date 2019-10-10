@@ -1,0 +1,8 @@
+proto: int fd, loff_t offset, size_t count
+parms: fd, offset, count
+errors:
+  - EBADF
+  - EINVAL
+profiles:
+  - fs
+  - io

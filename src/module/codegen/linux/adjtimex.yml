@@ -1,0 +1,8 @@
+proto: struct timex __user *txc_p
+parms: txc_p
+errors:
+  - EFAULT
+  - EINVAL
+  - EPERM
+profiles:
+  - time

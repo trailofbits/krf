@@ -1,0 +1,10 @@
+proto: const char __user *new_root, const char __user *put_old
+parms: new_root, put_old
+errors:
+  - EBUSY
+  - EINVAL
+  - ENOTDIR
+  - EPERM
+profiles:
+  - fs
+  - proc

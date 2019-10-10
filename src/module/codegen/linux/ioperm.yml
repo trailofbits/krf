@@ -1,0 +1,10 @@
+proto: unsigned long from, unsigned long num, int turn_on
+parms: from, num, turn_on
+errors:
+  - EIO
+  - EINVAL
+  - EPERM
+  - ENOMEM
+profiles:
+  - io
+  - proc
