@@ -1,0 +1,7 @@
+proto: void
+parms: 
+errors:
+  - EPERM
+profiles:
+  - fs
+  - proc

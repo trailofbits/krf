@@ -57,7 +57,8 @@ SYSCALLS.each do |call, spec|
   # 4. syscalls/internal.gen.h, to prototype the internal wrapper
   # 5. syscalls/<syscall>.gen.c, to set up the actual faulty calls
 
-  nr = spec["nr"] || call
+  name = spec["name"] || call
+  nr = spec["nr"] || name
   number = PLATFORM == "freebsd" ? "SYS_#{nr}" : "__NR_#{nr}"
 
   hai "#{call} (nr: #{number})"
@@ -79,12 +80,12 @@ SYSCALLS.each do |call, spec|
 
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
     #{SYSCALL_RET_TYPE} #{ASMLINKAGE} krf_sys_#{call}(#{spec["proto"]}) {
-      #{TYPEOF}(sys_#{call}) *real_#{call} = #{syscall_insert};
+      #{TYPEOF}(sys_#{call}) *real_#{name} = #{syscall_insert};
 
       if (krf_targeted(KRF_TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
         return krf_sys_internal_#{call}(#{spec["parms"]});
       } else {
-        return real_#{call}(#{spec["parms"]});
+        return real_#{name}(#{spec["parms"]});
       }
     }
   SYSCALLS_X

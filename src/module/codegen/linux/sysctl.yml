@@ -1,0 +1,11 @@
+name: _sysctl
+proto: struct __sysctl_args __user *args
+parms: args
+errors:
+  # - EACCESS
+  - EFAULT
+  - ENOTDIR
+  - EPERM
+profiles:
+  - fs
+  - proc
