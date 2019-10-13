@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <name>k.alculator</name>
+
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Bungee);
+
+       
+
+          p{
+              font-family: 'bungee';
+              color: aliceblue;
+              font-size: 30px;
+          }
+          body{background-color: #000000;
+background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%);
+          overflow: hidden;
+          font-size: 20px}
+
+         input{
+            border:springgreen;
+            border-style:solid;
+           
+            width: 300px;
+            height:30px;
+            font-size : 20px;
+            text-align: right;
+         }
+
+         button{
+            height:80px;
+            width:80px;
+            border:none;
+             outline:none;
+             background-color: azure;
+             font-size : 20px;
+             text-align: center;
+             transition:border-radius 0.3s , border-style 0.3s;
+            
+         }
+         
+         button:active{
+             border-radius:50px;
+             
+             border-style:solid;
+         }
+
+         #eval{background-color: bisque;}
+         #clear{background-color: tomato;}
+
+    </style>
+
+</head>
+<body>
+ 
+
+        <div align="center">
+            <p>K.ALCULATOR</p>
+        <input type="text" id="display" readonly="true" />    
+        <table>
+        <tr>
+            <td><button type="button" id="seven" onclick="function7()">7</button></td> 
+            <td><button type="button" id="eight" onclick="function8()">8</button></td>
+            <td><button type="button" id="nine" onclick="function9()">9</button></td>
+            <td><button type="button" id="divide" onclick="function_divide()">/</button></td>           
+        </tr><br>
+
+        <tr>
+                <td><button type="button" id="four" onclick="function4()">4</button></td> 
+                <td><button type="button" id="five" onclick="function5()">5</button></td>
+                <td><button type="button" id="six" onclick="function6()">6</button></td>
+                <td><button type="button" id="multiply" onclick="function_multiply()">x</button></td>
+        </tr><br>
+         
+        <tr>
+                <td><button type="button" id="one" onclick="function1()">1</button></td> 
+                <td><button type="button" id="two" onclick="function2()">2</button></td>
+                <td><button type="button" id="three" onclick="function3()">3</button></td>
+                <td><button type="button" id="subtract" onclick="function_subtract()">-</button></td>
+        </tr><br>
+
+        <tr>
+                <td><button type="button" id="dot" onclick="function_dot()">.</button></td> 
+                <td><button type="button" id="zero" onclick="function0()">0</button></td>
+                <td><button type="button" id="plus" onclick="function_add()">+</button></td>
+                <td><button type="button" id="eval" onclick="function_eval()">=</button></td>
+        </tr><br>
+
+        <tr>
+                <td><button type="button" id="clear" onclick="function_clear()">C</button></td> 
+                <td><button type="reser" id="all_clear" onclick="function_all_clear()">AC</button></td>
+                <td><button type="reser" id="all_clear" onclick="function_left_paranthesis()">(</button></td>
+                <td><button type="reser" id="all_clear" onclick="function_right_paranthesis()">)</button></td>
+                
+                
+        </tr>
+    </table>
+                
+    </div>
+    
+</body>
+
+<script>
+
+        function function1(){
+            document.getElementById('display').value+='1';
+        }
+
+        function function2(){
+            document.getElementById('display').value+='2';
+        }
+
+        function function3(){
+            document.getElementById('display').value+='3';
+        }
+
+        function function4(){
+            document.getElementById('display').value+='4';
+        }
+
+        function function5(){
+            document.getElementById('display').value+='5';
+        }
+
+        function function6(){
+            document.getElementById('display').value+='6';
+        }
+
+        function function7(){
+            document.getElementById('display').value+='7';
+        }
+
+        function function8(){
+            document.getElementById('display').value+='8';
+        }
+
+        function function9(){
+            document.getElementById('display').value+='9';
+        }
+
+        function function0(){
+            document.getElementById('display').value+='0';
+        }
+
+        function function_add(){
+            document.getElementById('display').value+='+';
+        }
+
+        function function_subtract(){
+            document.getElementById('display').value+='-';
+        }
+
+        function function_multiply(){
+            document.getElementById('display').value+='*';
+        }
+
+        function function_divide(){
+            document.getElementById('display').value+='/';
+        }
+
+        function function_dot(){
+            document.getElementById('display').value+='.';
+        }
+
+        function function_left_paranthesis(){
+            document.getElementById('display').value+='(';
+        }
+
+        function function_right_paranthesis(){
+            document.getElementById('display').value+=')';
+        }
+
+        function function_eval(){
+            document.getElementById('display').value=eval(document.getElementById('display').value);
+            if(document.getElementById('display').value=='1+'){
+                document.getElementById('display').value="NEVER SETTLE"; 
+            }
+        }
+
+        function function_all_clear(){
+            document.getElementById('display').value=null;
+        }
+
+        function function_clear(){
+            document.getElementById('display').value=document.getElementById('display').value.slice(0,document.getElementById('display').value.length-1);
+        }
+</script>
+
+</html>
