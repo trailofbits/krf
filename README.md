@@ -64,7 +64,7 @@ GNU Make is required on all platforms; FreeBSD *additionally* requires BSD Make.
 For systems with `apt`:
 
 ```bash
-sudo apt install libelf-dev ruby linux-headers-$(uname -r)
+sudo apt install gcc make libelf-dev ruby linux-headers-$(uname -r)
 ```
 
 ### Building
