@@ -70,7 +70,7 @@ char *const targeting_opts[] = {[KRF_T_MODE_PERSONALITY] = "personality",
 int main(int argc, char *argv[]) {
   char *subopts, *value;
   int c;
-  while ((c = getopt(argc, argv, "F:P:cr:p:LT:C")) != -1) {
+  while ((c = getopt(argc, argv, "F:P:cr:p:LT:Ch")) != -1) {
     switch (c) {
     case 'F': {
       fault_syscall_spec(optarg);
@@ -117,6 +117,7 @@ int main(int argc, char *argv[]) {
       set_targeting(0, "0");
       break;
     }
+    case 'h' :
     default: {
       printf("usage: krfctl <options>\n"
              "options:\n"
