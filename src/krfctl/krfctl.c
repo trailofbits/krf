@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
       set_targeting(0, "0");
       break;
     }
-    case 'h' :
+    case 'h':
     default: {
       printf("usage: krfctl <options>\n"
              "options:\n"
