@@ -134,10 +134,16 @@ int main(int argc, char *argv[]) {
              " personality, PID, UID, GID, and INODE\n"
              "available profiles (for -P flag):\n"
              " ");
-      for (fault_profile_t *elem = fault_profile_table; elem->profile != NULL; elem++) {
-        printf("%s, ", elem->profile);
+      fault_profile_t *elem = fault_profile_table;
+      while (elem->profile != NULL) {
+        printf("%s", elem->profile);
+
+        elem++;
+        if (elem->profile != NULL) {
+          printf(", ");
+        }
       }
-      printf("\b\b  \n");
+      printf("\n");
       return 1;
     }
     }
