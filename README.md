@@ -123,26 +123,26 @@ ls
 
 # tell krf to fault read(2) and write(2) calls
 # note that krfctl requires root privileges
-sudo ./src/krfctl/krfctl -F 'read,write'
+sudo krfctl -F 'read,write'
 
 # tell krf to fault any program started by
 # krfexec, meaning a personality of 28
-sudo ./src/krfctl/krfctl -T personality=28
+sudo krfctl -T personality=28
 
 # may fault!
-./src/krfexec/krfexec ls
+krfexec ls
 
 # krfexec will pass options correctly as well
-./src/krfexec/krfexec echo -n 'no newline'
+krfexec echo -n 'no newline'
 
 # clear the fault specification
-sudo ./src/krfctl/krfctl -c
+sudo krfctl -c
 
 # clear the targeting specification
-sudo ./src/krfctl/krfctl -C
+sudo krfctl -C
 
 # no induced faults, since no syscalls are being faulted
-./src/krfexec/krfexec firefox
+krfexec firefox
 ```
 
 ## Configuration
