@@ -132,6 +132,12 @@ sudo krfctl -T personality=28
 # may fault!
 krfexec ls
 
+# tell krf to fault with a 1/100 probability
+sudo krfctl -p 100
+
+# tell krf to fault `io` profile (and so i/o related syscalls)
+sudo krfctl -P io
+
 # krfexec will pass options correctly as well
 krfexec echo -n 'no newline'
 
