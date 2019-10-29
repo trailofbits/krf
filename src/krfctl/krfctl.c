@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
              "available profiles (for -P flag):\n"
              " ");
       for (fault_profile_t *elem = fault_profile_table; elem->profile != NULL; elem++) {
-	      printf("%s, ", elem->profile);
+	    printf("%s, ", elem->profile);
       }
       printf("\b\b  \n");
       return 1;
