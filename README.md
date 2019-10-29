@@ -108,8 +108,11 @@ KRF has three components:
 * A kernel module (`krfx`)
 * An execution utility (`krfexec`)
 * A control utility (`krfctl`)
+* A kernel module logger (`krfmesg`)
 
 To load the kernel module, run `make insmod`. To unload it, run `make rmmod`.
+
+For first time use it might be useful to launch `sudo krfmesg` on a separate terminal to see messages logged from `krfx`.
 
 KRF begins in a neutral state: no syscalls will be intercepted or faulted until the user
 specifies some behavior via `krfctl`:
