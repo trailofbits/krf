@@ -131,7 +131,13 @@ int main(int argc, char *argv[]) {
              " -T <variable>=<value>       enable targeting option <variable> with value <value>\n"
              " -C                          clear the targeting options\n"
              "targeting options:\n"
-             " personality, PID, UID, GID, and INODE\n");
+             " personality, PID, UID, GID, and INODE\n"
+             "available profiles (for -P flag):\n"
+             " ");
+      for (fault_profile_t *elem = fault_profile_table; elem->profile != NULL; elem++) {
+	      printf("%s, ", elem->profile);
+      }
+      printf("\b\b  \n");
       return 1;
     }
     }
