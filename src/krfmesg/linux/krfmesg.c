@@ -1,4 +1,5 @@
 #include <err.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,8 +17,14 @@ int open_netlink(void) {
   int group = NETLINK_MYGROUP;
 
   sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
+
   if (sock < 0) {
-    err(1, "socket");
+    if (errno == EPROTONOSUPPORT) {
+      errx(1, "NETLINK_KRF protocol not found.\n"
+              "Check to ensure that the KRF module (krfx) is loaded.");
+    } else {
+      err(errno, "socket");
+    }
   }
 
   memset((void *)&addr, 0, sizeof(addr));
