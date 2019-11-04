@@ -1,4 +1,5 @@
 #include <err.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,7 +17,15 @@ int open_netlink(void) {
   int group = NETLINK_MYGROUP;
 
   sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_KRF);
-  if (sock < 0) {
+
+  if (sock == -1 && errno == EPROTONOSUPPORT) {
+      puts("The NETLINK_KRF netlink socket created by krfx kernel module was not found");
+      puts("Is krfx kernel module loaded?");
+      puts("Check it with `lsmod | grep krfx`");
+      puts("Load it with `sudo make insmod` (after `sudo make install`)");
+      exit(1);
+  }
+  else if (sock < 0) {
     err(1, "socket");
   }
 
