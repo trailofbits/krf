@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt install -y ruby cppcheck clang-format-7 linux-headers-$(uname -r)
+      run: sudo apt install -y ruby cppcheck clang-format-7 build-essential linux-headers-$(uname -r)
     - name: Lint
       run: |
         make CLANG_FORMAT=clang-format-7 fmt && git diff --exit-code
