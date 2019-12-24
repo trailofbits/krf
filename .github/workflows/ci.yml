@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt install -y cppcheck clang-format linux-headers-$(uname -r)
+      run: sudo apt install -fy cppcheck clang-format linux-headers-$(uname -r)
     - name: Lint
       run: |
         make fmt && git diff --exit-code
