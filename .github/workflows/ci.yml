@@ -21,10 +21,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt install -y ruby cppcheck clang-format-6 build-essential linux-headers-$(uname -r)
+      run: sudo apt install -y ruby cppcheck clang-format build-essential linux-headers-$(uname -r)
     - name: Lint
       run: |
-        make CLANG_FORMAT=clang-format-6 fmt && git diff --exit-code
+        make fmt && git diff --exit-code
         cppcheck --error-exitcode=1 src/
     - name: Build
       env:
