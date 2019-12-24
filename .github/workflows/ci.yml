@@ -29,6 +29,4 @@ jobs:
     - name: Build
       env:
         FAULTS: ${{ matrix.env.FAULTS }}
-      run: |
-        cat /usr/src/linux-headers-$(uname -r)/include/linux/syscalls.h
-        make
+      run: make
