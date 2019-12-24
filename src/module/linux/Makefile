@@ -16,20 +16,20 @@ $(MOD)-objs := krf.o syscalls.o netlink.o ../krf.o ../config.o $(KRF_SYSCALL_OBJ
 all: module
 
 .PHONY: module
-module: ../codegen/.linux.mk
+module: ../codegen/linux/.linux.mk
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) modules
 
 .PHONY: codegen
-codegen: ../codegen/.linux.mk
+codegen: ../codegen/linux/.linux.mk
 
-../codegen/.linux.mk: ../codegen/codegen $(KRF_SYSCALL_YMLS)
-	ruby ../codegen/codegen linux $(FAULTS)
-	@touch ../codegen/.linux.mk
+../codegen/linux/.linux.mk: ../codegen/linux/codegen $(KRF_SYSCALL_YMLS)
+	ruby ../codegen/linux/codegen $(FAULTS)
+	@touch ../codegen/linux/.linux.mk
 
 clean:
 	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(shell pwd) clean
 	rm -f ../*.o *.ur-safe ../*.ur-safe # some garbage not cleaned by the kernel's clean target
-	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c ../codegen/.linux.mk # codegen files
+	rm -f *.gen.x *.gen.h */*.gen.h */*.gen.c ../codegen/linux/.linux.mk # codegen files
 
 .PHONY: install
 install: $(MOD).ko

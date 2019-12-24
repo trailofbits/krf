@@ -7,15 +7,15 @@ KRF_SYSCALL_YMLS = $(wildcard ../codegen/freebsd/*.yml)
 all: module
 
 .PHONY: module
-module: ../codegen/.freebsd.mk
+module: ../codegen/freebsd/.freebsd.mk
 	make -f Makefile.module all
 
 .PHONY: codegen
-codegen: ../codegen/.freebsd.mk
+codegen: ../codegen/freebsd/.freebsd.mk
 
-../codegen/.freebsd.mk: ../codegen/codegen $(KRF_SYSCALL_YMLS)
-	ruby ../codegen/codegen freebsd $(FAULTS)
-	@touch ../codegen/.freebsd.mk
+../codegen/freebsd/.freebsd.mk: ../codegen/freebsd/codegen $(KRF_SYSCALL_YMLS)
+	ruby ../codegen/freebsd/codegen $(FAULTS)
+	@touch ../codegen/freebsd/.freebsd.mk
 
 .PHONY: insmod
 insmod:
@@ -32,4 +32,4 @@ install:
 .PHONY: clean
 clean:
 	make -f Makefile.module clean
-	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h ../codegen/.freebsd.mk
+	rm -rf *.gen.c *.gen.x *.gen.h syscalls/*.gen.c syscalls/*.gen.h ../codegen/freebsd/.freebsd.mk

@@ -1,22 +1,16 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# codegen for KRF
+# Linux codegen for KRF
 # Like all code generators, this file is ugly.
 # https://filippo.io/linux-syscall-table/
 
 require "yaml"
 
-PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+PLATFORM = `uname -s`.chomp!.downcase!
 CONSERVATIVE = (ARGV.shift == "conservative")
 
-abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
-
-TYPEOF = PLATFORM == "freebsd" ? "__typeof" : "typeof"
-SYSCALL_RET_TYPE = PLATFORM == "freebsd" ? "int" : "long"
-PRINT = PLATFORM == "freebsd" ? "uprintf" : "KRF_LOG"
-FAULT_PREFIX = PLATFORM == "freebsd" ? "" : "-"
-ASMLINKAGE = PLATFORM == "freebsd" ? "" : "asmlinkage"
+abort "Barf: Linux codegen requested but platform is #{PLATFORM}" if PLATFORM != "linux"
 
 HEADER = <<~HEADER
   /* WARNING!
@@ -25,14 +19,14 @@ HEADER = <<~HEADER
    */
 HEADER
 
-SYSCALL_SPECS = Dir[File.join(__dir__, PLATFORM, "*.yml")]
+SYSCALL_SPECS = Dir[File.join(__dir__, "*.yml")]
 
 SYSCALLS = SYSCALL_SPECS.map do |path|
   spec = YAML.safe_load File.read(path)
   [File.basename(path, ".yml"), spec]
 end.to_h
 
-SOURCE_DIR = File.expand_path "../#{PLATFORM}", __dir__
+SOURCE_DIR = File.expand_path "../../#{PLATFORM}", __dir__
 
 def hai(msg)
   STDERR.puts "[codegen] #{msg}"
@@ -59,28 +53,16 @@ SYSCALLS.each do |call, spec|
 
   name = spec["name"] || call
   nr = spec["nr"] || name
-  number = PLATFORM == "freebsd" ? "SYS_#{nr}" : "__NR_#{nr}"
+  number = "__NR_#{nr}"
 
   hai "#{call} (nr: #{number})"
-  if PLATFORM == "freebsd"
-    gen_files[:krf_x].puts <<~KRF_X
-      krf_faultable_table[#{number}] = (sy_call_t *)&krf_sys_#{call};
-    KRF_X
-  else
-    gen_files[:krf_x].puts <<~KRF_X
-      krf_faultable_table[#{number}] = (void *)&krf_sys_#{call};
-    KRF_X
-  end
-
-  syscall_insert = if PLATFORM == "freebsd"
-                     "(#{TYPEOF}(sys_#{call}) *)krf_sys_call_table[#{number}]"
-                   else
-                     "(void *)krf_sys_call_table[#{number}]"
-                   end
+  gen_files[:krf_x].puts <<~KRF_X
+    krf_faultable_table[#{number}] = (void *)&krf_sys_#{call};
+  KRF_X
 
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
-    #{SYSCALL_RET_TYPE} #{ASMLINKAGE} krf_sys_#{call}(#{spec["proto"]}) {
-      #{TYPEOF}(sys_#{call}) *real_#{name} = #{syscall_insert};
+    asmlinkage long krf_sys_#{call}(#{spec["proto"]}) {
+      typeof(sys_#{call}) *real_#{name} = (void *)krf_sys_call_table[#{number}];
 
       if (krf_targeted(KRF_TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
         return krf_sys_internal_#{call}(#{spec["parms"]});
@@ -91,11 +73,11 @@ SYSCALLS.each do |call, spec|
   SYSCALLS_X
 
   gen_files[:syscalls_h].puts <<~SYSCALLS_H
-    #{ASMLINKAGE} #{TYPEOF}(sys_#{call}) krf_sys_#{call};
+    asmlinkage typeof(sys_#{call}) krf_sys_#{call};
   SYSCALLS_H
 
   gen_files[:internal_h].puts <<~INTERNAL_H
-    #{TYPEOF}(sys_#{call}) krf_sys_internal_#{call};
+    typeof(sys_#{call}) krf_sys_internal_#{call};
   INTERNAL_H
 
   syscall_c = File.join(SOURCE_DIR, "syscalls", "#{call}.gen.c")
@@ -113,23 +95,23 @@ SYSCALLS.each do |call, spec|
       fault_table << "krf_sys_internal_#{call}_#{fault}"
 
       file.puts <<~FAULT
-        static #{SYSCALL_RET_TYPE} krf_sys_internal_#{call}_#{fault}(#{spec["proto"]}) {
+        static long krf_sys_internal_#{call}_#{fault}(#{spec["proto"]}) {
           if (krf_log_faults) {
-            #{PRINT}("faulting #{call} with #{fault}\\n");
+            KRF_LOG("faulting #{call} with #{fault}\\n");
           }
 
-          return #{FAULT_PREFIX}#{fault};
+          return -#{fault};
         }
       FAULT
     end
 
     file.puts <<~TRAILER
-      static #{TYPEOF}(sys_#{call})(*fault_table[]) = {
+      static typeof(sys_#{call})(*fault_table[]) = {
         #{fault_table.join ", "}
       };
 
       // Fault entrypoint.
-      #{SYSCALL_RET_TYPE} krf_sys_internal_#{call}(#{spec["proto"]}) {
+      long krf_sys_internal_#{call}(#{spec["proto"]}) {
         return fault_table[KRF_RNG_NEXT() % NFAULTS](#{spec["parms"]});
       }
     TRAILER
