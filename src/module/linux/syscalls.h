@@ -4,10 +4,6 @@
 #include <linux/preempt.h>
 #include <asm/asm-offsets.h> /* for NR_syscalls */
 
-#if !defined _LINUX_SYSCALLS_H
-#error "Weird: included syscalls but didn't see sentinel?"
-#endif
-
 #if !defined(NR_syscalls) || NR_syscalls <= 0
 #error "undefined or bizarrely defined NR_syscalls"
 #endif
