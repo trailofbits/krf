@@ -1,7 +1,7 @@
 KRF
 ===
 
-[![Build Status](https://travis-ci.com/trailofbits/krf.svg?branch=master)](https://travis-ci.com/trailofbits/krf)
+[![Build Status](https://img.shields.io/github/workflow/status/trailofbits/krf/CI/master)](https://github.com/trailofbits/krf/actions?query=workflow%3ACI)
 
 KRF is a **K**ernelspace **R**andomized **F**aulter.
 
