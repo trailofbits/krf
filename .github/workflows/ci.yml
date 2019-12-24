@@ -25,7 +25,7 @@ jobs:
     - name: Lint
       run: |
         make CLANG_FORMAT=clang-format-7 fmt && git diff --exit-code
-        cppcheck --error-exitcode-1 src/
+        cppcheck --error-exitcode=1 src/
     - name: Build
       env:
         FAULTS: ${{ matrix.env.FAULTS }}
