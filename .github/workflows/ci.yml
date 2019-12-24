@@ -24,7 +24,7 @@ jobs:
       run: sudo apt install -y cppcheck clang-format-7 linux-headers-$(uname -r)
     - name: Lint
       run: |
-        make fmt && git diff --exit-code
+        make CLANG_FORMAT=clang-format-7 fmt && git diff --exit-code
         cppcheck --error-exitcode-1 src/
     - name: Build
       env:
