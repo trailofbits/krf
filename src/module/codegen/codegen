@@ -12,7 +12,7 @@ CONSERVATIVE = (ARGV.shift == "conservative")
 
 abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
 
-TYPEOF = PLATFORM == "freebsd" ? "__typeof" : "typeof"
+TYPEOF = PLATFORM == "freebsd" ? "__typeof" : "__typeof__"
 SYSCALL_RET_TYPE = PLATFORM == "freebsd" ? "int" : "long"
 PRINT = PLATFORM == "freebsd" ? "uprintf" : "KRF_LOG"
 FAULT_PREFIX = PLATFORM == "freebsd" ? "" : "-"
