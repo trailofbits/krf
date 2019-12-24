@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    # run CI every day even if no PRs/merges occur
+    - cron:  '0 12 * * *'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: ubuntu-latest
+        env:
+          - FAULTS: conservative
+          - FAULTS:
+    runs-on: ${{ matrix.platform }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt install -y cppcheck clang-format linux-headers-$(uname -r)
+    - name: Lint
+      run: |
+        make fmt && git diff --exit-code
+        cppcheck --error-exitcode-1 src/
+    - name: Build
+      env:
+        FAULTS: ${{ matrix.env.FAULTS }}
+      run: make
