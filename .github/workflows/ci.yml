@@ -10,6 +10,16 @@ on:
     - cron:  '0 12 * * *'
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt install -y cppcheck clang-format-7
+      - name: Lint
+        run: |
+          make CLANG_FORMAT=clang-format-7 fmt && git diff --exit-code
+          cppcheck --error-exitcode=1 src/
   build:
     strategy:
       matrix:
@@ -21,11 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt install -y ruby cppcheck clang-format-6.0 build-essential linux-headers-$(uname -r)
-    - name: Lint
-      run: |
-        make CLANG_FORMAT=clang-format-6.0 fmt && git diff --exit-code
-        cppcheck --error-exitcode=1 src/
+      run: sudo apt install -y ruby build-essential linux-headers-$(uname -r)
     - name: Build
       env:
         FAULTS: ${{ matrix.env.FAULTS }}
