@@ -1,5 +1,7 @@
 export CFLAGS := -std=gnu99 -Wall -Werror -pedantic
 export PLATFORM := $(shell uname -s | tr '[:upper:]' '[:lower:]')
+
+CLANG_FORMAT := clang-format
 ALL_SRCS := $(shell find . -type f \( -name '*.c' -o -name '*.h' \))
 PREFIX = /usr/local
 
@@ -42,7 +44,7 @@ clean:
 
 .PHONY: fmt
 fmt:
-	clang-format -i -style=file $(ALL_SRCS)
+	$(CLANG_FORMAT) -i -style=file $(ALL_SRCS)
 
 .PHONY: install-module
 install-module: module
