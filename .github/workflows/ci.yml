@@ -23,6 +23,7 @@ jobs:
   build:
     strategy:
       matrix:
+        # TODO(ww): Enable ubuntu-latest as well; see GH#80.
         platform: ["ubuntu-16.04"]
         env:
           - FAULTS: conservative
