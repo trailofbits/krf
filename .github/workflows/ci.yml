@@ -30,6 +30,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: "2.6"
     - name: Install dependencies
       run: sudo apt install -y ruby build-essential linux-headers-$(uname -r)
     - name: Build
