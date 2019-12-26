@@ -38,8 +38,8 @@ install: $(MOD).ko
 
 .PHONY: insmod
 insmod: $(MOD).ko
-	sudo modprobe $(MOD) --first-time
+	sudo insmod $(MOD).ko
 
 .PHONY: rmmod
 rmmod:
-	sudo modprobe -r $(MOD) --first-time
+	sudo rmmod $(MOD)

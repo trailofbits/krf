@@ -8,6 +8,7 @@
 require "yaml"
 
 PLATFORM = `uname -s`.chomp!.downcase!
+RELEASE = `uname -r`.chomp!
 CONSERVATIVE = (ARGV.shift == "conservative")
 
 abort "Barf: Linux codegen requested but platform is #{PLATFORM}" if PLATFORM != "linux"
@@ -28,11 +29,19 @@ end.to_h
 
 SOURCE_DIR = File.expand_path "../../#{PLATFORM}", __dir__
 
+KERNEL_CONFIG = "/lib/modules/#{RELEASE}/build/.config"
+
+abort "Barf: Missing config for #{RELEASE}: #{KERNEL_CONFIG}" unless File.file? KERNEL_CONFIG
+
 def hai(msg)
   STDERR.puts "[codegen] #{msg}"
 end
 
 hai "output directory: #{SOURCE_DIR}"
+
+has_syscall_wrappers = File.readlines(KERNEL_CONFIG).any? do |line|
+  line.include? "CONFIG_ARCH_HAS_SYSCALL_WRAPPER=y"
+end
 
 gen_files = {
   krf_x: File.open(File.join(SOURCE_DIR, "krf.gen.x"), "w"),
@@ -54,6 +63,11 @@ SYSCALLS.each do |call, spec|
   name = spec["name"] || call
   nr = spec["nr"] || name
   number = "__NR_#{nr}"
+  proto, parms = if has_syscall_wrappers
+                   ["const struct pt_regs* regs", "regs"]
+                 else
+                   [spec["proto"], spec["parms"]]
+                 end
 
   hai "#{call} (nr: #{number})"
   gen_files[:krf_x].puts <<~KRF_X
@@ -61,23 +75,25 @@ SYSCALLS.each do |call, spec|
   KRF_X
 
   gen_files[:syscalls_x].puts <<~SYSCALLS_X
-    asmlinkage long krf_sys_#{call}(#{spec["proto"]}) {
-      typeof(sys_#{call}) *real_#{name} = (void *)krf_sys_call_table[#{number}];
+    asmlinkage long krf_sys_#{call}(#{proto}) {
+      long (*real_#{name})(#{proto}) = (void *)krf_sys_call_table[#{number}];
 
       if (krf_targeted(KRF_TARGETING_PARMS) && (KRF_RNG_NEXT() % krf_probability) == 0) {
-        return krf_sys_internal_#{call}(#{spec["parms"]});
+        return krf_sys_internal_#{call}(#{parms});
       } else {
-        return real_#{name}(#{spec["parms"]});
+        return real_#{name}(#{parms});
       }
     }
   SYSCALLS_X
 
+  # NOTE(ww): Kernels built with syscall wrappers don't have
+  # sys_$whatever exposed via syscalls.h, so typeof doesn't work.
   gen_files[:syscalls_h].puts <<~SYSCALLS_H
-    asmlinkage typeof(sys_#{call}) krf_sys_#{call};
+    asmlinkage long krf_sys_#{call}(#{proto});
   SYSCALLS_H
 
   gen_files[:internal_h].puts <<~INTERNAL_H
-    typeof(sys_#{call}) krf_sys_internal_#{call};
+    long krf_sys_internal_#{call}(#{proto});
   INTERNAL_H
 
   syscall_c = File.join(SOURCE_DIR, "syscalls", "#{call}.gen.c")
@@ -95,7 +111,7 @@ SYSCALLS.each do |call, spec|
       fault_table << "krf_sys_internal_#{call}_#{fault}"
 
       file.puts <<~FAULT
-        static long krf_sys_internal_#{call}_#{fault}(#{spec["proto"]}) {
+        static long krf_sys_internal_#{call}_#{fault}(#{proto}) {
           if (krf_log_faults) {
             KRF_LOG("faulting #{call} with #{fault}\\n");
           }
@@ -106,13 +122,13 @@ SYSCALLS.each do |call, spec|
     end
 
     file.puts <<~TRAILER
-      static typeof(sys_#{call})(*fault_table[]) = {
+      static long (*fault_table[])(#{proto}) = {
         #{fault_table.join ", "}
       };
 
       // Fault entrypoint.
-      long krf_sys_internal_#{call}(#{spec["proto"]}) {
-        return fault_table[KRF_RNG_NEXT() % NFAULTS](#{spec["parms"]});
+      long krf_sys_internal_#{call}(#{proto}) {
+        return fault_table[KRF_RNG_NEXT() % NFAULTS](#{parms});
       }
     TRAILER
   end
