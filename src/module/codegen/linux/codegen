@@ -43,8 +43,6 @@ has_syscall_wrappers = File.readlines(KERNEL_CONFIG).any? do |line|
   line.include? "CONFIG_ARCH_HAS_SYSCALL_WRAPPER=y"
 end
 
-# abort "Barf: No codegen for kernels compiled with syscall wrappers yet!" if has_syscall_wrappers
-
 gen_files = {
   krf_x: File.open(File.join(SOURCE_DIR, "krf.gen.x"), "w"),
   syscalls_h: File.open(File.join(SOURCE_DIR, "syscalls.gen.h"), "w"),
@@ -90,23 +88,13 @@ SYSCALLS.each do |call, spec|
 
   # NOTE(ww): Kernels built with syscall wrappers don't have
   # sys_$whatever exposed via syscalls.h, so typeof doesn't work.
-  if has_syscall_wrappers
-    gen_files[:syscalls_h].puts <<~SYSCALLS_H
-      asmlinkage long krf_sys_#{call}(#{proto});
-    SYSCALLS_H
+  gen_files[:syscalls_h].puts <<~SYSCALLS_H
+    asmlinkage long krf_sys_#{call}(#{proto});
+  SYSCALLS_H
 
-    gen_files[:internal_h].puts <<~INTERNAL_H
-      long krf_sys_internal_#{call}(#{proto});
-    INTERNAL_H
-  else
-    gen_files[:syscalls_h].puts <<~SYSCALLS_H
-      asmlinkage typeof(sys_#{call}) krf_sys_#{call};
-    SYSCALLS_H
-
-    gen_files[:internal_h].puts <<~INTERNAL_H
-      typeof(sys_#{call}) krf_sys_internal_#{call};
-    INTERNAL_H
-  end
+  gen_files[:internal_h].puts <<~INTERNAL_H
+    long krf_sys_internal_#{call}(#{proto});
+  INTERNAL_H
 
   syscall_c = File.join(SOURCE_DIR, "syscalls", "#{call}.gen.c")
   File.open(syscall_c, "w") do |file|
@@ -133,21 +121,11 @@ SYSCALLS.each do |call, spec|
       FAULT
     end
 
-    if has_syscall_wrappers
-      file.puts <<~TABLE
-        static long (*fault_table[])(#{proto}) = {
-          #{fault_table.join ", "}
-        };
-      TABLE
-    else
-      file.puts <<~TABLE
-        static typeof(sys_#{call})(*fault_table[]) = {
-          #{fault_table.join ", "}
-        };
-      TABLE
-    end
-
     file.puts <<~TRAILER
+      static long (*fault_table[])(#{proto}) = {
+        #{fault_table.join ", "}
+      };
+
       // Fault entrypoint.
       long krf_sys_internal_#{call}(#{proto}) {
         return fault_table[KRF_RNG_NEXT() % NFAULTS](#{parms});
