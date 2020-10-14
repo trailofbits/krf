@@ -26,12 +26,13 @@
 #define LOG_FAULTS_NAME KRF_PROC_DIR "." KRF_LOG_FAULTS_FILENAME
 #define TARGETING_NAME KRF_PROC_DIR "." KRF_TARGETING_FILENAME
 
-void fault_syscall(const char *sys_name) {
+int fault_syscall(const char *sys_name) {
   const char *sys_num;
   unsigned int syscall;
 
   if (!(sys_num = lookup_syscall_number(sys_name))) {
-    errx(1, "couldn't find syscall %s", sys_name);
+    warnx("WARNING: couldn't find syscall %s", sys_name);
+    return 1;
   }
 
   if (sscanf(sys_num, "%u", &syscall) != 1) {
@@ -45,6 +46,7 @@ void fault_syscall(const char *sys_name) {
       err(errno, "sysctl " CONTROL_NAME);
     }
   }
+  return 0;
 }
 
 void clear_faulty_calls(void) {
