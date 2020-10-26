@@ -42,6 +42,9 @@ invoked.
 Finally, the targeted call is faulted via a random failure function. For example,
 a `read(2)` call might receive one of `EBADF`, `EINTR`, `EIO`, and so on.
 
+You can read more about KRF's implementation
+[in our blog post](https://blog.trailofbits.com/2019/01/17/how-to-write-a-rootkit-without-really-trying/).
+
 ## Setup
 
 ### Compatibility
