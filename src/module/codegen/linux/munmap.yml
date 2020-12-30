@@ -3,4 +3,4 @@ parms: addr, len
 errors:
   - EINVAL
 profiles:
-  - memory
+  - mm

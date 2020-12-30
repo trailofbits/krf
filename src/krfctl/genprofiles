@@ -5,10 +5,12 @@
 
 require "yaml"
 
-PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+# PLATFORM = ARGV.shift || `uname -s`.chomp!.downcase!
+PLATFORM = "linux"
 
 abort "Barf: Unknown platform: #{PLATFORM}" unless %w[linux freebsd].include? PLATFORM
 
+PROFILE_DESC_FILE = File.expand_path "./profiles.yml", __dir__
 SYSCALL_SPECS_DIR = File.expand_path File.join("../module/codegen/", PLATFORM), __dir__
 SYSCALL_SPECS = Dir[File.join(SYSCALL_SPECS_DIR, "*.yml")]
 
@@ -16,6 +18,9 @@ SYSCALLS = SYSCALL_SPECS.map do |path|
   spec = YAML.safe_load File.read(path)
   [File.basename(path, ".yml"), spec]
 end.to_h
+
+PROFILE_DESCS = YAML.safe_load File.read(PROFILE_DESC_FILE)
+PROFILE_DESCS.default = Hash.new "<no description for this profile; please contribute one>"
 
 PROFILES = Hash.new { |h, k| h[k] = [] }
 
@@ -52,10 +57,11 @@ File.open(OUTPUT_NAME, "w") do |file|
   file.puts "fault_profile_t fault_profile_table[] = {"
 
   PROFILES.each do |name, syscalls|
+    desc = PROFILE_DESCS[name]
     sys_struct = syscalls.map { |s| "\"#{s}\"" }.join ", "
-    file.puts %({ "#{name}", { #{sys_struct}, NULL } },)
+    file.puts %({ "#{name}", "#{desc}", { #{sys_struct}, NULL } },)
   end
 
-  file.puts "{ NULL, { NULL } },"
+  file.puts "{ NULL, NULL, { NULL } },"
   file.puts "};"
 end

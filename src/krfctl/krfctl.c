@@ -136,14 +136,9 @@ int main(int argc, char *argv[]) {
              " ");
       fault_profile_t *elem = fault_profile_table;
       while (elem->profile != NULL) {
-        printf("%s", elem->profile);
-
+        printf("\t%s\t%s\n", elem->profile, elem->description);
         elem++;
-        if (elem->profile != NULL) {
-          printf(", ");
-        }
       }
-      printf("\n");
       return 1;
     }
     }

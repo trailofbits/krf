@@ -15,4 +15,4 @@ errors:
   - EPERM
   - ETXTBSY
 profiles:
-  - memory
+  - mm
