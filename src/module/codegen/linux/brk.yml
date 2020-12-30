@@ -3,4 +3,4 @@ parms: addr
 errors:
   - ENOMEM
 profiles:
-  - memory
+  - mm

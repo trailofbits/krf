@@ -8,6 +8,7 @@ typedef struct syscall_lookup_t {
 
 typedef struct fault_profile_t {
   const char *profile;
+  const char *description;
   /* GCC doesn't like flexible array initialization within
    * structures, so just give ourselves enough room for
    * sensibly sized profiles.

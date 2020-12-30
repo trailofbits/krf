@@ -9,4 +9,4 @@ errors:
   - ENOMEM
   - EPERM
 profiles:
-  - memory
+  - mm

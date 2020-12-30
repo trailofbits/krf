@@ -6,4 +6,4 @@ errors:
   - EINVAL
   - ENOMEM
 profiles:
-  - memory
+  - mm
