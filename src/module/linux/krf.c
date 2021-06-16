@@ -59,7 +59,7 @@ static const struct proc_ops targeting_file_ops = {
     .read = targeting_file_read,
     .write = targeting_file_write,
 };
-#elif
+#else
 static const struct file_operations rng_state_file_ops = {
     .owner = THIS_MODULE,
     .read = rng_state_file_read,
