@@ -23,7 +23,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: ["ubuntu-16.04", "ubuntu-18.04"]
+        platform: ["ubuntu-16.04", "ubuntu-18.04", "ubuntu-20.04"]
         env:
           - FAULTS: conservative
           - FAULTS:
