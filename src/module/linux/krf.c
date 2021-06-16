@@ -22,6 +22,17 @@ MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 #define HAVE_PROC_OPS
 #endif
 
+// Kernels 5.7 and newer: kallsyms_lookup_name has been unexported for Google reasons (tm),
+// so we need to use kprobes to grab its address.
+// See: https://github.com/xcellerator/linux_kernel_hacking
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 7, 0)
+#define KALLSYMS_LOOKUP_NAME_UNEXPORTED
+#include <linux/kprobes.h>
+static struct kprobe kp = {
+    .symbol_name = "kallsyms_lookup_name"
+};
+#endif
+
 static int krf_init(void);
 static void krf_teardown(void);
 static ssize_t rng_state_file_read(struct file *, char __user *, size_t, loff_t *);
@@ -115,6 +126,16 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
+  #ifdef KALLSYMS_LOOKUP_NAME_UNEXPORTED
+  typedef unsigned long (*kallsyms_lookup_name_t)(const char *name);
+  kallsyms_lookup_name_t kallsyms_lookup_name;
+  if (register_kprobe(&kp) < 0) {
+    printk(KERN_ERR "krf couldn't register a kprobe to sniff kallsyms_lookup_name\n");
+  }
+  kallsyms_lookup_name = (kallsyms_lookup_name_t) kp.addr;
+  unregister_kprobe(&kp);
+  #endif
+
   if (setup_netlink_socket() < 0) {
     return -1;
   }
