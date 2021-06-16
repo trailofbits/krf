@@ -28,9 +28,7 @@ MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 7, 0)
 #define KALLSYMS_LOOKUP_NAME_UNEXPORTED
 #include <linux/kprobes.h>
-static struct kprobe kp = {
-    .symbol_name = "kallsyms_lookup_name"
-};
+static struct kprobe kp = {.symbol_name = "kallsyms_lookup_name"};
 #endif
 
 static int krf_init(void);
@@ -126,15 +124,15 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
-  #ifdef KALLSYMS_LOOKUP_NAME_UNEXPORTED
+#ifdef KALLSYMS_LOOKUP_NAME_UNEXPORTED
   typedef unsigned long (*kallsyms_lookup_name_t)(const char *name);
   kallsyms_lookup_name_t kallsyms_lookup_name;
   if (register_kprobe(&kp) < 0) {
     printk(KERN_ERR "krf couldn't register a kprobe to sniff kallsyms_lookup_name\n");
   }
-  kallsyms_lookup_name = (kallsyms_lookup_name_t) kp.addr;
+  kallsyms_lookup_name = (kallsyms_lookup_name_t)kp.addr;
   unregister_kprobe(&kp);
-  #endif
+#endif
 
   if (setup_netlink_socket() < 0) {
     return -1;
