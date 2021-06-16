@@ -16,8 +16,12 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
 MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
+// Kernels 5.6 and newer: procfs uses `struct proc_ops` instead of `struct file_operations`.
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0)
+#define HAVE_PROC_OPS
+#endif
+
 static int krf_init(void);
-// static void krf_flush_table(void);
 static void krf_teardown(void);
 static ssize_t rng_state_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t rng_state_file_write(struct file *, const char __user *, size_t, loff_t *);
@@ -31,6 +35,31 @@ static ssize_t targeting_file_write(struct file *, const char __user *, size_t, 
 
 static struct proc_dir_entry *krf_dir;
 
+#ifdef HAVE_PROC_OPS
+static const struct proc_ops rng_state_file_ops = {
+    .read = rng_state_file_read,
+    .write = rng_state_file_write,
+};
+
+static const struct proc_ops probability_file_ops = {
+    .read = probability_file_read,
+    .write = probability_file_write,
+};
+
+static const struct proc_ops control_file_ops = {
+    .write = control_file_write,
+};
+
+static const struct proc_ops log_faults_file_ops = {
+    .read = log_faults_file_read,
+    .write = log_faults_file_write,
+};
+
+static const struct proc_ops targeting_file_ops = {
+    .read = targeting_file_read,
+    .write = targeting_file_write,
+};
+#elif
 static const struct file_operations rng_state_file_ops = {
     .owner = THIS_MODULE,
     .read = rng_state_file_read,
@@ -59,6 +88,7 @@ static const struct file_operations targeting_file_ops = {
     .read = targeting_file_read,
     .write = targeting_file_write,
 };
+#endif
 
 int init_module(void) {
   int ret;
@@ -115,17 +145,6 @@ static int krf_init(void) {
 
   return 0;
 }
-
-/*static void krf_flush_table(void) {
-  int nr;
-
-  for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
-    if (krf_sys_call_table[nr]) {
-      KRF_CR0_WRITE_UNLOCK({ sys_call_table[nr] = krf_sys_call_table[nr]; });
-    }
-  }
-}
-*/
 
 static void krf_teardown(void) {
   krf_flush_table();
