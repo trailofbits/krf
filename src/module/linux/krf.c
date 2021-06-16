@@ -4,6 +4,7 @@
 #include <linux/unistd.h>
 #include <linux/proc_fs.h>
 #include <linux/string.h>
+#include <linux/version.h>
 
 #include "../config.h"
 #include "../krf.h"
@@ -16,8 +17,21 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
 MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
+// Kernels 5.6 and newer: procfs uses `struct proc_ops` instead of `struct file_operations`.
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
+#define HAVE_PROC_OPS
+#endif
+
+// Kernels 5.7 and newer: kallsyms_lookup_name has been unexported for Google reasons (tm),
+// so we need to use kprobes to grab its address.
+// See: https://github.com/xcellerator/linux_kernel_hacking
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 7, 0)
+#define KALLSYMS_LOOKUP_NAME_UNEXPORTED
+#include <linux/kprobes.h>
+static struct kprobe kp = {.symbol_name = "kallsyms_lookup_name"};
+#endif
+
 static int krf_init(void);
-// static void krf_flush_table(void);
 static void krf_teardown(void);
 static ssize_t rng_state_file_read(struct file *, char __user *, size_t, loff_t *);
 static ssize_t rng_state_file_write(struct file *, const char __user *, size_t, loff_t *);
@@ -31,6 +45,31 @@ static ssize_t targeting_file_write(struct file *, const char __user *, size_t, 
 
 static struct proc_dir_entry *krf_dir;
 
+#ifdef HAVE_PROC_OPS
+static const struct proc_ops rng_state_file_ops = {
+    .proc_read = rng_state_file_read,
+    .proc_write = rng_state_file_write,
+};
+
+static const struct proc_ops probability_file_ops = {
+    .proc_read = probability_file_read,
+    .proc_write = probability_file_write,
+};
+
+static const struct proc_ops control_file_ops = {
+    .proc_write = control_file_write,
+};
+
+static const struct proc_ops log_faults_file_ops = {
+    .proc_read = log_faults_file_read,
+    .proc_write = log_faults_file_write,
+};
+
+static const struct proc_ops targeting_file_ops = {
+    .proc_read = targeting_file_read,
+    .proc_write = targeting_file_write,
+};
+#else
 static const struct file_operations rng_state_file_ops = {
     .owner = THIS_MODULE,
     .read = rng_state_file_read,
@@ -59,6 +98,7 @@ static const struct file_operations targeting_file_ops = {
     .read = targeting_file_read,
     .write = targeting_file_write,
 };
+#endif
 
 int init_module(void) {
   int ret;
@@ -84,6 +124,16 @@ void cleanup_module(void) {
 }
 
 static int krf_init(void) {
+#ifdef KALLSYMS_LOOKUP_NAME_UNEXPORTED
+  typedef unsigned long (*kallsyms_lookup_name_t)(const char *name);
+  kallsyms_lookup_name_t kallsyms_lookup_name;
+  if (register_kprobe(&kp) < 0) {
+    printk(KERN_ERR "krf couldn't register a kprobe to sniff kallsyms_lookup_name\n");
+  }
+  kallsyms_lookup_name = (kallsyms_lookup_name_t)kp.addr;
+  unregister_kprobe(&kp);
+#endif
+
   if (setup_netlink_socket() < 0) {
     return -1;
   }
@@ -115,17 +165,6 @@ static int krf_init(void) {
 
   return 0;
 }
-
-/*static void krf_flush_table(void) {
-  int nr;
-
-  for (nr = 0; nr < KRF_NR_SYSCALLS; nr++) {
-    if (krf_sys_call_table[nr]) {
-      KRF_CR0_WRITE_UNLOCK({ sys_call_table[nr] = krf_sys_call_table[nr]; });
-    }
-  }
-}
-*/
 
 static void krf_teardown(void) {
   krf_flush_table();
