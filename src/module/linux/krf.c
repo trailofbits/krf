@@ -38,27 +38,27 @@ static struct proc_dir_entry *krf_dir;
 
 #ifdef HAVE_PROC_OPS
 static const struct proc_ops rng_state_file_ops = {
-    .read = rng_state_file_read,
-    .write = rng_state_file_write,
+    .proc_read = rng_state_file_read,
+    .proc_write = rng_state_file_write,
 };
 
 static const struct proc_ops probability_file_ops = {
-    .read = probability_file_read,
-    .write = probability_file_write,
+    .proc_read = probability_file_read,
+    .proc_write = probability_file_write,
 };
 
 static const struct proc_ops control_file_ops = {
-    .write = control_file_write,
+    .proc_write = control_file_write,
 };
 
 static const struct proc_ops log_faults_file_ops = {
-    .read = log_faults_file_read,
-    .write = log_faults_file_write,
+    .proc_read = log_faults_file_read,
+    .proc_write = log_faults_file_write,
 };
 
 static const struct proc_ops targeting_file_ops = {
-    .read = targeting_file_read,
-    .write = targeting_file_write,
+    .proc_read = targeting_file_read,
+    .proc_write = targeting_file_write,
 };
 #else
 static const struct file_operations rng_state_file_ops = {
