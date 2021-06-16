@@ -4,6 +4,7 @@
 #include <linux/unistd.h>
 #include <linux/proc_fs.h>
 #include <linux/string.h>
+#include <linux/version.h>
 
 #include "../config.h"
 #include "../krf.h"
