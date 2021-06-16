@@ -17,7 +17,7 @@ MODULE_AUTHOR("William Woodruff <william@yossarian.net>");
 MODULE_DESCRIPTION("A Kernelspace Randomized Faulter");
 
 // Kernels 5.6 and newer: procfs uses `struct proc_ops` instead of `struct file_operations`.
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
 #define HAVE_PROC_OPS
 #endif
 
