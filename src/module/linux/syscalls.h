@@ -34,7 +34,7 @@ extern unsigned long *krf_sys_call_table[KRF_NR_SYSCALLS];
 
 /* The real syscall table, which may or may not be modified at any point.
  */
-extern unsigned long **sys_call_table;
+extern unsigned long **linux_sys_call_table;
 
 #ifdef KRF_CODEGEN
 #include "syscalls.gen.h"

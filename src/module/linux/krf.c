@@ -138,14 +138,14 @@ static int krf_init(void) {
     return -1;
   }
 
-  sys_call_table = (void *)kallsyms_lookup_name("sys_call_table");
+  linux_sys_call_table = (void *)kallsyms_lookup_name("sys_call_table");
 
-  if (sys_call_table == NULL) {
+  if (linux_sys_call_table == NULL) {
     printk(KERN_ERR "krf couldn't load the syscall table\n");
     return -2;
   }
 
-  memcpy(krf_sys_call_table, sys_call_table, KRF_NR_SYSCALLS * sizeof(unsigned long *));
+  memcpy(krf_sys_call_table, linux_sys_call_table, KRF_NR_SYSCALLS * sizeof(unsigned long *));
 
   krf_dir = proc_mkdir(KRF_PROC_DIR, NULL);
 
