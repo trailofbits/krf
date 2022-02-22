@@ -10,17 +10,20 @@
 
 #define KRF_NR_SYSCALLS (NR_syscalls)
 
+extern unsigned long __force_order;
+#define KRF_WRITE_CR0(x) asm volatile("mov %0,%%cr0" : "+r"(x), "+m"(__force_order))
+
 #define KRF_CR0_WRITE_UNLOCK(x)                                                                    \
   do {                                                                                             \
     unsigned long __cr0;                                                                           \
     preempt_disable();                                                                             \
     __cr0 = read_cr0() & (~X86_CR0_WP);                                                            \
     BUG_ON(unlikely((__cr0 & X86_CR0_WP)));                                                        \
-    write_cr0(__cr0);                                                                              \
+    KRF_WRITE_CR0(__cr0);                                                                          \
     x;                                                                                             \
     __cr0 = read_cr0() | X86_CR0_WP;                                                               \
     BUG_ON(unlikely(!(__cr0 & X86_CR0_WP)));                                                       \
-    write_cr0(__cr0);                                                                              \
+    KRF_WRITE_CR0(__cr0);                                                                          \
     preempt_enable();                                                                              \
   } while (0)
 
