@@ -45,6 +45,7 @@ int fault_syscall(const char *sys_name) {
 
   if (!(sys_num = lookup_syscall_number(sys_name))) {
     warnx("WARNING: couldn't find syscall: %s", sys_name);
+    close(fd);
     return 1;
   }
 
