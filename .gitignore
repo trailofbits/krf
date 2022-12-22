@@ -16,6 +16,9 @@ src/krfexec/krfexec
 src/krfctl/krfctl
 src/krfmesg/krfmesg
 src/module/codegen/.*.mk
+src/module/codegen/linux/*.mk
+src/module/linux/krfx.mod
 *.bak
 example/*
 !example/*.{c,h}
+*.swp
