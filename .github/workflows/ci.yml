@@ -15,10 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: sudo apt install -y cppcheck clang-format-7
+        run: sudo apt install -y cppcheck clang-format
       - name: Lint
         run: |
-          make CLANG_FORMAT=clang-format-7 fmt && git diff --exit-code
+          make CLANG_FORMAT=clang-format fmt && git diff --exit-code
           cppcheck --error-exitcode=1 src/
   build:
     strategy:
