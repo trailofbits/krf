@@ -83,7 +83,7 @@ void set_rng_state(const char *state) {
   }
 
   if (write(fd, state, strlen(state)) < 0) {
-    err(errno, "write " CONTROL_FILE);
+    err(errno, "write " RNG_STATE_FILE);
   }
 
   close(fd);
@@ -97,7 +97,7 @@ void set_prob_state(const char *state) {
   }
 
   if (write(fd, state, strlen(state)) < 0) {
-    err(errno, "write " CONTROL_FILE);
+    err(errno, "write " PROBABILITY_FILE);
   }
 
   close(fd);
