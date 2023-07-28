@@ -12,11 +12,11 @@
     if (written < 0) {                                                                             \
       printk(KERN_WARNING "krf: snprintf formatting error\n");                                     \
     } else if (written >= KRF_NETLINK_BUF_SIZE) {                                                  \
-      printk(KERN_WARNING "krf: truncated message\n");
-      if(krf_log_faults)                                                                           \
+      printk(KERN_WARNING "krf: truncated message\n");                                             \
+      if (krf_log_faults)                                                                          \
         krf_netlink_broadcast(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE);                              \
-    } else {
-      if(krf_log_faults)                                                                           \
+    } else {                                                                                       \
+      if (krf_log_faults)                                                                          \
         krf_netlink_broadcast(krf_log_msg_buf, written + 1);                                       \
     }                                                                                              \
   })
