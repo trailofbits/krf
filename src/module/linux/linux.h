@@ -13,9 +13,11 @@
       printk(KERN_WARNING "krf: snprintf formatting error\n");                                     \
     } else if (written >= KRF_NETLINK_BUF_SIZE) {                                                  \
       printk(KERN_WARNING "krf: truncated message\n");                                             \
-      krf_netlink_broadcast(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE);                                \
+      if (krf_log_faults)                                                                          \
+        krf_netlink_broadcast(krf_log_msg_buf, KRF_NETLINK_BUF_SIZE);                              \
     } else {                                                                                       \
-      krf_netlink_broadcast(krf_log_msg_buf, written + 1);                                         \
+      if (krf_log_faults)                                                                          \
+        krf_netlink_broadcast(krf_log_msg_buf, written + 1);                                       \
     }                                                                                              \
   })
 #define KRF_SYSCALL_TABLE linux_sys_call_table
