@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: sudo apt install -y cppcheck clang-format
       - name: Lint
@@ -20,18 +20,15 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: ["ubuntu-18.04", "ubuntu-20.04"]
+        platform: ["ubuntu-20.04", "ubuntu-22.04"]
         env:
           - FAULTS: conservative
           - FAULTS:
     runs-on: ${{ matrix.platform }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-ruby@v1
-      with:
-        ruby-version: "2.7"
+    - uses: actions/checkout@v4
     - name: Install dependencies
-      run: sudo apt install -y ruby build-essential linux-headers-$(uname -r)
+      run: sudo apt install -y libelf-dev ruby build-essential linux-headers-$(uname -r)
     - name: Build
       env:
         FAULTS: ${{ matrix.env.FAULTS }}
